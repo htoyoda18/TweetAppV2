@@ -11,7 +11,44 @@ services:
       - 8080:8080
     env_file:
       - .env
+    depends_on:
+      - db
     volumes:
       - type: bind
         source: ./
         target: /go/src
+    networks:
+      - backend
+
+  db:
+    container_name: db
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
+    tty: true
+    platform: linux/x86_64
+    ports:
+      - 3306:3306
+    env_file:
+      - ./mysql/.env
+    volumes:
+      - type: volume
+        source: mysql_test_volume
+        target: /var/lib/mysql
+      - type: bind
+        source: ./mysql/init
+        target: /docker-entrypoint-initdb.d
+    networks:
+      - backend
+
+volumes:
+  mysql_test_volume:
+    name: mysql_test_volume
+
+networks:
+   backend:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.20.0/24
