@@ -1,3 +1,6 @@
+include $(PWD)/mysql/Makefile
+
+
 .PHONY: setup
 setup:
 	docker-compose up -d --build

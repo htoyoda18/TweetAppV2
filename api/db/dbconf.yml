@@ -1,0 +1,3 @@
+development:
+  driver: mysql
+  open: test_user:password@tcp(db:3306)/test_database?parseTime=true
