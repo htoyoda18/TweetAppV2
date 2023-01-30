@@ -1,4 +1,4 @@
-include $(PWD)/mysql/Makefile
+include $(PWD)/db/Makefile
 
 
 .PHONY: setup

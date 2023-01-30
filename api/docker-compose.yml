@@ -23,20 +23,20 @@ services:
   db:
     container_name: db
     build:
-      context: ./mysql
+      context: ./db
       dockerfile: Dockerfile
     tty: true
     platform: linux/x86_64
     ports:
       - 3306:3306
     env_file:
-      - ./mysql/.env
+      - ./db/.env
     volumes:
       - type: volume
         source: mysql_test_volume
-        target: /var/lib/mysql
+        target: /var/lib/db
       - type: bind
-        source: ./mysql/init
+        source: ./db/init
         target: /docker-entrypoint-initdb.d
     networks:
       - backend
