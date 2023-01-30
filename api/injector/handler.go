@@ -7,5 +7,8 @@ type Handler struct {
 }
 
 func NewHandler() *Handler {
-	return &Handler{}
+	pingHandler := handler.NewPing()
+	return &Handler{
+		Ping: pingHandler,
+	}
 }
