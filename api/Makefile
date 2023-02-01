@@ -4,13 +4,14 @@ include $(PWD)/db/Makefile
 .PHONY: setup
 setup:
 	docker-compose up -d --build
-	docker-compose up -d
 	sleep 10
-	make migrate-up
+	docker-compose up -d
+	make migrate-up ENV=development
 
 .PHONY: kill
 kill:
 	docker-compose kill
+	make migrate-down ENV=development
 
 .PHONY: log
 log:

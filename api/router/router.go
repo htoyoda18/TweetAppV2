@@ -3,12 +3,11 @@ package router
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/htoyoda18/TweetAppV2/api/injector"
-	"github.com/htoyoda18/TweetAppV2/api/middleware"
+	"gorm.io/gorm"
 )
 
-func SetupRouter() *gin.Engine {
+func SetupRouter(db *gorm.DB) *gin.Engine {
 	r := gin.Default()
-	db := middleware.ConnectDB()
 
 	handler := injector.NewHandler(db)
 
