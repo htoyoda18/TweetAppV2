@@ -1,38 +1,66 @@
-.App {
+.formContainer {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h1 {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.formContainer form {
+  background-color: floralwhite;
+  width: 70%;
+  max-width: 450px;
+  padding: 30px;
+  border-radius: 10px;
+  border: 1px solid firebrick;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.uiForm {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-evenly;
+  height: 400px;
 }
 
-.App-link {
-  color: #61dafb;
+.formFiled {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.formFiled input {
+  border-radius: 4px;
+  padding: 20px;
+  border: 1px solid;
+}
+
+.formFiled label {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+button {
+  background-color: blue;
+  padding: 10px 30px;
+  width: 100%;
+  color: #fff;
+  font-size: 15px;
+}
+
+button:hover {
+  background-color: #fff;
+  transition: all 0.2s;
+}
+
+.errorMsg {
+  color: red;
+  margin: 0;
+  align-self: center;
+  align-self: flex-start;
 }
