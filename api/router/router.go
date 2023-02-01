@@ -7,14 +7,15 @@ import (
 )
 
 func SetupRouter() *gin.Engine {
-	handler := injector.NewHandler()
 	r := gin.Default()
+	db := middleware.ConnectDB()
 
-	r.Use(middleware.SetGinContextDB())
+	handler := injector.NewHandler(db)
 
 	v1 := r.Group("v1")
 	{
 		v1.GET("/", handler.Ping.Ping)
+		v1.POST("/signup", handler.User.SignUp)
 	}
 	return r
 }

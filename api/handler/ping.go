@@ -8,8 +8,7 @@ type Ping interface {
 	Ping(*gin.Context)
 }
 
-type ping struct {
-}
+type ping struct{}
 
 func NewPing() Ping {
 	return ping{}

@@ -1,30 +1,22 @@
 package middleware
 
 import (
-	"net/http"
-
-	"github.com/gin-gonic/gin"
 	"github.com/htoyoda18/TweetAppV2/api/db"
+	"gorm.io/gorm"
 )
 
-func SetGinContextDB() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		db, err := db.InitDB()
-		if err != nil {
-			c.AbortWithStatusJSON(http.StatusInternalServerError, err)
-			return
-		}
-
-		sqlDB, err := db.DB()
-		if err != nil {
-			c.AbortWithStatusJSON(http.StatusInternalServerError, err)
-			return
-		}
-
-		defer sqlDB.Close()
-
-		c.Set("db", db)
-
-		c.Next()
+func ConnectDB() *gorm.DB {
+	db, err := db.InitDB()
+	if err != nil {
+		panic(err)
 	}
+
+	sqlDB, err := db.DB()
+	if err != nil {
+		panic(err)
+	}
+
+	defer sqlDB.Close()
+
+	return db
 }
