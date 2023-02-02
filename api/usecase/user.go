@@ -46,5 +46,16 @@ func (u user) SignUp(params request.Signup) (*model.User, error) {
 		return nil, err
 	}
 
+	log.Println("user.Email", user.Email)
+	err = SendMail(SendMailParam{
+		From:     user.Email,
+		Username: user.Name,
+		Body:     user.Name + "様 ご登録いただきありがとうございます",
+		Subject:  "ご登録ありがとうございます",
+	})
+	if err != nil {
+		return nil, err
+	}
+
 	return user, nil
 }

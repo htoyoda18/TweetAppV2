@@ -1,25 +1,6 @@
 version: '3.8'
 
 services:
-  go:
-    container_name: go
-    build:
-      context: .
-      dockerfile: Dockerfile
-    tty: true
-    ports:
-      - 8080:8080
-    env_file:
-      - .env
-    depends_on:
-      - db
-    volumes:
-      - type: bind
-        source: ./
-        target: /go/src
-    networks:
-      - backend
-
   db:
     container_name: db
     build:
@@ -38,6 +19,34 @@ services:
       - type: bind
         source: ./db/init
         target: /docker-entrypoint-initdb.d
+    networks:
+      - backend
+
+  smtp:
+    container_name: smtp
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+    networks:
+      - backend
+
+  go:
+    container_name: go
+    build:
+      context: .
+      dockerfile: Dockerfile
+    tty: true
+    ports:
+      - 8080:8080
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - smtp
+    volumes:
+      - type: bind
+        source: ./
+        target: /go/src
     networks:
       - backend
 
