@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import { client } from '../libs/axios'
 
 export const SignUp = () => {
 	const initialValues = {userName: "", mailAddress: "", password: ""};
@@ -17,6 +18,15 @@ export const SignUp = () => {
 	  //ここでAPIを叩く？？？
 	  setFromError(validate(formValues));
 	  setIsSubmit(true);
+	  if (Object.keys(fomrErrors).length > 0) {
+		return
+	  }
+	  const body = {
+		userName: formValues.userName,
+		password: formValues.password,
+		email: formValues.mailAddress,
+	  }
+	  client.post('v1/signup', body)
 	}
 
 	const validate = (values) => {
