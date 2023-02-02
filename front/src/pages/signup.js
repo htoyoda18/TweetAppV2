@@ -22,9 +22,9 @@ export const SignUp = () => {
 		return
 	  }
 	  const body = {
-		userName: formValues.userName,
-		password: formValues.password,
-		email: formValues.mailAddress,
+		userName: formValues.userName.trim(),
+		password: formValues.password.trim(),
+		email: formValues.mailAddress.trim(),
 	  }
 	  client.post('v1/signup', body)
 	}
