@@ -31,14 +31,14 @@ func (u user) SignUp(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&params); err != nil {
 		log.Println(err)
-		c.AbortWithError(http.StatusBadRequest, err)
+		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	user, err := u.userUsecase.SignUp(params)
 	if err != nil {
 		log.Println(err)
-		c.AbortWithError(http.StatusBadRequest, err)
+		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
