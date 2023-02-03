@@ -7,11 +7,13 @@ import (
 	"github.com/htoyoda18/TweetAppV2/api/handler/request"
 	"github.com/htoyoda18/TweetAppV2/api/model"
 	"github.com/htoyoda18/TweetAppV2/api/repository"
+	"github.com/htoyoda18/TweetAppV2/api/shaerd"
 	"gorm.io/gorm"
 )
 
 type User interface {
 	SignUp(params request.Signup) (*model.User, error)
+	Show(params request.Login) (*model.User, error)
 }
 
 type user struct {
@@ -54,6 +56,20 @@ func (u user) SignUp(params request.Signup) (*model.User, error) {
 		Subject:  "ご登録ありがとうございます",
 	})
 	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
+func (u user) Show(params request.Login) (*model.User, error) {
+	user, err := u.userRepository.Get(&model.User{
+		Email:    params.Email,
+		Password: params.Password,
+	}, u.db)
+	if err != nil {
+		log.Println(err)
+		err := errors.New(shaerd.UserNotFound)
 		return nil, err
 	}
 
