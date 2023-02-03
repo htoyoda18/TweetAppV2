@@ -2,12 +2,13 @@ import React from 'react';
 import { useState } from 'react';
 import { client } from '../libs/axios'
 import SignUpStyle from '../css/signup.module.css';
+import { useNavigate } from "react-router-dom";
 
 export const SignUp = () => {
-	const initialValues = {userName: "", mailAddress: "", password: ""};
+	const initialValues = { userName: "", mailAddress: "", password: "" };
 	const [formValues, setFromValues] = useState(initialValues);
 	const [fomrErrors, setFromError] = useState({});
-	const [isSubmit, setIsSubmit] = useState(false);
+	const navigate = useNavigate();
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -17,16 +18,32 @@ export const SignUp = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		setFromError(validate(formValues));
-		setIsSubmit(true);
 		if (Object.keys(fomrErrors).length > 0) {
 			return
 		}
+		signUpPost()
+	}
+
+	const signUpPost = () => {
 		const body = {
 			userName: formValues.userName.trim(),
 			password: formValues.password.trim(),
 			email: formValues.mailAddress.trim(),
 		}
-		client.post('v1/signup', body)
+		client
+		.post('v1/signup', body)
+		.then((results) => {
+			console.log("results", results)
+			navigate("/login");
+		})
+		.catch((err) => {
+			console.log("err", err.response)
+			if (err.response.data === 'user Email Duplicate' ) {
+				setFromError({resErr: "このメールアドレスは既に登録されています"})
+			} else {
+				setFromError({resErr: "予期せぬエラーです"})
+			}
+		})
 	}
 
 	const validate = (values) => {
@@ -69,13 +86,11 @@ export const SignUp = () => {
 						<p className={SignUpStyle.errorMsg}>{fomrErrors.mailAddress}</p>
 						<div className={SignUpStyle.formFiled}>
 							<label>パスワード</label>
-							<input type="text" placeholder="パスワード" name="password" onClick={() => setFromError(validate(formValues))} onChange={(e) => handleChange(e)}/>
+							<input type="text" placeholder="パスワード" name="password" onClick={() => setFromError(validate(formValues))} onChange={(e) => handleChange(e)} />
 						</div>
 						<p className={SignUpStyle.errorMsg}>{fomrErrors.password}</p>
-						<button className="submintButton">ログイン</button>
-						{Object.keys(fomrErrors).length === 0 && isSubmit && (
-							<div className="MsgOk">ログインに成功しました</div>
-						)}
+						<p className={SignUpStyle.errorMsg}>{fomrErrors.resErr}</p>
+						<button className="submintButton">新規登録</button>
 					</div>
 				</form>
 			</div>
