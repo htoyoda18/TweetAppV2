@@ -4,6 +4,7 @@ import { client } from '../libs/axios'
 import SignUpStyle from '../css/signup.module.css';
 import { useNavigate } from "react-router-dom";
 import {TweetApp} from "../component/tweet_app"
+import { Note } from "../component/note"
 
 
 export const SignUp = () => {
@@ -96,6 +97,7 @@ export const SignUp = () => {
 					</div>
 				</form>
 			</div>
+			<Note text="アカウントをお持ちの方は" link="ログイン" url="http://localhost:3000/login"/>
 		</div>
 	);
 }

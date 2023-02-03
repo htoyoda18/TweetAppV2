@@ -3,7 +3,8 @@ import LoginStyle from '../css/login.module.css';
 import { client } from '../libs/axios'
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import {TweetApp} from "../component/tweet_app"
+import { TweetApp } from "../component/tweet_app"
+import { Note } from "../component/note"
 
 export const Login = () => {
 	const initialValues = { userName: "", mailAddress: "", password: "" };
@@ -14,10 +15,10 @@ export const Login = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (!formValues.password) {
-			setFromError({nullErr: "パスワードを入力してください"})
+			setFromError({ nullErr: "パスワードを入力してください" })
 			return
 		} else if (!formValues.mailAddress) {
-			setFromError({nullErr: "メールアドレスを入力してください"})
+			setFromError({ nullErr: "メールアドレスを入力してください" })
 			return
 		}
 		LoginPost()
@@ -28,19 +29,19 @@ export const Login = () => {
 			email: formValues.mailAddress.trim(),
 		}
 		client
-		.post('v1/login', body)
-		.then((results) => {
-			console.log("results", results)
-			navigate("/");
-		})
-		.catch((err) => {
-			console.log("err", err.response)
-			if (err.response.data === 'User not found' ) {
-				setFromError({resErr: "メールアドレス又は、パスワードが違います"})
-			} else {
-				setFromError({resErr: "予期せぬエラーです"})
-			}
-		})
+			.post('v1/login', body)
+			.then((results) => {
+				console.log("results", results)
+				navigate("/");
+			})
+			.catch((err) => {
+				console.log("err", err.response)
+				if (err.response.data === 'User not found') {
+					setFromError({ resErr: "メールアドレス又は、パスワードが違います" })
+				} else {
+					setFromError({ resErr: "予期せぬエラーです" })
+				}
+			})
 	}
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -55,11 +56,11 @@ export const Login = () => {
 					<div className={LoginStyle.uiForm}>
 						<div className={LoginStyle.formFiled}>
 							<label>メールアドレス</label>
-							<input type="text" placeholder="メールアドレス" name="mailAddress" onChange={(e) => handleChange(e)}/>
+							<input type="text" placeholder="メールアドレス" name="mailAddress" onChange={(e) => handleChange(e)} />
 						</div>
 						<div className={LoginStyle.formFiled}>
 							<label>パスワード</label>
-							<input type="text" placeholder="パスワード" name="password" onChange={(e) => handleChange(e)}/>
+							<input type="text" placeholder="パスワード" name="password" onChange={(e) => handleChange(e)} />
 						</div>
 						<p className={LoginStyle.errorMsg}>{fomrErrors.nullErr}</p>
 						<p className={LoginStyle.errorMsg}>{fomrErrors.resErr}</p>
@@ -67,6 +68,8 @@ export const Login = () => {
 					</div>
 				</form>
 			</div>
+			<Note text="パスワードを忘れた場合は" link="こちら" url="http://localhost:3000/password_reset"/>
+			<Note text="アカウントをお持ちでない場合は" link="登録" url="http://localhost:3000/signup"/>
 		</div>
 	);
 }
