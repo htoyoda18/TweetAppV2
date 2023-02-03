@@ -5,7 +5,8 @@ import SignUpStyle from '../css/signup.module.css';
 import { useNavigate } from "react-router-dom";
 import {TweetApp} from "../component/tweet_app"
 import { Note } from "../component/note"
-
+import { Formbtn } from "../component/form_btn"
+import { ErrorMsg } from "../component/error_message"
 
 export const SignUp = () => {
 	const initialValues = { userName: "", mailAddress: "", password: "" };
@@ -81,19 +82,19 @@ export const SignUp = () => {
 							<label>ユーザ名</label>
 							<input type="text" placeholder="ユーザ名" name="userName" onClick={() => setFromError(validate(formValues))} onChange={(e) => handleChange(e)} />
 						</div>
-						<p className={SignUpStyle.errorMsg}>{fomrErrors.userName}</p>
+						<ErrorMsg err={fomrErrors.userName}/>
 						<div className={SignUpStyle.formFiled}>
 							<label>メールアドレス</label>
 							<input type="text" placeholder="メールアドレス" name="mailAddress" onClick={() => setFromError(validate(formValues))} onChange={(e) => handleChange(e)} />
 						</div>
-						<p className={SignUpStyle.errorMsg}>{fomrErrors.mailAddress}</p>
+						<ErrorMsg err={fomrErrors.mailAddress}/>
 						<div className={SignUpStyle.formFiled}>
 							<label>パスワード</label>
 							<input type="text" placeholder="パスワード" name="password" onClick={() => setFromError(validate(formValues))} onChange={(e) => handleChange(e)} />
 						</div>
-						<p className={SignUpStyle.errorMsg}>{fomrErrors.password}</p>
-						<p className={SignUpStyle.errorMsg}>{fomrErrors.resErr}</p>
-						<button className="submintButton">新規登録</button>
+						<ErrorMsg err={fomrErrors.password}/>
+						<ErrorMsg err={fomrErrors.resErr}/>
+						<Formbtn name="新規登録" />
 					</div>
 				</form>
 			</div>

@@ -43,26 +43,3 @@
 	font-weight: 450;
 	margin-bottom: 3px;
   }
-
-  button {
-	background-color: #00B379;
-	opacity: 0.8;
-	padding: 10px 30px;
-	width: 100%;
-	color: #000;
-	font-size: 20px;
-  }
-
-  button:hover {
-	opacity: 1;
-	transition: all 0.3s;
-  }
-
-  .errorMsg {
-	font-size: 15px;
-	font-weight: 600;
-	color: red;
-	margin: 0;
-	align-self: center;
-	align-self: flex-start;
-  }
