@@ -20,7 +20,7 @@ func NewUser() User {
 
 func (u user) Get(where *model.User, db *gorm.DB) (*model.User, error) {
 	user := &model.User{}
-	if err := db.Where(where).First(user).Error; err != nil {
+	if err := db.Debug().Where(where).First(user).Error; err != nil {
 		log.Println(err)
 		return nil, err
 	}

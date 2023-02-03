@@ -34,7 +34,7 @@ func NewUser(
 func (u user) SignUp(params request.Signup) (*model.User, error) {
 	selectUser, _ := u.userRepository.Get(&model.User{Email: params.Email}, u.db)
 	if selectUser != nil {
-		err := errors.New("user Email Duplicate")
+		err := errors.New(shaerd.UserEmailDuplicate)
 		return nil, err
 	}
 

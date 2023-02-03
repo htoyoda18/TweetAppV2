@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	"log"
 	"net/http"
 
@@ -52,6 +53,7 @@ func (u user) Login(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&params); err != nil {
 		log.Println(err)
+		err = errors.New(shaerd.UserNotFound)
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -66,5 +68,5 @@ func (u user) Login(c *gin.Context) {
 	jwt := shaerd.NewJwt(user)
 
 	c.SetCookie("jwt", jwt, 3000, "/", "localhost", true, true)
-	c.Status(200)
+	c.JSON(http.StatusOK, user)
 }

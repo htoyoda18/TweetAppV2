@@ -38,7 +38,7 @@ export const SignUp = () => {
 		})
 		.catch((err) => {
 			console.log("err", err.response)
-			if (err.response.data === 'user Email Duplicate' ) {
+			if (err.response.data === 'User email duplicate' ) {
 				setFromError({resErr: "このメールアドレスは既に登録されています"})
 			} else {
 				setFromError({resErr: "予期せぬエラーです"})
