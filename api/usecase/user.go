@@ -2,7 +2,9 @@ package usecase
 
 import (
 	"errors"
+	"fmt"
 	"log"
+	"time"
 
 	"github.com/htoyoda18/TweetAppV2/api/handler/request"
 	"github.com/htoyoda18/TweetAppV2/api/model"
@@ -14,6 +16,7 @@ import (
 type User interface {
 	SignUp(params request.Signup) (*model.User, error)
 	Show(params request.Login) (*model.User, error)
+	PasswordReset(mail string) error
 }
 
 type user struct {
@@ -82,4 +85,31 @@ func (u user) Show(params request.Login) (*model.User, error) {
 	}
 
 	return user, nil
+}
+
+func (u user) PasswordReset(mail string) error {
+	user, err := u.userRepository.Get(&model.User{
+		Email: mail,
+	}, u.db)
+	if err != nil {
+		log.Println(err)
+		err := errors.New(shaerd.EmailNotFound)
+		return err
+	}
+
+	expiration := time.Now().Add(time.Minute * 15).Unix()
+	jwt := shaerd.NewJwt(user, expiration)
+	url := fmt.Sprintf("http://localhost:3000/?token=%s", jwt)
+
+	err = SendMail(SendMailParam{
+		From:     user.Email,
+		Username: user.Name,
+		Body:     user.Name + "様 こちらのURL" + url + "よりパスワードのリセットをしてください",
+		Subject:  "パスワードのリセット",
+	})
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

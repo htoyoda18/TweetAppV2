@@ -4,6 +4,7 @@ import (
 	"errors"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/htoyoda18/TweetAppV2/api/handler/request"
 	"github.com/htoyoda18/TweetAppV2/api/shaerd"
@@ -15,6 +16,7 @@ import (
 type User interface {
 	SignUp(*gin.Context)
 	Login(*gin.Context)
+	PasswordReset(*gin.Context)
 }
 
 type user struct {
@@ -65,8 +67,29 @@ func (u user) Login(c *gin.Context) {
 		return
 	}
 
-	jwt := shaerd.NewJwt(user)
+	expiration := time.Now().Add(time.Hour * 24).Unix()
+	jwt := shaerd.NewJwt(user, expiration)
 
 	c.SetCookie("jwt", jwt, 3000, "/", "localhost", true, true)
 	c.JSON(http.StatusOK, user)
+}
+
+func (u user) PasswordReset(c *gin.Context) {
+	var params request.PasswordReset
+
+	if err := c.ShouldBindJSON(&params); err != nil {
+		log.Println(err)
+		err = errors.New(shaerd.UserNotFound)
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	err := u.userUsecase.PasswordReset(params.Email)
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	c.Status(http.StatusOK)
 }

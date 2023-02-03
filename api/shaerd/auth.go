@@ -8,7 +8,7 @@ import (
 	"github.com/htoyoda18/TweetAppV2/api/model"
 )
 
-func NewJwt(user *model.User) string {
+func NewJwt(user *model.User, expiration int64) string {
 
 	token := jwt.New(jwt.SigningMethodHS256)
 
@@ -19,7 +19,7 @@ func NewJwt(user *model.User) string {
 	claims["sub"] = user.ID
 	claims["email"] = user.Email
 	claims["iat"] = time.Now().Unix()
-	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
+	claims["exp"] = expiration
 
 	// 電子署名
 	tokenString, _ := token.SignedString([]byte(os.Getenv("JWTKEY")))
