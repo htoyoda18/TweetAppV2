@@ -5,7 +5,7 @@ CREATE TABLE `users` (
   `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `name` VARCHAR(20),
   `email` VARCHAR(255),
-  `Password` VARCHAR(20),
+  `Password` VARCHAR(100),
   `created_at` DATETIME NOT NULL,
   `updated_at` DATETIME NOT NULL,
   `deleted_at` DATETIME

@@ -38,10 +38,13 @@ func (u user) SignUp(params request.Signup) (*model.User, error) {
 		return nil, err
 	}
 
+	password, _ := shaerd.PasswordEncrypt(params.Password)
+	log.Println(password)
+
 	user, err := u.userRepository.Add(&model.User{
 		Name:     params.Username,
 		Email:    params.Email,
-		Password: params.Password,
+		Password: password,
 	}, u.db)
 	if err != nil {
 		log.Println(err)
@@ -64,9 +67,14 @@ func (u user) SignUp(params request.Signup) (*model.User, error) {
 
 func (u user) Show(params request.Login) (*model.User, error) {
 	user, err := u.userRepository.Get(&model.User{
-		Email:    params.Email,
-		Password: params.Password,
+		Email: params.Email,
 	}, u.db)
+	if err != nil {
+		log.Println(err)
+		err := errors.New(shaerd.UserNotFound)
+		return nil, err
+	}
+	err = shaerd.CompareHashAndPassword(user.Password, params.Password)
 	if err != nil {
 		log.Println(err)
 		err := errors.New(shaerd.UserNotFound)
