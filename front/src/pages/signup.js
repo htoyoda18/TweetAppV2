@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { client } from '../libs/axios'
 import SignUpStyle from '../css/signup.module.css';
 import { useNavigate } from "react-router-dom";
+import {TweetApp} from "../component/tweet_app"
+
 
 export const SignUp = () => {
 	const initialValues = { userName: "", mailAddress: "", password: "" };
@@ -70,7 +72,7 @@ export const SignUp = () => {
 
 	return (
 		<div className={SignUpStyle}>
-			<h1>TweetApp</h1>
+			<TweetApp />
 			<div className={SignUpStyle.formContainer}>
 				<form onSubmit={(e) => handleSubmit(e)}>
 					<div className={SignUpStyle.uiForm}>
