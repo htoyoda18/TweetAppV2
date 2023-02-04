@@ -36,7 +36,7 @@ export const PasswordReset = () => {
 			.post('v1/password_reset', body)
 			.then((results) => {
 				console.log("results", results)
-				navigate("/login");
+				navigate("/password_reset_send");
 			})
 			.catch((err) => {
 				console.log("err", err.response)
