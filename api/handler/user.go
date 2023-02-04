@@ -56,7 +56,7 @@ func (u user) Login(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&params); err != nil {
 		log.Println(err)
-		err = errors.New(shaerd.UserNotFound)
+		err = errors.New(shaerd.ShouldBindJSONErr)
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -80,7 +80,7 @@ func (u user) PasswordReset(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&params); err != nil {
 		log.Println(err)
-		err = errors.New(shaerd.UserNotFound)
+		err = errors.New(shaerd.ShouldBindJSONErr)
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -96,4 +96,28 @@ func (u user) PasswordReset(c *gin.Context) {
 }
 
 func (u user) PasswordUpdate(c *gin.Context) {
+	var params request.PasswordUpdate
+
+	if err := c.ShouldBindJSON(&params); err != nil {
+		log.Println(err)
+		err = errors.New(shaerd.ShouldBindJSONErr)
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	token := c.Param("token")
+	userID, err := shaerd.JwtParse(token)
+	if err != nil {
+		err = errors.New(shaerd.FailAuthToken)
+		c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	err = u.userUsecase.PasswordUpdate(params.Password, userID)
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	c.Status(http.StatusOK)
 }

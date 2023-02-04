@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
@@ -18,7 +19,18 @@ func InitDB() (*gorm.DB, error) {
 
 	db, err := gorm.Open(mysql.Open(dbConnection), &gorm.Config{})
 	if err != nil {
-		return nil, err
+		log.Print(err)
+	}
+	sqlDB, err := db.DB()
+	if err != nil {
+		log.Print(err)
+	}
+	for {
+		err = sqlDB.Ping()
+		if err == nil {
+			break
+		}
+		time.Sleep(3 * time.Second)
 	}
 	return db, nil
 }

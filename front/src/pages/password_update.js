@@ -1,7 +1,7 @@
 import React from 'react';
 import { TweetApp } from "../component/tweet_app"
 import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ErrorMsg } from "../component/error_message"
 import PasswordUpdateStyle from '../css/password_update.module.css';
 import { Formbtn } from "../component/form_btn"
@@ -9,60 +9,65 @@ import IndexStyle from '../css/index.module.css';
 import { client } from '../libs/axios'
 
 export const PasswordUpdate = () => {
-	const [formValues, setFromValues] = useState("");
+	const initialValues = { password: "", passwordConfirm: "" };
+	const [formValues, setFromValues] = useState(initialValues);
 	const [fomrErrors, setFromError] = useState({});
 	const navigate = useNavigate();
+	const params = useParams();
+
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFromValues({ ...formValues, [name]: value });
 	}
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		setFromError(validate(formValues.password));
-		if (!fomrErrors) {
-			PasswordUpdatePost()
+		setFromError(validate(formValues));
+		if (Object.keys(fomrErrors).length > 0) {
 			return
 		}
+		passwordUpdatePost()
 	}
-	const validate = (values) => {
-		let error = "";
-		if (!values.password) {
-			error = "パスワードを入力してください"
-		} else if (values.password.length < 8) {
-			error = "パスワードは8文字以上, 20文字以下にしてください"
-		} else if (values.password.length > 21) {
-			error = "パスワードは8文字以上, 20文字以下にしてください"
-		}
-		if (!values.passwordConfirm) {
-			error = "確認用のパスワードを入力してください"
-		}
-		if (values.password !== values.passwordConfirm) {
-			error = "パスワードが一致しません"
-		}
-		return error
-	}
-	const PasswordUpdatePost = () => {
+
+	const passwordUpdatePost = () => {
+		const url = 'v1/password_update/' + params.token
 		const body = {
-			password: formValues.password,
+			password: formValues.password.trim(),
 		}
 		client
-		.post('v1/update_password', body)
-		.then((results) => {
-			console.log("results", results)
-			navigate("/login");
-		})
-		.catch((err) => {
-			console.log("err", err.response)
-			if (err.response.data === 'User email duplicate' ) {
-				setFromError({resErr: "このメールアドレスは既に登録されています"})
-			} else {
-				setFromError({resErr: "予期せぬエラーです"})
-			}
-		})
+			.post(url, body)
+			.then((results) => {
+				console.log("results", results)
+				navigate("/login");
+			})
+			.catch((err) => {
+				console.log("err", err.response)
+				if (err.response.data === 'User email duplicate') {
+					setFromError({ resErr: "このメールアドレスは既に登録されています" })
+				} else {
+					setFromError({ resErr: "予期せぬエラーです" })
+				}
+			})
+	}
+
+	const validate = (values) => {
+		const errors = {};
+		if (!values.password) {
+			errors.password = "パスワードを入力してください"
+		} else if (values.password.length < 8) {
+			errors.password = "パスワードは8文字以上, 20文字以下にしてください"
+		} else if (values.password.length > 21) {
+			errors.password = "パスワードは8文字以上, 20文字以下にしてください"
+		}
+		if (values.password !== values.passwordConfirm) {
+			errors.password = "パスワードが一致しません"
+		}
+
+		return errors
 	}
 
 	return (
-		<div>
+		<div className={PasswordUpdateStyle}>
 			<TweetApp />
 			<div className={IndexStyle.formContainer}>
 				<form onSubmit={(e) => handleSubmit(e)}>
@@ -75,12 +80,12 @@ export const PasswordUpdate = () => {
 							<label>パスワード確認用</label>
 							<input type="text" placeholder="パスワード" name="passwordConfirm" onClick={() => setFromError(validate(formValues))} onChange={(e) => handleChange(e)} />
 						</div>
-						<ErrorMsg err={fomrErrors} />
+						<ErrorMsg err={fomrErrors.password} />
 						<ErrorMsg err={fomrErrors.resErr} />
-						<Formbtn name="パスワードを再設定" />
+						<Formbtn name="新規登録" />
 					</div>
 				</form>
 			</div>
 		</div>
-	)
+	);
 }

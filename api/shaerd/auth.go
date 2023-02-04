@@ -1,6 +1,7 @@
 package shaerd
 
 import (
+	"log"
 	"os"
 	"time"
 
@@ -27,6 +28,21 @@ func NewJwt(user *model.User, expiration int64) string {
 	return tokenString
 }
 
-// func JwtParse(token string) (string, error) {
-// 	jwt.Parse(token)
-// }
+func JwtParse(tokenString string) (int, error) {
+	var userID int
+
+	token, _ := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			log.Printf("不正なトークン")
+		}
+		return []byte(os.Getenv("JWTKEY")), nil
+	})
+
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		userID = int(claims["sub"].(float64))
+	} else {
+		log.Printf("不正なトークン")
+	}
+
+	return userID, nil
+}

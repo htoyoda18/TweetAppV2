@@ -13,7 +13,7 @@ export const AppRouter = () => {
       <Route path="/login" element={<Login />}></Route>
       <Route path="/password_reset" element={<PasswordReset />}></Route>
       <Route path="/password_reset_send" element={<PasswordResetSend />}></Route>
-      <Route path="/password_update" element={<PasswordUpdate />}></Route>
+      <Route path="/password_update/:token" element={<PasswordUpdate />}></Route>
     </Routes>
   )
 }

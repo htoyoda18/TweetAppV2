@@ -17,6 +17,7 @@ type User interface {
 	SignUp(params request.Signup) (*model.User, error)
 	Show(params request.Login) (*model.User, error)
 	PasswordReset(mail string) error
+	PasswordUpdate(password string, userID int) error
 }
 
 type user struct {
@@ -99,7 +100,7 @@ func (u user) PasswordReset(mail string) error {
 
 	expiration := time.Now().Add(time.Minute * 15).Unix()
 	jwt := shaerd.NewJwt(user, expiration)
-	url := fmt.Sprintf("http://localhost:3000/?token=%s", jwt)
+	url := fmt.Sprintf("http://localhost:3000/password_update/%s", jwt)
 
 	err = SendMail(SendMailParam{
 		From:     user.Email,
@@ -108,6 +109,22 @@ func (u user) PasswordReset(mail string) error {
 		Subject:  "パスワードのリセット",
 	})
 	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (u user) PasswordUpdate(password string, userID int) error {
+	hashPassword, _ := shaerd.PasswordEncrypt(password)
+
+	err := u.userRepository.UpdatePassword(&model.User{
+		ID:       userID,
+		Password: hashPassword,
+	}, u.db)
+	if err != nil {
+		log.Println(err)
+		err := errors.New(shaerd.EmailNotFound)
 		return err
 	}
 

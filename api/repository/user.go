@@ -10,6 +10,7 @@ import (
 type User interface {
 	Get(*model.User, *gorm.DB) (*model.User, error)
 	Add(*model.User, *gorm.DB) (*model.User, error)
+	UpdatePassword(*model.User, *gorm.DB) error
 }
 
 type user struct{}
@@ -34,4 +35,14 @@ func (u user) Add(user *model.User, db *gorm.DB) (*model.User, error) {
 		return nil, err
 	}
 	return user, nil
+}
+
+func (u user) UpdatePassword(user *model.User, db *gorm.DB) error {
+
+	if err := db.Model(&model.User{}).Where("id = ?", user.ID).Update("password", user.Password).Error; err != nil {
+		log.Println(err)
+		return err
+	}
+
+	return nil
 }

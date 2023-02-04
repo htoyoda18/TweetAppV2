@@ -25,7 +25,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 		v1.POST("/signup", handler.User.SignUp)
 		v1.POST("/login", handler.User.Login)
 		v1.POST("/password_reset", handler.User.PasswordReset)
-		v1.POST("/password_update", handler.User.PasswordUpdate)
+		v1.POST("/password_update/:token", handler.User.PasswordUpdate)
 	}
 	return r
 }
