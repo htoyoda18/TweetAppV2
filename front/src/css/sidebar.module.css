@@ -1,0 +1,45 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #fff;
+}
+
+.Sidebar {
+	height: 100vh;
+	width: 15%;
+	background: #2d445d;
+}
+
+.SidebarList {
+	height: auto;
+	padding: 0;
+	width: 100%;
+}
+
+.active {
+	width: 100%;
+	height: 7vh;
+	display: flex;
+	color: #fff;
+	padding-left: 5%;
+	align-items: center;
+	background: #3b627a;
+}
+
+.row {
+	width: 100%;
+	height: 7vh;
+	display: flex;
+	color: #fff;
+	padding-left: 5%;
+	align-items: center;
+}
+
+.row:hover {
+	cursor: pointer;
+	background: #00AEEF;
+}
