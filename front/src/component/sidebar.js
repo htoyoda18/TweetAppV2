@@ -6,6 +6,7 @@ export default function sidebar() {
   let name = ""
   return (
     <div className={SidebarStyle.Sidebar}>
+      <div className={SidebarStyle.title}>TweetApp</div>
       <ul className={SidebarStyle.SidebarList}>
         {SidebarData.map((value, key) => {
           return (

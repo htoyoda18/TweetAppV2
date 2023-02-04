@@ -10,6 +10,15 @@
 	background: #2d445d;
 }
 
+.title {
+	color: #fff;
+	text-align: center;
+	justify-content: center;
+	font-size: 30px;
+	padding-top: 2vh;
+	height: 10vh;
+}
+
 .SidebarList {
 	height: auto;
 	padding: 0;
@@ -37,5 +46,5 @@
 
 .row:hover {
 	cursor: pointer;
-	background: #00AEEF;
+	background: #000;
 }
