@@ -16,6 +16,10 @@ kill:
 log:
 	docker-compose logs
 
+.PHONY: log-go
+log-go:
+	docker logs -f go
+
 .PHONY: restart
 restart:
 	docker-compose kill

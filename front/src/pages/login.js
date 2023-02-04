@@ -1,5 +1,6 @@
 import React from 'react';
 import LoginStyle from '../css/login.module.css';
+import IndexStyle from '../css/index.module.css';
 import { client } from '../libs/axios'
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
@@ -61,7 +62,7 @@ export const Login = () => {
 	return (
 		<div className={LoginStyle}>
 			<TweetApp />
-			<div className={LoginStyle.formContainer}>
+			<div className={IndexStyle.formContainer}>
 				<form onSubmit={(e) => handleSubmit(e)}>
 					<div className={LoginStyle.uiForm}>
 						<div className={LoginStyle.formFiled}>

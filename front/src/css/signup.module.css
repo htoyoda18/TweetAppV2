@@ -2,22 +2,6 @@
 	background: #00AEEF;
   }
 
-  .formContainer {
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-  }
-
-  .formContainer form {
-	background: #ABE1FA;
-	width: 70%;
-	max-width: 450px;
-	padding: 30px;
-	border-radius: 20px;
-	border: 1px solid #000;
-  }
-
   .uiForm {
 	display: flex;
 	flex-direction: column;

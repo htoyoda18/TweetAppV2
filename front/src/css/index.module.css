@@ -1,0 +1,15 @@
+.formContainer {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.formContainer form {
+	background: #ABE1FA;
+	width: 70%;
+	max-width: 450px;
+	padding: 20px;
+	border-radius: 20px;
+	border: 1px solid #000;
+  }

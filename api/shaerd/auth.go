@@ -26,3 +26,7 @@ func NewJwt(user *model.User, expiration int64) string {
 
 	return tokenString
 }
+
+// func JwtParse(token string) (string, error) {
+// 	jwt.Parse(token)
+// }

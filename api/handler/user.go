@@ -17,6 +17,7 @@ type User interface {
 	SignUp(*gin.Context)
 	Login(*gin.Context)
 	PasswordReset(*gin.Context)
+	PasswordUpdate(*gin.Context)
 }
 
 type user struct {
@@ -92,4 +93,7 @@ func (u user) PasswordReset(c *gin.Context) {
 	}
 
 	c.Status(http.StatusOK)
+}
+
+func (u user) PasswordUpdate(c *gin.Context) {
 }

@@ -1,41 +1,25 @@
-.formContainer {
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-  }
-
-  .formContainer form {
-	background: #ABE1FA;
-	width: 70%;
-	max-width: 450px;
-	padding: 20px;
-	border-radius: 20px;
-	border: 1px solid #000;
-  }
-
-  .uiForm {
+.uiForm {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-evenly;
 	height: 300px;
-  }
+}
 
-  .formFiled {
+.formFiled {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-  }
+}
 
-  .formFiled input {
+.formFiled input {
 	border-radius: 4px;
 	padding: 20px;
 	border: 1px solid;
-  }
+}
 
-  .formFiled label {
+.formFiled label {
 	font-size: 15px;
 	font-weight: 450;
 	margin-bottom: 3px;
-  }
+}

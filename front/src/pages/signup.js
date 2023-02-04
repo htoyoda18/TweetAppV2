@@ -7,6 +7,7 @@ import {TweetApp} from "../component/tweet_app"
 import { Note } from "../component/note"
 import { Formbtn } from "../component/form_btn"
 import { ErrorMsg } from "../component/error_message"
+import IndexStyle from '../css/index.module.css';
 
 export const SignUp = () => {
 	const initialValues = { userName: "", mailAddress: "", password: "" };
@@ -75,7 +76,7 @@ export const SignUp = () => {
 	return (
 		<div className={SignUpStyle}>
 			<TweetApp />
-			<div className={SignUpStyle.formContainer}>
+			<div className={IndexStyle.formContainer}>
 				<form onSubmit={(e) => handleSubmit(e)}>
 					<div className={SignUpStyle.uiForm}>
 						<div className={SignUpStyle.formFiled}>
