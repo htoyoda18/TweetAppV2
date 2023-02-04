@@ -41,9 +41,11 @@ export const PasswordReset = () => {
 			.catch((err) => {
 				console.log("err", err.response)
 				if (err.response.data === 'Email not found') {
-					setFromError({ resErr: "存在しないメールアドレスです" })
+					setFromError("存在しないメールアドレスです")
+				} else if (err.response.data === 'Should bind JSON error') {
+					setFromError("メールアドレスの形式が間違ってます")
 				} else {
-					setFromError({ resErr: "予期せぬエラーです" })
+					setFromError("予期せぬエラーです")
 				}
 			})
 	}
