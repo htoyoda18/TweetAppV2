@@ -41,8 +41,8 @@ export const Login = () => {
 		}
 		client
 			.post('v1/login', body)
-			.then((results) => {
-				console.log("results", results)
+			.then((res) => {
+				localStorage.setItem("token", res.data.token)
 				navigate("/");
 			})
 			.catch((err) => {

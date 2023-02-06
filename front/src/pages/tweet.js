@@ -18,15 +18,15 @@ export const Tweet = () => {
 		const body = {
 			tweet: tweet
 		}
+		const token = localStorage.getItem('token')
 		client
-		.post('v1/tweet', body)
-		.then((results) => {
-			console.log("results", results)
-			navigate("/");
-		})
-		.catch((err) => {
-			console.log("err", err.response)
-		})
+			.post('v1/tweet', body, { headers: { Authorization: token } })
+			.then((results) => {
+				navigate("/");
+			})
+			.catch((err) => {
+				console.log("err", err.response)
+			})
 	}
 	return (
 		<div className={TweetStyle.Tweet}>

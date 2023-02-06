@@ -4,7 +4,6 @@ import (
 	"errors"
 	"log"
 	"os"
-	"strings"
 	"time"
 
 	jwt "github.com/form3tech-oss/jwt-go"
@@ -33,13 +32,17 @@ func NewJwt(user *model.User, expiration int64) string {
 
 func JwtParse(tokenString string) (int, error) {
 	var userID int
-
-	token, _ := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			log.Printf(FailAuthToken)
+			err := errors.New(FailToParse)
+			return "", err
 		}
 		return []byte(os.Getenv("JWTKEY")), nil
 	})
+	if err != nil {
+		log.Printf(FailToParse)
+		return 0, err
+	}
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		userID = int(claims["sub"].(float64))
@@ -52,11 +55,10 @@ func JwtParse(tokenString string) (int, error) {
 
 func AuthUser(c *gin.Context) (int, error) {
 	cookie := c.Request.Header.Get("Authorization")
-	arrCookie := strings.Split(cookie, "Bearer ")
-	userID, err := JwtParse(arrCookie[1])
+	log.Println(cookie)
+	userID, err := JwtParse(cookie)
 	if err != nil {
-		log.Printf(FailAuthToken)
-		err = errors.New(FailAuthToken)
+		log.Printf(err.Error())
 		return 0, err
 	}
 	return userID, nil

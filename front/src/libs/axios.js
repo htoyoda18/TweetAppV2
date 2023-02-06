@@ -6,5 +6,5 @@ axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 axios.defaults.headers.post['Access-Control-Request-Headers'] = 'access-control-allow-headers,access-control-allow-methods,access-control-allow-origin,content-type';
 
 export const client = axios.create({
-  baseURL: 'http://localhost:8080/',
+  baseURL: 'http://localhost:8080/'
 })

@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/htoyoda18/TweetAppV2/api/handler/request"
+	"github.com/htoyoda18/TweetAppV2/api/handler/response"
 	"github.com/htoyoda18/TweetAppV2/api/shaerd"
 	"github.com/htoyoda18/TweetAppV2/api/usecase"
 
@@ -70,9 +71,11 @@ func (u user) Login(c *gin.Context) {
 
 	expiration := time.Now().Add(time.Hour * 24).Unix()
 	jwt := shaerd.NewJwt(user, expiration)
+	token := response.Token{
+		Token: jwt,
+	}
 
-	c.SetCookie("jwt", jwt, 3000, "/", "localhost", true, true)
-	c.JSON(http.StatusOK, user)
+	c.JSON(http.StatusOK, token)
 }
 
 func (u user) PasswordReset(c *gin.Context) {
