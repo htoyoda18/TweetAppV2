@@ -13,6 +13,7 @@ import (
 
 type Tweet interface {
 	TweetPost(*gin.Context)
+	List(*gin.Context)
 }
 
 type tweet struct {
@@ -45,4 +46,20 @@ func (t tweet) TweetPost(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 	}
+
+	c.Status(http.StatusOK)
+}
+
+func (t tweet) List(c *gin.Context) {
+	_, err := shaerd.AuthUser(c)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	tweets, err := t.tweetUsecase.List()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	c.JSON(http.StatusOK, tweets)
 }

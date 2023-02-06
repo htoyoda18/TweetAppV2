@@ -27,6 +27,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 		v1.POST("/password_reset", handler.User.PasswordReset)
 		v1.POST("/password_update/:token", handler.User.PasswordUpdate)
 		v1.POST("/tweet", handler.Tweet.TweetPost)
+		v1.GET("/tweet", handler.Tweet.List)
 	}
 	return r
 }

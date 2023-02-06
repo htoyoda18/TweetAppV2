@@ -1,11 +1,11 @@
 
 -- +goose Up
 -- SQL in section 'Up' is executed when this migration is applied
-CREATE TABLE `tweets` (
+CREATE TABLE `replies` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `tweet_id` INT NOT NULL,
     `user_id` INT NOT NULL,
-    `tweet` VARCHAR(200) NOT NULL,
-    `like` INT NOT NULL,
+    `reply` VARCHAR(200) NOT NULL,
     `created_at` DATETIME NOT NULL,
     `updated_at` DATETIME NOT NULL,
     `deleted_at` DATETIME
@@ -13,4 +13,4 @@ CREATE TABLE `tweets` (
 
 -- +goose Down
 -- SQL section 'Down' is executed when this migration is rolled back
-DROP TABLE `tweets`;
+DROP TABLE `replies`;

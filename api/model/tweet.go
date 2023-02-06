@@ -7,4 +7,6 @@ type Tweet struct {
 	UserID int    `json:"userID"`
 	Tweet  string `json:"tweet"`
 	Like   int    `json:"like"`
+
+	Replies []Reply `json:"replies"`
 }
