@@ -6,6 +6,7 @@ setup:
 	docker-compose up -d --build
 	sleep 5
 	docker-compose up -d
+	sleep 10
 	make migrate-up ENV=development
 
 .PHONY: kill
