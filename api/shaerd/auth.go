@@ -1,11 +1,14 @@
 package shaerd
 
 import (
+	"errors"
 	"log"
 	"os"
+	"strings"
 	"time"
 
 	jwt "github.com/form3tech-oss/jwt-go"
+	"github.com/gin-gonic/gin"
 	"github.com/htoyoda18/TweetAppV2/api/model"
 )
 
@@ -33,7 +36,7 @@ func JwtParse(tokenString string) (int, error) {
 
 	token, _ := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			log.Printf("不正なトークン")
+			log.Printf(FailAuthToken)
 		}
 		return []byte(os.Getenv("JWTKEY")), nil
 	})
@@ -41,8 +44,20 @@ func JwtParse(tokenString string) (int, error) {
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		userID = int(claims["sub"].(float64))
 	} else {
-		log.Printf("不正なトークン")
+		log.Printf(FailAuthToken)
 	}
 
+	return userID, nil
+}
+
+func AuthUser(c *gin.Context) (int, error) {
+	cookie := c.Request.Header.Get("Authorization")
+	arrCookie := strings.Split(cookie, "Bearer ")
+	userID, err := JwtParse(arrCookie[1])
+	if err != nil {
+		log.Printf(FailAuthToken)
+		err = errors.New(FailAuthToken)
+		return 0, err
+	}
 	return userID, nil
 }

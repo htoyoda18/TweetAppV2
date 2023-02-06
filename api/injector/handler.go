@@ -6,8 +6,9 @@ import (
 )
 
 type Handler struct {
-	User handler.User
-	Ping handler.Ping
+	User  handler.User
+	Ping  handler.Ping
+	Tweet handler.Tweet
 }
 
 func NewHandler(db *gorm.DB) *Handler {
@@ -15,8 +16,10 @@ func NewHandler(db *gorm.DB) *Handler {
 
 	userHandler := handler.NewUser(usecase.User)
 	pingHandler := handler.NewPing()
+	tweetHandler := handler.NewTweet(usecase.Tweet)
 	return &Handler{
-		User: userHandler,
-		Ping: pingHandler,
+		User:  userHandler,
+		Ping:  pingHandler,
+		Tweet: tweetHandler,
 	}
 }
