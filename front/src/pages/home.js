@@ -38,19 +38,21 @@ export const Home = (tweetList) => {
 					}
 					return (
 						<div className={TweetStyleList.tweetContent}>
-							<form>
-							<div className={TweetStyleList.Section1}>
-								<img className={TweetStyleList.icon} src='https://sp-akiba-souken.k-img.com/images/vote/000/170/170628.jpg'></img>
-								<div className={TweetStyleList.content}>
-									<div className={TweetStyleList.userName}>{value.user.name}</div>
-									<div className={TweetStyleList.tweet}>{value.tweet}</div>
-								</div>
-							</div>
-							<div className={TweetStyleList.Section2}>
-								<div className={TweetStyleList.reply}><CommentIcon />{reply}</div>
-								<div className={TweetStyleList.like}><FavoriteBorderIcon />{likes}</div>
-							</div>
-						</form>
+							<a className={TweetStyleList.detailLink} href={"tweet_detail/" + value.id}>
+								<form>
+									<div className={TweetStyleList.Section1}>
+										<img className={TweetStyleList.icon} src='https://sp-akiba-souken.k-img.com/images/vote/000/170/170628.jpg'></img>
+										<div className={TweetStyleList.content}>
+											<div className={TweetStyleList.userName}>{value.user.name}</div>
+											<div className={TweetStyleList.tweet}>{value.tweet}</div>
+										</div>
+									</div>
+									<div className={TweetStyleList.Section2}>
+										<div className={TweetStyleList.reply}><CommentIcon />{reply}</div>
+										<div className={TweetStyleList.like}><FavoriteBorderIcon />{likes}</div>
+									</div>
+								</form>
+							</a>
 						</div>
 					)
 				})}
