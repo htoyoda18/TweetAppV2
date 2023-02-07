@@ -28,9 +28,7 @@ export const Home = () => {
 			<div className={TweetStyleList.Tweet}>
 				{tweets.map((value, key) => {
 					return (
-						<div>
-							<Tweet id={value.id} userName={value.user.name} tweet={value.tweet} reply={value.replies} likes={value.like} image='https://sp-akiba-souken.k-img.com/images/vote/000/170/170628.jpg' />
-						</div>
+						<Tweet id={value.id} userName={value.user.name} tweet={value.tweet} reply={value.replies} likes={value.like} image='https://sp-akiba-souken.k-img.com/images/vote/000/170/170628.jpg' />
 					)
 				})}
 			</div>

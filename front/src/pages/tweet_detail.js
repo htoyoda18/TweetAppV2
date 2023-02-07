@@ -31,11 +31,7 @@ export const TweetDetail = () => {
 	return (
 		<div className={TweetStyleList.TweetList}>
 			<Sidebar />
-			<div className={TweetStyleList.Tweet}>
-				<div>
-				<Tweet id={tweetDetail.id} userName={userName} tweet={tweetDetail.tweet} reply={tweetDetail.replies} likes={tweetDetail.like} image='https://sp-akiba-souken.k-img.com/images/vote/000/170/170628.jpg' />
-				</div>
-			</div>
+			<Tweet id={tweetDetail.id} userName={userName} tweet={tweetDetail.tweet} reply={tweetDetail.replies} likes={tweetDetail.like} image='https://sp-akiba-souken.k-img.com/images/vote/000/170/170628.jpg' />
 		</div>
 	)
 }
