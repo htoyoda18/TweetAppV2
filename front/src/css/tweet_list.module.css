@@ -1,18 +1,20 @@
 .TweetList {
     display: flex;
-    background-color: #fff;
+    background-color: #ABE1FA;
+}
+
+.Tweet {
     width: 100%;
-    max-height: 20vh;
 }
 
 form {
-    margin-left: 2%;
-    width: 50%;
+    margin-left: 1.5%;
+    width: 100%;
 }
 
 .icon {
-    width: 7%;
-    height: 7%;
+    width: 3%;
+    height: 3%;
     border-radius: 50%;
 }
 
@@ -27,12 +29,14 @@ form {
 
 .Section2 {
     display: flex;
-    margin-left: 9%;
+    margin-left: 4%;
+    margin-bottom: 1%;
     padding-top: 1%;
 }
 
 .content {
-    margin-left: 2%;
+    margin-left: 1%;
+    max-width: 50%;
     flex-direction: column;
 }
 
@@ -42,4 +46,8 @@ form {
 
 .like {
     margin-left: 5%;
+}
+
+.tweetContent {
+    border-bottom: 0.5px solid #575555;
 }

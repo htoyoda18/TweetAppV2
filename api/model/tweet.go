@@ -8,5 +8,6 @@ type Tweet struct {
 	Tweet  string `json:"tweet"`
 	Like   int    `json:"like"`
 
-	Replies []Reply `json:"replies"`
+	User    *User    `json:"user"`
+	Replies []*Reply `json:"replies"`
 }

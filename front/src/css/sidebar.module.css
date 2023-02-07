@@ -8,6 +8,8 @@
 	height: 100vh;
 	width: 15%;
 	background: #2d445d;
+	top: 0;
+    position: sticky;
 }
 
 .title {

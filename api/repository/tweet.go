@@ -29,12 +29,20 @@ func (t tweet) Add(tweet *model.Tweet, db *gorm.DB) error {
 func (t tweet) List(db *gorm.DB) ([]*model.Tweet, error) {
 	tweet := []*model.Tweet{}
 	if err := db.
-		Model(&model.Tweet{}).
-		Joins("LEFT JOIN replies ON tweets.id = replies.tweet_id").
+		Scopes(preload()).
+		Order("created_at DESC").
 		Find(&tweet).Error; err != nil {
 		log.Println(err)
 		return nil, err
 	}
 
 	return tweet, nil
+}
+
+func preload() func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		return db.
+			Preload("User").
+			Preload("Replies")
+	}
 }
