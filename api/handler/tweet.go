@@ -19,14 +19,14 @@ type Tweet interface {
 }
 
 type tweet struct {
-	tweetUsecase usecase.Tweet
+	tweetUseCase usecase.Tweet
 }
 
 func NewTweet(
-	tweetUsecase usecase.Tweet,
+	tweetUseCase usecase.Tweet,
 ) Tweet {
 	return tweet{
-		tweetUsecase: tweetUsecase,
+		tweetUseCase: tweetUseCase,
 	}
 }
 
@@ -44,7 +44,7 @@ func (t tweet) TweetPost(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	err = t.tweetUsecase.TweetPost(userID, params.Tweet)
+	err = t.tweetUseCase.TweetPost(userID, params.Tweet)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -58,7 +58,7 @@ func (t tweet) List(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	tweets, err := t.tweetUsecase.List()
+	tweets, err := t.tweetUseCase.List()
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -74,7 +74,7 @@ func (t tweet) Get(c *gin.Context) {
 
 	tweetID, _ := strconv.Atoi(c.Param("id"))
 
-	tweet, err := t.tweetUsecase.Get(tweetID)
+	tweet, err := t.tweetUseCase.Get(tweetID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 	}

@@ -29,6 +29,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 		v1.POST("/tweet", handler.Tweet.TweetPost)
 		v1.GET("/tweet", handler.Tweet.List)
 		v1.GET("/tweet_detail/:id", handler.Tweet.Get)
+		v1.POST("/reply", handler.Reply.Add)
 	}
 	return r
 }
