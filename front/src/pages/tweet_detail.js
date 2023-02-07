@@ -6,13 +6,13 @@ import { client } from '../libs/axios'
 import { useParams } from "react-router-dom";
 import { useState } from 'react';
 import { Tweet } from "../component/tweet"
-import { Reply } from "../component/reply"
-
+import { ReplyPost, Reply } from "../component/reply"
 
 export const TweetDetail = () => {
 	const token = localStorage.getItem('token')
 	const params = useParams();
 	const [tweetDetail, setTweetDetail] = useState({});
+	const [replys, setReplys] = useState([]);
 	const [userName, setUserName] = useState();
 	window.onload = function () {
 		TweetDetalGet()
@@ -24,6 +24,7 @@ export const TweetDetail = () => {
 			.then((res) => {
 				setTweetDetail(res.data)
 				setUserName(res.data.user.name)
+				setReplys(res.data.replies)
 				console.log("tweetDetail", tweetDetail)
 				console.log("userName", userName)
 			})
@@ -36,7 +37,12 @@ export const TweetDetail = () => {
 			<Sidebar />
 			<div className={TweetDetailStyleList.tweetDetail}>
 				<Tweet id={tweetDetail.id} userName={userName} tweet={tweetDetail.tweet} reply={tweetDetail.replies} likes={tweetDetail.like} image='https://sp-akiba-souken.k-img.com/images/vote/000/170/170628.jpg' />
-				<Reply />
+				<ReplyPost tweetID={tweetDetail.id} />
+				{replys.map((value, key) => {
+					return (
+						<Reply reply={value.reply} userName={value.user.name} image='https://sp-akiba-souken.k-img.com/images/vote/000/170/170628.jpg' />
+					)
+				})}
 			</div>
 		</div>
 	)

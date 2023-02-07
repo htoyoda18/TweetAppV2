@@ -23,7 +23,8 @@ func preload() func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		return db.
 			Preload("User").
-			Preload("Replies")
+			Preload("Replies").
+			Preload("Replies.User")
 	}
 }
 

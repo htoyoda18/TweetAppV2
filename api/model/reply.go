@@ -7,4 +7,6 @@ type Reply struct {
 	TweetID int    `json:"tweetID"`
 	UserID  int    `json:"userID"`
 	Reply   string `json:"reply"`
+
+	User *User `json:"user"`
 }
