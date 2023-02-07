@@ -8,6 +8,7 @@ import { PasswordUpdate } from '../pages/password_update';
 import { Home } from '../pages/home';
 import { Setting } from '../pages/setting';
 import { Tweet } from '../pages/tweet';
+import { TweetDetail } from '../pages/tweet_detail';
 
 export const AppRouter = () => {
   return (
@@ -20,6 +21,7 @@ export const AppRouter = () => {
       <Route path="/password_reset" element={<PasswordReset />}></Route>
       <Route path="/password_reset_send" element={<PasswordResetSend />}></Route>
       <Route path="/password_update/:token" element={<PasswordUpdate />}></Route>
+      <Route path="/tweet_detail/:id" element={<TweetDetail />}></Route>
     </Routes>
   )
 }

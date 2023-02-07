@@ -11,6 +11,7 @@ import (
 type Tweet interface {
 	TweetPost(userID int, tweet string) error
 	List() ([]*model.Tweet, error)
+	Get(tweetID int) (*model.Tweet, error)
 }
 
 type tweet struct {
@@ -43,6 +44,16 @@ func (t tweet) TweetPost(userID int, tweet string) error {
 
 func (t tweet) List() ([]*model.Tweet, error) {
 	tweet, err := t.tweetRepository.List(t.db)
+	if err != nil {
+		log.Println(err)
+		return tweet, err
+	}
+
+	return tweet, nil
+}
+
+func (t tweet) Get(tweetID int) (*model.Tweet, error) {
+	tweet, err := t.tweetRepository.Get(tweetID, t.db)
 	if err != nil {
 		log.Println(err)
 		return tweet, err

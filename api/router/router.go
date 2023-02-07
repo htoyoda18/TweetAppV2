@@ -28,6 +28,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 		v1.POST("/password_update/:token", handler.User.PasswordUpdate)
 		v1.POST("/tweet", handler.Tweet.TweetPost)
 		v1.GET("/tweet", handler.Tweet.List)
+		v1.GET("/tweet_detail/:id", handler.Tweet.Get)
 	}
 	return r
 }
