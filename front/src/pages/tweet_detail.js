@@ -1,10 +1,13 @@
 import React from 'react'
 import Sidebar from '../component/sidebar'
 import TweetStyleList from '../css/tweet_list.module.css';
+import TweetDetailStyleList from '../css/tweet_detail.module.css';
 import { client } from '../libs/axios'
 import { useParams } from "react-router-dom";
 import { useState } from 'react';
 import { Tweet } from "../component/tweet"
+import { Reply } from "../component/reply"
+
 
 export const TweetDetail = () => {
 	const token = localStorage.getItem('token')
@@ -31,7 +34,10 @@ export const TweetDetail = () => {
 	return (
 		<div className={TweetStyleList.TweetList}>
 			<Sidebar />
-			<Tweet id={tweetDetail.id} userName={userName} tweet={tweetDetail.tweet} reply={tweetDetail.replies} likes={tweetDetail.like} image='https://sp-akiba-souken.k-img.com/images/vote/000/170/170628.jpg' />
+			<div className={TweetDetailStyleList.tweetDetail}>
+				<Tweet id={tweetDetail.id} userName={userName} tweet={tweetDetail.tweet} reply={tweetDetail.replies} likes={tweetDetail.like} image='https://sp-akiba-souken.k-img.com/images/vote/000/170/170628.jpg' />
+				<Reply />
+			</div>
 		</div>
 	)
 }

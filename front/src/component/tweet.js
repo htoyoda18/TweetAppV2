@@ -1,7 +1,8 @@
 import React from 'react';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CommentIcon from '@mui/icons-material/Comment';
-import TweetStyleList from '../css/tweet_list.module.css';
+import TweetStyle from '../css/tweet_list.module.css';
+import { Icon } from "../component/shared"
 
 export const Tweet = (props) => {
     const likeCount = () => {
@@ -15,20 +16,20 @@ export const Tweet = (props) => {
         }
     }
     return (
-        <div className={TweetStyleList.Tweet}>
-            <div className={TweetStyleList.tweetContent}>
-                <a className={TweetStyleList.detailLink} href={"tweet_detail/" + props.id}>
+        <div className={TweetStyle.Tweet}>
+            <div className={TweetStyle.tweetContent}>
+                <a className={TweetStyle.detailLink} href={"tweet_detail/" + props.id}>
                     <form>
-                        <div className={TweetStyleList.Section1}>
-                            <img className={TweetStyleList.icon} src={props.image}></img>
-                            <div className={TweetStyleList.content}>
-                                <div className={TweetStyleList.userName}>{props.userName}</div>
-                                <div className={TweetStyleList.tweet}>{props.tweet}</div>
+                        <div className={TweetStyle.Section1}>
+                            <Icon image={props.image} />
+                            <div className={TweetStyle.content}>
+                                <div className={TweetStyle.userName}>{props.userName}</div>
+                                <div className={TweetStyle.tweet}>{props.tweet}</div>
                             </div>
                         </div>
-                        <div className={TweetStyleList.Section2}>
-                            <div className={TweetStyleList.reply}><CommentIcon />{replyCount()}</div>
-                            <div className={TweetStyleList.like}><FavoriteBorderIcon />{likeCount()}</div>
+                        <div className={TweetStyle.Section2}>
+                            <div className={TweetStyle.reply}><CommentIcon />{replyCount()}</div>
+                            <div className={TweetStyle.like}><FavoriteBorderIcon />{likeCount()}</div>
                         </div>
                     </form>
                 </a>

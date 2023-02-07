@@ -32,7 +32,7 @@ export const Tweet = () => {
 		<div className={TweetStyle.Tweet}>
 			<Sidebar />
 			<form class={TweetStyle.from} onSubmit={(e) => handleSubmit(e)} >
-				<textarea placeholder="ツイートする" onChange={(e) => handleChange(e)}></textarea>
+				<textarea className={TweetStyle.tweetText} placeholder="ツイートする" onChange={(e) => handleChange(e)}></textarea>
 				<div className={TweetStyle.post}>
 					<button className={TweetStyle.button}>投稿</button>
 				</div>
