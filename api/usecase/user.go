@@ -18,6 +18,7 @@ type User interface {
 	Show(params request.Login) (*model.User, error)
 	PasswordReset(mail string) error
 	PasswordUpdate(password string, userID int) error
+	Get(userID int) (*model.User, error)
 }
 
 type user struct {
@@ -129,4 +130,16 @@ func (u user) PasswordUpdate(password string, userID int) error {
 	}
 
 	return nil
+}
+
+func (u user) Get(userID int) (*model.User, error) {
+	user, err := u.userRepository.Get(&model.User{
+		ID: userID,
+	}, u.db)
+	if err != nil {
+		log.Println(err)
+		return user, err
+	}
+
+	return user, nil
 }

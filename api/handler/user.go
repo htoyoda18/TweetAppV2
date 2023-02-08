@@ -4,6 +4,7 @@ import (
 	"errors"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/htoyoda18/TweetAppV2/api/handler/request"
@@ -19,6 +20,7 @@ type User interface {
 	Login(*gin.Context)
 	PasswordReset(*gin.Context)
 	PasswordUpdate(*gin.Context)
+	Get(*gin.Context)
 }
 
 type user struct {
@@ -123,4 +125,19 @@ func (u user) PasswordUpdate(c *gin.Context) {
 	}
 
 	c.Status(http.StatusOK)
+}
+
+func (u user) Get(c *gin.Context) {
+	_, err := shaerd.AuthUser(c)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err.Error())
+	}
+	userID, _ := strconv.Atoi(c.Param("id"))
+
+	user, err := u.userUsecase.Get(userID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	c.JSON(http.StatusOK, user)
 }
