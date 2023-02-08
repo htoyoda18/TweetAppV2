@@ -5,16 +5,16 @@ import TweetStyle from '../css/tweet_list.module.css';
 import { Icon } from "../component/shared"
 
 export const Tweet = (props) => {
-    const likeCount = () => {
-        if (props.like > 0) {
-            return props.like
-        }
-    }
-    const replyCount = () => {
-        if (props.reply > 0) {
-            return props.reply
-        }
-    }
+    // const likeCount = () => {
+    //     if (props.like > 0) {
+    //         return props.like
+    //     }
+    // }
+    // const replyCount = () => {
+    //     if (props.replies.length > 0) {
+    //         return props.replies.length
+    //     }
+    // }
     return (
         <div className={TweetStyle.Tweet}>
             <div className={TweetStyle.tweetContent}>
@@ -28,8 +28,8 @@ export const Tweet = (props) => {
                             </div>
                         </div>
                         <div className={TweetStyle.Section2}>
-                            <div className={TweetStyle.reply}><CommentIcon />{replyCount()}</div>
-                            <div className={TweetStyle.like}><FavoriteBorderIcon />{likeCount()}</div>
+                            <div className={TweetStyle.reply}><CommentIcon /></div>
+                            <div className={TweetStyle.like}><FavoriteBorderIcon /></div>
                         </div>
                     </form>
                 </a>
