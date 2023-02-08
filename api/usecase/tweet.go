@@ -10,7 +10,7 @@ import (
 
 type Tweet interface {
 	TweetPost(userID int, tweet string) error
-	List() ([]*model.Tweet, error)
+	List(where *model.Tweet) ([]*model.Tweet, error)
 	Get(tweetID int) (*model.Tweet, error)
 }
 
@@ -42,8 +42,8 @@ func (t tweet) TweetPost(userID int, tweet string) error {
 	return nil
 }
 
-func (t tweet) List() ([]*model.Tweet, error) {
-	tweet, err := t.tweetRepository.List(t.db)
+func (t tweet) List(where *model.Tweet) ([]*model.Tweet, error) {
+	tweet, err := t.tweetRepository.List(where, t.db)
 	if err != nil {
 		log.Println(err)
 		return tweet, err

@@ -9,7 +9,7 @@ import (
 
 type Tweet interface {
 	Add(tweet *model.Tweet, db *gorm.DB) error
-	List(db *gorm.DB) (tweet []*model.Tweet, err error)
+	List(where *model.Tweet, db *gorm.DB) (tweet []*model.Tweet, err error)
 	Get(tweetID int, db *gorm.DB) (tweet *model.Tweet, err error)
 }
 
@@ -36,8 +36,11 @@ func (t tweet) Add(tweet *model.Tweet, db *gorm.DB) error {
 	return nil
 }
 
-func (t tweet) List(db *gorm.DB) ([]*model.Tweet, error) {
+func (t tweet) List(where *model.Tweet, db *gorm.DB) ([]*model.Tweet, error) {
 	tweet := []*model.Tweet{}
+	if where != nil {
+		db = db.Where(where)
+	}
 	if err := db.
 		Scopes(preload()).
 		Order("created_at DESC").

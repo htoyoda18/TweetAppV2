@@ -8,6 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/htoyoda18/TweetAppV2/api/handler/request"
+	"github.com/htoyoda18/TweetAppV2/api/model"
 	"github.com/htoyoda18/TweetAppV2/api/shaerd"
 	"github.com/htoyoda18/TweetAppV2/api/usecase"
 )
@@ -15,6 +16,7 @@ import (
 type Tweet interface {
 	TweetPost(*gin.Context)
 	List(*gin.Context)
+	UserList(*gin.Context)
 	Get(*gin.Context)
 }
 
@@ -58,7 +60,25 @@ func (t tweet) List(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	tweets, err := t.tweetUseCase.List()
+	tweets, err := t.tweetUseCase.List(nil)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	c.JSON(http.StatusOK, tweets)
+}
+
+// userIDに紐づくツイートを取得する
+func (t tweet) UserList(c *gin.Context) {
+	// _, err := shaerd.AuthUser(c)
+	// if err != nil {
+	// 	c.JSON(http.StatusBadRequest, err.Error())
+	// }
+	userID, _ := strconv.Atoi(c.Param("userID"))
+
+	tweets, err := t.tweetUseCase.List(&model.Tweet{
+		UserID: userID,
+	})
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 	}
