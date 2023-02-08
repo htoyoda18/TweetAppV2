@@ -21,7 +21,7 @@ export const Tweet = (props) => {
                 <a className={TweetStyle.detailLink} href={"tweet_detail/" + props.id}>
                     <form>
                         <div className={TweetStyle.Section1}>
-                            <Icon image={props.image} />
+                            <Icon image={props.image} userID={props.userID} />
                             <div className={TweetStyle.content}>
                                 <div className={TweetStyle.userName}>{props.userName}</div>
                                 <div className={TweetStyle.tweet}>{props.tweet}</div>

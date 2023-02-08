@@ -44,7 +44,7 @@ export const ReplyPost = (props) => {
     return (
         <div className={ReplyStyle.Reply}>
             <form onSubmit={() => handleSubmit()}>
-                <Icon image="https://www.tv-tokyo.co.jp/anime/youkai-watch/sp/images/chara/sp22.jpg" />
+                <Icon image="https://www.tv-tokyo.co.jp/anime/youkai-watch/sp/images/chara/sp22.jpg"/>
                 <textarea placeholder='返信をツイート' className={ReplyStyle.replyText} onChange={(e) => handleChange(e)} onClick={(e) => handleChange(e)}></textarea>
                 <button disabled={disabled} className={ReplyStyle.ReplyBtn}>返信</button>
             </form>
@@ -58,7 +58,7 @@ export const Reply = (props) => {
             <div className={TweetStyle.tweetContent}>
                 <form>
                     <div className={TweetStyle.Section1}>
-                        <Icon image={props.image} />
+                        <Icon image={props.image} userID={props.userID}/>
                         <div className={TweetStyle.content}>
                             <div className={TweetStyle.userName}>{props.userName}</div>
                             <div className={TweetStyle.tweet}>{props.reply}</div>
