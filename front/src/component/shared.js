@@ -8,3 +8,9 @@ export const Icon = (props) => {
         </a>
     )
 }
+
+export const LargeIcon = (props) => {
+    return (
+        <img className={sharedStyle.largeIcon} src={props.image} />
+    )
+}

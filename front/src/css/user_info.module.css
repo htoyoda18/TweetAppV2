@@ -1,0 +1,22 @@
+.userInfo {
+    width: 100%;
+    max-height: 25vh;
+    border-bottom: 1px solid black;
+}
+
+.content {
+    width: 50%;
+    margin-top: 1.5%;
+    margin-left: 1.5%;
+}
+
+.userName {
+    margin-top: 1%;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.introduction {
+    margin-top: 1%;
+    font-size: 15px;
+}
