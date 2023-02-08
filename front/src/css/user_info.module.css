@@ -18,5 +18,12 @@
 
 .introduction {
     margin-top: 1%;
+    margin-bottom: 1%;
     font-size: 15px;
+}
+
+.userTweets {
+    width: 100%;
+    flex-direction: column;
+    background-color: #ABE1FA;
 }

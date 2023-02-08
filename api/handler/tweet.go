@@ -70,10 +70,10 @@ func (t tweet) List(c *gin.Context) {
 
 // userIDに紐づくツイートを取得する
 func (t tweet) UserList(c *gin.Context) {
-	// _, err := shaerd.AuthUser(c)
-	// if err != nil {
-	// 	c.JSON(http.StatusBadRequest, err.Error())
-	// }
+	_, err := shaerd.AuthUser(c)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err.Error())
+	}
 	userID, _ := strconv.Atoi(c.Param("userID"))
 
 	tweets, err := t.tweetUseCase.List(&model.Tweet{
