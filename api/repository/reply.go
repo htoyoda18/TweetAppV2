@@ -1,9 +1,8 @@
 package repository
 
 import (
-	"log"
-
 	"github.com/htoyoda18/TweetAppV2/api/model"
+	"github.com/htoyoda18/TweetAppV2/api/shaerd"
 	"gorm.io/gorm"
 )
 
@@ -19,7 +18,7 @@ func NewReply() Reply {
 
 func (r reply) Add(reply *model.Reply, db *gorm.DB) error {
 	if err := db.Create(reply).Error; err != nil {
-		log.Println(err)
+		shaerd.Error(LogVal("Add", err))
 		return err
 	}
 	return nil

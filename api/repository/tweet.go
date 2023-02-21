@@ -1,9 +1,8 @@
 package repository
 
 import (
-	"log"
-
 	"github.com/htoyoda18/TweetAppV2/api/model"
+	"github.com/htoyoda18/TweetAppV2/api/shaerd"
 	"gorm.io/gorm"
 )
 
@@ -30,7 +29,7 @@ func preload() func(db *gorm.DB) *gorm.DB {
 
 func (t tweet) Add(tweet *model.Tweet, db *gorm.DB) error {
 	if err := db.Create(tweet).Error; err != nil {
-		log.Println(err)
+		shaerd.Error(LogVal("Add", err))
 		return err
 	}
 	return nil
@@ -45,7 +44,7 @@ func (t tweet) List(where *model.Tweet, db *gorm.DB) ([]*model.Tweet, error) {
 		Scopes(preload()).
 		Order("created_at DESC").
 		Find(&tweet).Error; err != nil {
-		log.Println(err)
+		shaerd.Error(LogVal("List", err))
 		return nil, err
 	}
 
@@ -59,7 +58,7 @@ func (t tweet) Get(tweetID int, db *gorm.DB) (*model.Tweet, error) {
 		Where("id = ?", tweetID).
 		Order("created_at DESC").
 		First(&tweet).Error; err != nil {
-		log.Println(err)
+		shaerd.Error(LogVal("Get", err))
 		return nil, err
 	}
 

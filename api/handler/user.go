@@ -2,7 +2,6 @@ package handler
 
 import (
 	"errors"
-	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -36,17 +35,19 @@ func NewUser(
 }
 
 func (u user) SignUp(c *gin.Context) {
+	shaerd.Info("SignUp")
+
 	var params request.Signup
 
 	if err := c.ShouldBindJSON(&params); err != nil {
-		log.Println(err)
+		shaerd.Error(LogVal("SignUp", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	user, err := u.userUsecase.SignUp(params)
 	if err != nil {
-		log.Println(err)
+		shaerd.Error(LogVal("SignUp", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -55,18 +56,20 @@ func (u user) SignUp(c *gin.Context) {
 }
 
 func (u user) Login(c *gin.Context) {
+	shaerd.Info("Login")
+
 	var params request.Login
 
 	if err := c.ShouldBindJSON(&params); err != nil {
-		log.Println(err)
 		err = errors.New(shaerd.ShouldBindJSONErr)
+		shaerd.Error(LogVal("Login", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	user, err := u.userUsecase.Show(params)
 	if err != nil {
-		log.Println(err)
+		shaerd.Error(LogVal("Login", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -81,10 +84,12 @@ func (u user) Login(c *gin.Context) {
 }
 
 func (u user) PasswordReset(c *gin.Context) {
+	shaerd.Info("PasswordReset")
+
 	var params request.PasswordReset
 
 	if err := c.ShouldBindJSON(&params); err != nil {
-		log.Println(err)
+		shaerd.Error(LogVal("PasswordReset", err))
 		err = errors.New(shaerd.ShouldBindJSONErr)
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
@@ -92,7 +97,7 @@ func (u user) PasswordReset(c *gin.Context) {
 
 	err := u.userUsecase.PasswordReset(params.Email)
 	if err != nil {
-		log.Println(err)
+		shaerd.Error(LogVal("PasswordReset", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -101,10 +106,12 @@ func (u user) PasswordReset(c *gin.Context) {
 }
 
 func (u user) PasswordUpdate(c *gin.Context) {
+	shaerd.Info("PasswordUpdate")
+
 	var params request.PasswordUpdate
 
 	if err := c.ShouldBindJSON(&params); err != nil {
-		log.Println(err)
+		shaerd.Error(LogVal("PasswordUpdate", err))
 		err = errors.New(shaerd.ShouldBindJSONErr)
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
@@ -119,7 +126,7 @@ func (u user) PasswordUpdate(c *gin.Context) {
 
 	err = u.userUsecase.PasswordUpdate(params.Password, userID)
 	if err != nil {
-		log.Println(err)
+		shaerd.Error(LogVal("PasswordUpdate", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -128,6 +135,8 @@ func (u user) PasswordUpdate(c *gin.Context) {
 }
 
 func (u user) Get(c *gin.Context) {
+	shaerd.Info("Get")
+
 	_, err := shaerd.AuthUser(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())

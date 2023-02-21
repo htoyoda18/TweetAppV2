@@ -2,7 +2,6 @@ package handler
 
 import (
 	"errors"
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -28,9 +27,11 @@ func NewReply(
 }
 
 func (r reply) Add(c *gin.Context) {
+	shaerd.Info("Add")
+
 	var params request.Reply
 	if err := c.ShouldBindJSON(&params); err != nil {
-		log.Println(err)
+		shaerd.Error(LogVal("Add", err))
 		err = errors.New(shaerd.ShouldBindJSONErr)
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
@@ -47,5 +48,4 @@ func (r reply) Add(c *gin.Context) {
 	}
 
 	c.Status(http.StatusOK)
-
 }

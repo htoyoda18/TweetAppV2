@@ -52,7 +52,7 @@ func (u user) SignUp(params request.Signup) (*model.User, error) {
 		Password: password,
 	}, u.db)
 	if err != nil {
-		log.Println(err)
+		shaerd.Error(LogVal("SignUp", err))
 		return nil, err
 	}
 
@@ -75,13 +75,13 @@ func (u user) Show(params request.Login) (*model.User, error) {
 		Email: params.Email,
 	}, u.db)
 	if err != nil {
-		log.Println(err)
+		shaerd.Error(LogVal("Show", err))
 		err := errors.New(shaerd.UserNotFound)
 		return nil, err
 	}
 	err = shaerd.CompareHashAndPassword(user.Password, params.Password)
 	if err != nil {
-		log.Println(err)
+		shaerd.Error(LogVal("Show", err))
 		err := errors.New(shaerd.UserNotFound)
 		return nil, err
 	}
@@ -94,7 +94,7 @@ func (u user) PasswordReset(mail string) error {
 		Email: mail,
 	}, u.db)
 	if err != nil {
-		log.Println(err)
+		shaerd.Error(LogVal("PasswordReset", err))
 		err := errors.New(shaerd.EmailNotFound)
 		return err
 	}
@@ -124,7 +124,7 @@ func (u user) PasswordUpdate(password string, userID int) error {
 		Password: hashPassword,
 	}, u.db)
 	if err != nil {
-		log.Println(err)
+		shaerd.Error(LogVal("PasswordUpdate", err))
 		err := errors.New(shaerd.EmailNotFound)
 		return err
 	}
@@ -137,7 +137,7 @@ func (u user) Get(userID int) (*model.User, error) {
 		ID: userID,
 	}, u.db)
 	if err != nil {
-		log.Println(err)
+		shaerd.Error(LogVal("Get", err))
 		return user, err
 	}
 

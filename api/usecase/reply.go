@@ -1,11 +1,10 @@
 package usecase
 
 import (
-	"log"
-
 	"github.com/htoyoda18/TweetAppV2/api/handler/request"
 	"github.com/htoyoda18/TweetAppV2/api/model"
 	"github.com/htoyoda18/TweetAppV2/api/repository"
+	"github.com/htoyoda18/TweetAppV2/api/shaerd"
 	"gorm.io/gorm"
 )
 
@@ -36,7 +35,7 @@ func (r reply) Add(userIO int, replyParams request.Reply) error {
 	}, r.db)
 
 	if err != nil {
-		log.Println(err)
+		shaerd.Error(LogVal("Add", err))
 		return err
 	}
 

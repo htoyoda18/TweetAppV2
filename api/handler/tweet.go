@@ -2,7 +2,6 @@ package handler
 
 import (
 	"errors"
-	"log"
 	"net/http"
 	"strconv"
 
@@ -33,9 +32,11 @@ func NewTweet(
 }
 
 func (t tweet) TweetPost(c *gin.Context) {
+	shaerd.Info("TweetPost")
+
 	var params request.Tweet
 	if err := c.ShouldBindJSON(&params); err != nil {
-		log.Println(err)
+		shaerd.Error("TweetPost", err)
 		err = errors.New(shaerd.ShouldBindJSONErr)
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
@@ -55,6 +56,8 @@ func (t tweet) TweetPost(c *gin.Context) {
 }
 
 func (t tweet) List(c *gin.Context) {
+	shaerd.Info("List")
+
 	_, err := shaerd.AuthUser(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
@@ -70,6 +73,8 @@ func (t tweet) List(c *gin.Context) {
 
 // userIDに紐づくツイートを取得する
 func (t tweet) UserList(c *gin.Context) {
+	shaerd.Info("UserList")
+
 	_, err := shaerd.AuthUser(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
@@ -87,6 +92,8 @@ func (t tweet) UserList(c *gin.Context) {
 }
 
 func (t tweet) Get(c *gin.Context) {
+	shaerd.Info("Get")
+
 	_, err := shaerd.AuthUser(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())

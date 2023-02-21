@@ -1,9 +1,8 @@
 package repository
 
 import (
-	"log"
-
 	"github.com/htoyoda18/TweetAppV2/api/model"
+	"github.com/htoyoda18/TweetAppV2/api/shaerd"
 	"gorm.io/gorm"
 )
 
@@ -22,7 +21,7 @@ func NewUser() User {
 func (u user) Get(where *model.User, db *gorm.DB) (*model.User, error) {
 	user := &model.User{}
 	if err := db.Debug().Where(where).First(user).Error; err != nil {
-		log.Println(err)
+		shaerd.Error(LogVal("Get", err))
 		return nil, err
 	}
 
@@ -31,16 +30,15 @@ func (u user) Get(where *model.User, db *gorm.DB) (*model.User, error) {
 
 func (u user) Add(user *model.User, db *gorm.DB) (*model.User, error) {
 	if err := db.Create(user).Error; err != nil {
-		log.Println(err)
+		shaerd.Error(LogVal("Add", err))
 		return nil, err
 	}
 	return user, nil
 }
 
 func (u user) UpdatePassword(user *model.User, db *gorm.DB) error {
-
 	if err := db.Model(&model.User{}).Where("id = ?", user.ID).Update("password", user.Password).Error; err != nil {
-		log.Println(err)
+		shaerd.Error(LogVal("UpdatePassword", err))
 		return err
 	}
 

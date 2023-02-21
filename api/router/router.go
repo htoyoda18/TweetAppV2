@@ -4,6 +4,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/htoyoda18/TweetAppV2/api/injector"
+	"github.com/htoyoda18/TweetAppV2/api/middleware"
 	"gorm.io/gorm"
 )
 
@@ -18,6 +19,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 		AllowHeaders:     []string{"*"},
 		AllowCredentials: true,
 	}))
+	r.Use(middleware.LoggerMiddleware())
 
 	v1 := r.Group("v1")
 	{
