@@ -2,7 +2,7 @@
 name: "Feature report"
 about: 新機能作成のissueです。
 title: "feature: タイトル"
-labels: feature
+labels: enhancement
 assignees: ''
 
 ---
