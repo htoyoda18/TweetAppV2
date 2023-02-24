@@ -8,7 +8,7 @@ import (
 )
 
 type Tweet interface {
-	TweetPost(userID int, tweet string) error
+	Create(userID int, tweet string) error
 	List(where *model.Tweet) ([]*model.Tweet, error)
 	Get(tweetID int) (*model.Tweet, error)
 }
@@ -28,13 +28,13 @@ func NewTweet(
 	}
 }
 
-func (t tweet) TweetPost(userID int, tweet string) error {
+func (t tweet) Create(userID int, tweet string) error {
 	err := t.tweetRepository.Add(&model.Tweet{
 		UserID: userID,
 		Tweet:  tweet,
 	}, t.db)
 	if err != nil {
-		shaerd.Error(LogVal("TweetPost", err))
+		shaerd.Error(LogVal("Create", err))
 		return err
 	}
 

@@ -15,6 +15,6 @@ type PasswordReset struct {
 	Email string `json:"email" binding:"required,email"`
 }
 
-type PasswordUpdate struct {
+type UpdatePassword struct {
 	Password string `json:"password" binding:"required"`
 }

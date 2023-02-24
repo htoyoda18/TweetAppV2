@@ -14,10 +14,10 @@ import (
 )
 
 type User interface {
-	SignUp(params request.Signup) (*model.User, error)
+	Create(params request.Signup) (*model.User, error)
 	Show(params request.Login) (*model.User, error)
 	PasswordReset(mail string) error
-	PasswordUpdate(password string, userID int) error
+	UpdatePassword(password string, userID int) error
 	Get(userID int) (*model.User, error)
 }
 
@@ -36,7 +36,7 @@ func NewUser(
 	}
 }
 
-func (u user) SignUp(params request.Signup) (*model.User, error) {
+func (u user) Create(params request.Signup) (*model.User, error) {
 	selectUser, _ := u.userRepository.Get(&model.User{Email: params.Email}, u.db)
 	if selectUser != nil {
 		err := errors.New(shaerd.UserEmailDuplicate)
@@ -52,7 +52,7 @@ func (u user) SignUp(params request.Signup) (*model.User, error) {
 		Password: password,
 	}, u.db)
 	if err != nil {
-		shaerd.Error(LogVal("SignUp", err))
+		shaerd.Error(LogVal("Create", err))
 		return nil, err
 	}
 
@@ -116,7 +116,7 @@ func (u user) PasswordReset(mail string) error {
 	return nil
 }
 
-func (u user) PasswordUpdate(password string, userID int) error {
+func (u user) UpdatePassword(password string, userID int) error {
 	hashPassword, _ := shaerd.PasswordEncrypt(password)
 
 	err := u.userRepository.UpdatePassword(&model.User{
@@ -124,7 +124,7 @@ func (u user) PasswordUpdate(password string, userID int) error {
 		Password: hashPassword,
 	}, u.db)
 	if err != nil {
-		shaerd.Error(LogVal("PasswordUpdate", err))
+		shaerd.Error(LogVal("UpdatePassword", err))
 		err := errors.New(shaerd.EmailNotFound)
 		return err
 	}

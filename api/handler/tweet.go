@@ -13,9 +13,9 @@ import (
 )
 
 type Tweet interface {
-	TweetPost(*gin.Context)
+	Create(*gin.Context)
 	List(*gin.Context)
-	UserList(*gin.Context)
+	ListUser(*gin.Context)
 	Get(*gin.Context)
 }
 
@@ -31,12 +31,12 @@ func NewTweet(
 	}
 }
 
-func (t tweet) TweetPost(c *gin.Context) {
-	shaerd.Info("TweetPost")
+func (t tweet) Create(c *gin.Context) {
+	shaerd.Info("Create")
 
 	var params request.Tweet
 	if err := c.ShouldBindJSON(&params); err != nil {
-		shaerd.Error("TweetPost", err)
+		shaerd.Error("Create", err)
 		err = errors.New(shaerd.ShouldBindJSONErr)
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
@@ -47,7 +47,7 @@ func (t tweet) TweetPost(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	err = t.tweetUseCase.TweetPost(userID, params.Tweet)
+	err = t.tweetUseCase.Create(userID, params.Tweet)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -72,8 +72,8 @@ func (t tweet) List(c *gin.Context) {
 }
 
 // userIDに紐づくツイートを取得する
-func (t tweet) UserList(c *gin.Context) {
-	shaerd.Info("UserList")
+func (t tweet) ListUser(c *gin.Context) {
+	shaerd.Info("ListUser")
 
 	_, err := shaerd.AuthUser(c)
 	if err != nil {
