@@ -25,13 +25,13 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	{
 		v1.GET("/", handler.Ping.Ping)
 		v1.GET("/user/:id", handler.User.Get)
-		v1.POST("/signup", handler.User.SignUp)
+		v1.POST("/signup", handler.User.Create)
 		v1.POST("/login", handler.User.Login)
 		v1.POST("/password_reset", handler.User.PasswordReset)
-		v1.POST("/password_update/:token", handler.User.PasswordUpdate)
-		v1.POST("/tweet", handler.Tweet.TweetPost)
+		v1.POST("/password_update/:token", handler.User.UpdatePassword)
+		v1.POST("/tweet", handler.Tweet.Create)
 		v1.GET("/tweet", handler.Tweet.List)
-		v1.GET("/tweet/:userID", handler.Tweet.UserList)
+		v1.GET("/tweet/:userID", handler.Tweet.ListUser)
 		v1.GET("/tweet_detail/:id", handler.Tweet.Get)
 		v1.POST("/reply", handler.Reply.Add)
 	}
