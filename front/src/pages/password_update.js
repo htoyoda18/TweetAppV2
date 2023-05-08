@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { TweetApp } from "../component/tweet_app"
 import { useState } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,6 +14,14 @@ export const PasswordUpdate = () => {
 	const [fomrErrors, setFromError] = useState({});
 	const navigate = useNavigate();
 	const params = useParams();
+	const token = localStorage.getItem('token');
+
+	useEffect(() => {
+		if (!token) {
+			navigate('/login');
+			return;
+		}
+	}, [token, navigate]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;

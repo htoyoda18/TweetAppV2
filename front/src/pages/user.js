@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react';
 import Sidebar from '../component/sidebar'
 import { UserInfo } from '../component/user_info'
 import TweetStyle from '../css/tweet.module.css';
@@ -7,8 +7,10 @@ import { useState } from 'react';
 import { useParams } from "react-router-dom";
 import { Tweet } from "../component/tweet"
 import UserInfoStyle from '../css/user_info.module.css';
+import { useNavigate } from "react-router-dom";
 
 export const User = () => {
+	const navigate = useNavigate();
 	const token = localStorage.getItem('token')
 	const [user, setUser] = useState({});
 	const [tweets, setTweets] = useState([]);
@@ -17,6 +19,13 @@ export const User = () => {
 		UserGet()
 		TweetList()
 	}
+
+	useEffect(() => {
+		if (!token) {
+			navigate('/login');
+			return;
+		}
+	}, [token, navigate]);
 	const UserGet = () => {
 		const url = 'v1/user/' + params.id
 		client

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react';
 import Sidebar from '../component/sidebar'
 import TweetStyle from '../css/tweet.module.css';
 import { useState } from 'react';
@@ -8,6 +8,14 @@ import { useNavigate } from "react-router-dom";
 export const Tweet = () => {
 	const [tweet, setTweet] = useState("");
 	const navigate = useNavigate();
+	const token = localStorage.getItem('token');
+
+	useEffect(() => {
+		if (!token) {
+			navigate('/login');
+			return;
+		}
+	}, [token, navigate]);
 
 	const handleChange = (e) => {
 		const tweet = e.target.value;

@@ -1,14 +1,20 @@
-import React from 'react'
-import Sidebar from '../component/sidebar'
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Sidebar from '../component/sidebar';
 import TweetListStyle from '../css/tweet_list.module.css';
-import { useState, useEffect } from 'react';
-import { Tweet } from "../component/tweet"
+import { Tweet } from "../component/tweet";
 
 export const Home = () => {
-	const token = localStorage.getItem('token')
 	const [tweets, setTweets] = useState([]);
+	const token = localStorage.getItem('token');
+	const navigate = useNavigate();
 
 	useEffect(() => {
+		if (!token) {
+			navigate('/login');
+			return;
+		}
+
 		const fetchData = async () => {
 			const response = await fetch('http://localhost:8080/v1/tweet', {
 				headers: {
@@ -20,7 +26,8 @@ export const Home = () => {
 		};
 
 		fetchData();
-	}, [token]);
+	}, [token, navigate]);
+
 	return (
 		<div className={TweetListStyle.TweetList}>
 			<Sidebar />
@@ -32,5 +39,5 @@ export const Home = () => {
 				})}
 			</div>
 		</div>
-	)
+	);
 }
