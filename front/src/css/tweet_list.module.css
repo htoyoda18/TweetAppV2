@@ -42,6 +42,10 @@ form {
     margin-left: 5%;
 }
 
+.tweetContent {
+    border-bottom: 0.5px solid #575555;
+}
+
 .tweetContent::after {
     content: '';
     display: block;
@@ -49,7 +53,7 @@ form {
     position: absolute;
     left: 0%;
     right: -17.5%;
-  }
+}
 
 .detailLink {
     color: inherit;
