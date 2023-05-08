@@ -40,11 +40,13 @@ func (r reply) Add(c *gin.Context) {
 	userID, err := shaerd.AuthUser(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
+		return
 	}
 
 	err = r.replyUseCase.Add(userID, params)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
+		return
 	}
 
 	c.Status(http.StatusOK)

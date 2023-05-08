@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react';
 import Sidebar from '../component/sidebar'
 import TweetStyleList from '../css/tweet_list.module.css';
 import TweetDetailStyleList from '../css/tweet_detail.module.css';
@@ -7,13 +7,24 @@ import { useParams } from "react-router-dom";
 import { useState } from 'react';
 import { Tweet } from "../component/tweet"
 import { ReplyPost, Reply } from "../component/reply"
+import { useNavigate } from "react-router-dom";
 
 export const TweetDetail = () => {
-	const token = localStorage.getItem('token')
 	const params = useParams();
 	const [tweetDetail, setTweetDetail] = useState({});
 	const [replys, setReplys] = useState([]);
 	const [user, setUser] = useState({});
+	const token = localStorage.getItem('token');
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (!token) {
+			navigate('/login');
+			return;
+		}
+	}, [token, navigate]);
+
+
 	window.onload = function () {
 		TweetDetalGet()
 	}
@@ -28,6 +39,9 @@ export const TweetDetail = () => {
 			})
 			.catch((err) => {
 				console.log("err", err.response)
+				if (err.response.data === 'Fail auth token') {
+					navigate('/login');
+				}
 			})
 	}
 	return (

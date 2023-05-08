@@ -45,11 +45,13 @@ func (t tweet) Create(c *gin.Context) {
 	userID, err := shaerd.AuthUser(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
+		return
 	}
 
 	err = t.tweetUseCase.Create(userID, params.Tweet)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
+		return
 	}
 
 	c.Status(http.StatusOK)
@@ -61,11 +63,13 @@ func (t tweet) List(c *gin.Context) {
 	_, err := shaerd.AuthUser(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
+		return
 	}
 
 	tweets, err := t.tweetUseCase.List(nil)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
+		return
 	}
 
 	c.JSON(http.StatusOK, tweets)
@@ -78,6 +82,7 @@ func (t tweet) ListUser(c *gin.Context) {
 	_, err := shaerd.AuthUser(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
+		return
 	}
 	userID, _ := strconv.Atoi(c.Param("userID"))
 
@@ -86,6 +91,7 @@ func (t tweet) ListUser(c *gin.Context) {
 	})
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
+		return
 	}
 
 	c.JSON(http.StatusOK, tweets)
@@ -97,6 +103,7 @@ func (t tweet) Get(c *gin.Context) {
 	_, err := shaerd.AuthUser(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
+		return
 	}
 
 	tweetID, _ := strconv.Atoi(c.Param("id"))
@@ -104,6 +111,7 @@ func (t tweet) Get(c *gin.Context) {
 	tweet, err := t.tweetUseCase.Get(tweetID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
+		return
 	}
 
 	c.JSON(http.StatusOK, tweet)

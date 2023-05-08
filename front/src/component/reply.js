@@ -4,10 +4,13 @@ import { Icon } from "../component/shared"
 import { useState } from 'react';
 import { client } from '../libs/axios'
 import TweetStyle from '../css/tweet_list.module.css';
+import { useNavigate } from 'react-router-dom';
 
 export const ReplyPost = (props) => {
     const [disabled, setDisabled] = useState(true);
     const [reply, setReply] = useState("");
+    const navigate = useNavigate();
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setReply(value)
@@ -39,6 +42,9 @@ export const ReplyPost = (props) => {
             })
             .catch((err) => {
                 console.log("err", err.response)
+                if (err.response.data === 'Fail auth token') {
+                    navigate('/login');
+                }
             })
     }
     return (
