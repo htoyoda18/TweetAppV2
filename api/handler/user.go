@@ -76,11 +76,12 @@ func (u user) Login(c *gin.Context) {
 
 	expiration := time.Now().Add(time.Hour * 24).Unix()
 	jwt := shaerd.NewJwt(user, expiration)
-	token := response.Token{
-		Token: jwt,
+	loginResponse := response.LoginResponse{
+		Token:  jwt,
+		UserID: user.ID,
 	}
 
-	c.JSON(http.StatusOK, token)
+	c.JSON(http.StatusOK, loginResponse)
 }
 
 func (u user) PasswordReset(c *gin.Context) {
