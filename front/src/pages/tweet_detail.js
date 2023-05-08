@@ -22,28 +22,25 @@ export const TweetDetail = () => {
 			navigate('/login');
 			return;
 		}
-	}, [token, navigate]);
-
-
-	window.onload = function () {
+		const TweetDetalGet = () => {
+			const url = 'v1/tweet_detail/' + params.id
+			client
+				.get(url, { headers: { Authorization: token } })
+				.then((res) => {
+					setTweetDetail(res.data)
+					setUser(res.data.user)
+					setReplys(res.data.replies)
+				})
+				.catch((err) => {
+					console.log("err", err.response)
+					if (err.response.data === 'Fail auth token') {
+						navigate('/login');
+					}
+				})
+		}
 		TweetDetalGet()
-	}
-	const TweetDetalGet = () => {
-		const url = 'v1/tweet_detail/' + params.id
-		client
-			.get(url, { headers: { Authorization: token } })
-			.then((res) => {
-				setTweetDetail(res.data)
-				setUser(res.data.user)
-				setReplys(res.data.replies)
-			})
-			.catch((err) => {
-				console.log("err", err.response)
-				if (err.response.data === 'Fail auth token') {
-					navigate('/login');
-				}
-			})
-	}
+	}, [params.id, token, navigate]);
+
 	return (
 		<div className={TweetStyleList.TweetList}>
 			<Sidebar />
