@@ -3,6 +3,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CommentIcon from '@mui/icons-material/Comment';
 import TweetStyle from '../css/tweet_list.module.css';
 import { Icon } from "../component/shared"
+import { useNavigate } from 'react-router-dom';
 
 export const Tweet = (props) => {
     // const likeCount = () => {
@@ -15,10 +16,14 @@ export const Tweet = (props) => {
     //         return props.replies.length
     //     }
     // }
+    const navigate = useNavigate();
+    const handleClick = () => {
+        const url = '/tweet_detail/' + props.id
+        navigate(url);
+    }
     return (
-        <div className={TweetStyle.Tweet}>
+        <div className={TweetStyle.Tweet} onClick={handleClick}>
             <div className={TweetStyle.tweetContent}>
-                <a className={TweetStyle.detailLink} href={"tweet_detail/" + props.id}>
                     <form>
                         <div className={TweetStyle.Section1}>
                             <Icon image={props.image} userID={props.userID} />
@@ -32,7 +37,6 @@ export const Tweet = (props) => {
                             <div className={TweetStyle.like}><FavoriteBorderIcon /></div>
                         </div>
                     </form>
-                </a>
             </div>
         </div>
     )
