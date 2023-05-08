@@ -10,6 +10,7 @@ type Handler struct {
 	Ping  handler.Ping
 	Tweet handler.Tweet
 	Reply handler.Reply
+	Token handler.Token
 }
 
 func NewHandler(db *gorm.DB) *Handler {
@@ -19,10 +20,12 @@ func NewHandler(db *gorm.DB) *Handler {
 	pingHandler := handler.NewPing()
 	tweetHandler := handler.NewTweet(usecase.Tweet)
 	replyHandler := handler.NewReply(usecase.Reply)
+	tokenHandler := handler.NewToken()
 	return &Handler{
 		User:  userHandler,
 		Ping:  pingHandler,
 		Tweet: tweetHandler,
 		Reply: replyHandler,
+		Token: tokenHandler,
 	}
 }
