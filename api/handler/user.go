@@ -120,7 +120,6 @@ func (u user) UpdatePassword(c *gin.Context) {
 	token := c.Param("token")
 	userID, err := shaerd.JwtParse(token)
 	if err != nil {
-		err = errors.New(shaerd.FailAuthToken)
 		c.JSON(http.StatusBadRequest, err.Error())
 	}
 

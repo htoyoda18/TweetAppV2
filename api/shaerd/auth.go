@@ -58,7 +58,7 @@ func AuthUser(c *gin.Context) (int, error) {
 	userID, err := JwtParse(cookie)
 	if err != nil {
 		log.Printf(err.Error())
-		return 0, err
+		return 0, errors.New(FailAuthToken)
 	}
 	return userID, nil
 }
