@@ -29,7 +29,7 @@ const EditUserInfoBtn = (showUserId) => {
   return (
     <div>
       {isSelf && (
-        <button onClick={() => { /* プロフィール編集処理 */ }}>
+        <button className={UserInfoStyle.editUser} onClick={() => { /* プロフィール編集処理 */ }}>
           プロフィールを編集
         </button>
       )}
