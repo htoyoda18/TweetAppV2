@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import LoginStyle from '../css/login.module.css';
 import IndexStyle from '../css/index.module.css';
 import { client } from '../libs/axios'
@@ -14,6 +14,25 @@ export const Login = () => {
 	const [formValues, setFromValues] = useState(initialValues);
 	const [fomrErrors, setFromError] = useState({});
 	const navigate = useNavigate();
+	const token = localStorage.getItem('token');
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const response = await fetch('http://localhost:8080/v1/validate_token', {
+				headers: {
+					Authorization: token,
+				},
+			});
+			if (response.ok) {
+				navigate('/');
+			}
+		};
+
+		if (token) {
+			fetchData();
+			return;
+		}
+	}, [token, navigate]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();

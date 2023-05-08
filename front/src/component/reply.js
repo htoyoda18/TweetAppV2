@@ -12,7 +12,7 @@ export const ReplyPost = (props) => {
     const navigate = useNavigate();
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { value } = e.target;
         setReply(value)
         if (reply.length > 0) {
             setDisabled(false)

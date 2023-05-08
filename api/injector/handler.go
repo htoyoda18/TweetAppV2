@@ -20,10 +20,12 @@ func NewHandler(db *gorm.DB) *Handler {
 	pingHandler := handler.NewPing()
 	tweetHandler := handler.NewTweet(usecase.Tweet)
 	replyHandler := handler.NewReply(usecase.Reply)
+	tokenHandler := handler.NewToken()
 	return &Handler{
 		User:  userHandler,
 		Ping:  pingHandler,
 		Tweet: tweetHandler,
 		Reply: replyHandler,
+		Token: tokenHandler,
 	}
 }
