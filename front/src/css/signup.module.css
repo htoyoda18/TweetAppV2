@@ -1,29 +1,29 @@
-  body {
+body {
 	background: #00AEEF;
-  }
+}
 
-  .uiForm {
+.uiForm {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-evenly;
 	height: 400px;
-  }
+}
 
-  .formFiled {
+.formFiled {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-  }
+}
 
-  .formFiled input {
+.formFiled input {
 	border-radius: 4px;
 	padding: 20px;
 	border: 1px solid;
-  }
+}
 
-  .formFiled label {
+.formFiled label {
 	font-size: 15px;
 	font-weight: 450;
 	margin-bottom: 3px;
-  }
+}
