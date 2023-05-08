@@ -23,7 +23,7 @@
 }
 
 .userTweets {
-    width: 100%;
+    width: 80%;
     flex-direction: column;
     background-color: #ABE1FA;
 }
