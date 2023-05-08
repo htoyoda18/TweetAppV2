@@ -4,7 +4,7 @@
 }
 
 .Tweet {
-    width: 85%;
+    width: 80%;
     position: relative;
 }
 
@@ -52,7 +52,7 @@ form {
     border-bottom: 0.5px solid #575555;
     position: absolute;
     left: 0%;
-    right: -17.5%;
+    right: -25%;
 }
 
 .detailLink {
