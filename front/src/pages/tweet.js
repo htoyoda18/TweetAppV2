@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Sidebar from '../component/sidebar'
 import TweetStyle from '../css/tweet.module.css';
 import { useState } from 'react';
@@ -34,6 +34,9 @@ export const Tweet = () => {
 			})
 			.catch((err) => {
 				console.log("err", err.response)
+				if (err.response.data === 'Fail auth token') {
+					navigate('/login');
+				}
 			})
 	}
 	return (

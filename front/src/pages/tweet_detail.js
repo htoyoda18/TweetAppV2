@@ -39,6 +39,9 @@ export const TweetDetail = () => {
 			})
 			.catch((err) => {
 				console.log("err", err.response)
+				if (err.response.data === 'Fail auth token') {
+					navigate('/login');
+				}
 			})
 	}
 	return (

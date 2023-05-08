@@ -35,6 +35,9 @@ export const User = () => {
 			})
 			.catch((err) => {
 				console.log("err", err.response)
+				if (err.response.data === 'Fail auth token') {
+					navigate('/login');
+				}
 			})
 	}
 	const TweetList = () => {
@@ -46,6 +49,9 @@ export const User = () => {
 			})
 			.catch((err) => {
 				console.log("err", err.response)
+				if (err.response.data === 'Fail auth token') {
+					navigate('/login');
+				}
 			})
 	}
 	return (

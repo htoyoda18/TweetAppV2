@@ -121,6 +121,7 @@ func (u user) UpdatePassword(c *gin.Context) {
 	userID, err := shaerd.JwtParse(token)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
+		return
 	}
 
 	err = u.userUsecase.UpdatePassword(params.Password, userID)
@@ -139,12 +140,14 @@ func (u user) Get(c *gin.Context) {
 	_, err := shaerd.AuthUser(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
+		return
 	}
 	userID, _ := strconv.Atoi(c.Param("id"))
 
 	user, err := u.userUsecase.Get(userID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
+		return
 	}
 
 	c.JSON(http.StatusOK, user)

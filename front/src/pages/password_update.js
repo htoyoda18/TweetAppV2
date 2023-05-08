@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { TweetApp } from "../component/tweet_app"
 import { useState } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
@@ -52,6 +52,8 @@ export const PasswordUpdate = () => {
 				console.log("err", err.response)
 				if (err.response.data === 'User email duplicate') {
 					setFromError({ resErr: "このメールアドレスは既に登録されています" })
+				} else if (err.response.data === 'Fail auth token') {
+					navigate('/login');
 				} else {
 					setFromError({ resErr: "予期せぬエラーです" })
 				}

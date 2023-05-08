@@ -4,13 +4,13 @@ import sharedStyle from '../css/shared.module.css';
 export const Icon = (props) => {
     return (
         <a className={sharedStyle.userLink} href={"/user/" + props.userID}>
-            <img className={sharedStyle.icon} src={props.image} />
+            <img className={sharedStyle.icon} src={props.image} alt=""/>
         </a>
     )
 }
 
 export const LargeIcon = (props) => {
     return (
-        <img className={sharedStyle.largeIcon} src={props.image} />
+        <img className={sharedStyle.largeIcon} src={props.image} alt=""/>
     )
 }

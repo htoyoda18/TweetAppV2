@@ -18,10 +18,16 @@ export const Home = () => {
 		const fetchData = async () => {
 			const response = await fetch('http://localhost:8080/v1/tweet', {
 				headers: {
-					Authorization: token
-				}
+					Authorization: token,
+				},
 			});
 			const res = await response.json();
+			if (!response.ok) {
+				if (res === 'Fail auth token') { // エラーメッセージを確認する
+					navigate('/login');
+					return;
+				}
+			}
 			setTweets(res);
 		};
 
