@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Sidebar from '../component/sidebar'
 import { UserInfo } from '../component/user_info'
 import TweetStyle from '../css/tweet.module.css';
@@ -15,45 +15,43 @@ export const User = () => {
 	const [user, setUser] = useState({});
 	const [tweets, setTweets] = useState([]);
 	const params = useParams();
-	window.onload = function () {
-		UserGet()
-		TweetList()
-	}
 
 	useEffect(() => {
 		if (!token) {
 			navigate('/login');
 			return;
 		}
-	}, [token, navigate]);
-	const UserGet = () => {
-		const url = 'v1/user/' + params.id
-		client
-			.get(url, { headers: { Authorization: token } })
-			.then((res) => {
-				setUser(res.data)
-			})
-			.catch((err) => {
-				console.log("err", err.response)
-				if (err.response.data === 'Fail auth token') {
-					navigate('/login');
-				}
-			})
-	}
-	const TweetList = () => {
-		const url = 'v1/tweet/' + params.id
-		client
-			.get(url, { headers: { Authorization: token } })
-			.then((res) => {
-				setTweets(res.data)
-			})
-			.catch((err) => {
-				console.log("err", err.response)
-				if (err.response.data === 'Fail auth token') {
-					navigate('/login');
-				}
-			})
-	}
+		const UserGet = () => {
+			const url = 'v1/user/' + params.id
+			client
+				.get(url, { headers: { Authorization: token } })
+				.then((res) => {
+					setUser(res.data)
+				})
+				.catch((err) => {
+					console.log("err", err.response)
+					if (err.response.data === 'Fail auth token') {
+						navigate('/login');
+					}
+				})
+		}
+		const TweetList = () => {
+			const url = 'v1/tweet/' + params.id
+			client
+				.get(url, { headers: { Authorization: token } })
+				.then((res) => {
+					setTweets(res.data)
+				})
+				.catch((err) => {
+					console.log("err", err.response)
+					if (err.response.data === 'Fail auth token') {
+						navigate('/login');
+					}
+				})
+		}
+		UserGet();
+		TweetList();
+	}, [params.id, token, navigate]);
 	return (
 		<div className={TweetStyle.Tweet}>
 			<Sidebar />
