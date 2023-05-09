@@ -1,7 +1,9 @@
 import React from 'react'
 import HomeIcon from '@mui/icons-material/Home';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import SettingsIcon from '@mui/icons-material/Settings';
+import PersonIcon from '@mui/icons-material/Person';
+
+const profileURL = "/user/" + localStorage.getItem('userID')
 
 export const SidebarData = [
 	{
@@ -15,8 +17,8 @@ export const SidebarData = [
 		link: "/tweet",
 	},
 	{
-		title: "詳細設定",
-		icon: <SettingsIcon />,
-		link: "/settings",
+		title: "プロフィール",
+		icon: <PersonIcon />,
+		link: profileURL,
 	},
 ]
