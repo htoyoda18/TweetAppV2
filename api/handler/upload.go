@@ -9,7 +9,6 @@ import (
 	"github.com/htoyoda18/TweetAppV2/api/shaerd"
 )
 
-// 次は、ファイルをローカルストレージに保存するAPIを作成する
 type Upload interface {
 	UploadFile(*gin.Context)
 }

@@ -56,7 +56,7 @@ export const User = () => {
 		<div className={TweetStyle.Tweet}>
 			<Sidebar />
 			<div className={UserInfoStyle.userTweets}>
-				<UserInfo userName={user.name} userID={user.id} />
+				<UserInfo userName={user.name} userID={user.id} userIcon={user.icon} userIntroduction={user.introduction} />
 				{tweets.map((value, key) => {
 					return (
 						<Tweet userID={value.user.id} id={value.id} userName={value.user.name} tweet={value.tweet} reply={value.replies} likes={value.like} image='https://sp-akiba-souken.k-img.com/images/vote/000/170/170628.jpg' />
