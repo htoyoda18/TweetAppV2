@@ -17,12 +17,13 @@ export const UserInfo = (props) => {
   )
 }
 
-const EditUserInfoBtn = (showUserId) => {
+const EditUserInfoBtn = (props) => {
   const [isSelf, setIsSelf] = useState(false);
   const selfId = parseInt(localStorage.getItem('userID'), 10);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [username, setUsername] = useState('');
   const [introduction, setIntroduction] = useState('');
+  const [icon, setIcon] = useState(null);
 
   function handleUsernameChange(event) {
     setUsername(event.target.value);
@@ -40,13 +41,33 @@ const EditUserInfoBtn = (showUserId) => {
     document.body.style.overflow = 'auto';
   }
 
+  const handleIconChange = (childIcon) => {
+    setIcon(childIcon)
+  }
+
+  const fileUpload = () => {
+    const formData = new FormData();
+    formData.append('file', icon);
+    fetch('http://localhost:8080/v1/upload', {
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.json())
+  }
+
+  const handleClickUserInfo = () => {
+    if (icon) {
+      fileUpload()
+    }
+  }
+
   useEffect(() => {
-    if (selfId === showUserId.showUserId) {
+    if (selfId === props.showUserId) {
       setIsSelf(true);
     } else {
       setIsSelf(false);
     }
-  }, [selfId, showUserId]);
+  }, [selfId, props.showUserId]);
 
   // 次の時間は、yarn startをやり直して、エラーが出ないか？
   return (
@@ -71,13 +92,16 @@ const EditUserInfoBtn = (showUserId) => {
             >
               <button className={UserInfoStyle.modalClose} onClick={() => { setModalIsOpen(false); enableScroll(); }}>&times;</button>
               <div className={UserInfoStyle.modalTitle}>プロフィールを編集</div>
-              <ImageUploader image="https://d38vrblg2ltm93.cloudfront.net/res/wonder-fe/user_id_46268/work/2021/10/10/image/20211010235446.png" />
+              <ImageUploader
+                image="https://d38vrblg2ltm93.cloudfront.net/res/wonder-fe/user_id_46268/work/2021/10/10/image/20211010235446.png"
+                onImageChange={(file) => { handleIconChange(file) }}
+              />
               <form>
                 <input className={UserInfoStyle.modalUsername} type="text" placeholder='ユーザ名' value={username} onChange={handleUsernameChange} />
                 <br />
                 <textarea className={UserInfoStyle.modalIntroduction} type="text" placeholder='自己紹介' value={introduction} onChange={handleIntroductionChange} />
                 <br />
-                <button className={UserInfoStyle.modalBtn} type="submit">保存</button>
+                <button onClick={handleClickUserInfo} className={UserInfoStyle.modalBtn} type="submit">保存</button>
               </form>
             </Modal>
           </div>

@@ -32,7 +32,7 @@ func (u upload) UploadFile(c *gin.Context) {
 
 	// ファイルの保存
 	filename := filepath.Base(file.Filename)
-	path := fmt.Sprintf("../uploads/icon/%s", filename)
+	path := fmt.Sprintf("./uploads/icon/%s", filename)
 	if err := c.SaveUploadedFile(file, path); err != nil {
 		c.JSON(http.StatusInternalServerError, err.Error())
 		return

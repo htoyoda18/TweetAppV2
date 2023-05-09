@@ -9,6 +9,7 @@ export const ImageUploader = (props) => {
         const file = e.target.files[0];
         if (file) {
             setPreview(URL.createObjectURL(file));
+            props.onImageChange(file);
         }
     };
 
@@ -22,6 +23,7 @@ export const ImageUploader = (props) => {
                 style={{ display: 'none' }}
             />
             <img
+                alt=''
                 className={sharedStyle.largeIcon}
                 src={preview}
                 onClick={() => document.getElementById('fileInput').click()}
