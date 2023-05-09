@@ -19,6 +19,7 @@ type User interface {
 	Login(*gin.Context)
 	PasswordReset(*gin.Context)
 	UpdatePassword(*gin.Context)
+	UpdateUser(*gin.Context)
 	Get(*gin.Context)
 }
 
@@ -61,7 +62,7 @@ func (u user) Login(c *gin.Context) {
 	var params request.Login
 
 	if err := c.ShouldBindJSON(&params); err != nil {
-		err = errors.New(shaerd.ShouldBindJSONErr)
+		err = errors.New(shaerd.ShouldBindJsonErr)
 		shaerd.Error(LogVal("Login", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
@@ -91,7 +92,7 @@ func (u user) PasswordReset(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&params); err != nil {
 		shaerd.Error(LogVal("PasswordReset", err))
-		err = errors.New(shaerd.ShouldBindJSONErr)
+		err = errors.New(shaerd.ShouldBindJsonErr)
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -113,7 +114,7 @@ func (u user) UpdatePassword(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&params); err != nil {
 		shaerd.Error(LogVal("UpdatePassword", err))
-		err = errors.New(shaerd.ShouldBindJSONErr)
+		err = errors.New(shaerd.ShouldBindJsonErr)
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -133,6 +134,29 @@ func (u user) UpdatePassword(c *gin.Context) {
 	}
 
 	c.Status(http.StatusOK)
+}
+
+func (u user) UpdateUser(c *gin.Context) {
+	shaerd.Info("UpdateUser")
+
+	var params request.UpdateUser
+
+	if err := c.ShouldBindJSON(&params); err != nil {
+		shaerd.Error(LogVal("UpdatePassword", err))
+		err = errors.New(shaerd.ShouldBindJsonErr)
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	userID, err := shaerd.AuthUser(c)
+	if err != nil {
+		shaerd.Error(LogVal("UpdatePassword", err))
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	err = u.userUsecase.UpdateUser(userID, params.Icon, params.Introduction, params.Username)
+
 }
 
 func (u user) Get(c *gin.Context) {

@@ -37,7 +37,7 @@ func (t tweet) Create(c *gin.Context) {
 	var params request.Tweet
 	if err := c.ShouldBindJSON(&params); err != nil {
 		shaerd.Error("Create", err)
-		err = errors.New(shaerd.ShouldBindJSONErr)
+		err = errors.New(shaerd.ShouldBindJsonErr)
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
