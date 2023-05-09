@@ -27,3 +27,17 @@
     flex-direction: column;
     background-color: #ABE1FA;
 }
+
+.editUser {
+    background-color: #ABE1FA;
+    opacity: 0.7;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 20px;
+    padding: 3px 10px;
+    border: solid 1px;
+}
+
+.editUser:hover {
+    opacity: 1.0;
+}

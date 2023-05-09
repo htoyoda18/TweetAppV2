@@ -62,6 +62,7 @@ export const Login = () => {
 			.post('v1/login', body)
 			.then((res) => {
 				localStorage.setItem("token", res.data.token)
+				localStorage.setItem("userID", res.data.userID)
 				navigate("/");
 			})
 			.catch((err) => {
