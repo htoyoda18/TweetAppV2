@@ -24,13 +24,16 @@ const EditUserInfoBtn = (props) => {
   const [username, setUsername] = useState('');
   const [introduction, setIntroduction] = useState('');
   const [icon, setIcon] = useState(null);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   function handleUsernameChange(event) {
     setUsername(event.target.value);
+    handleSaveButtonDisabled()
   }
 
   function handleIntroductionChange(event) {
     setIntroduction(event.target.value);
+    handleSaveButtonDisabled()
   }
 
   function disableScroll() {
@@ -43,6 +46,7 @@ const EditUserInfoBtn = (props) => {
 
   const handleIconChange = (childIcon) => {
     setIcon(childIcon)
+    handleSaveButtonDisabled()
   }
 
   const fileUpload = () => {
@@ -55,9 +59,33 @@ const EditUserInfoBtn = (props) => {
       .then(response => response.json())
   }
 
+  const updateUser = () => {
+    const token = localStorage.getItem('token');
+    fetch('http://localhost:8080/v1/user/update', {
+      method: 'POST',
+      headers: {
+        Authorization: token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        icon: icon.name,
+        userName: username,
+        introduction: introduction,
+      })
+    })
+      .then(response => {
+        return response.json();
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
   const handleClickUserInfo = () => {
+    handleSaveButtonDisabled()
     if (icon) {
       fileUpload()
+      updateUser()
     }
   }
 
@@ -69,7 +97,12 @@ const EditUserInfoBtn = (props) => {
     }
   }, [selfId, props.showUserId]);
 
-  // 次の時間は、yarn startをやり直して、エラーが出ないか？
+  const handleSaveButtonDisabled = () => {
+    if (icon && username !== '' && introduction !== '') {
+      setIsDisabled(false)
+    }
+  }
+
   return (
     <div>
       {isSelf && (
@@ -101,7 +134,7 @@ const EditUserInfoBtn = (props) => {
                 <br />
                 <textarea className={UserInfoStyle.modalIntroduction} type="text" placeholder='自己紹介' value={introduction} onChange={handleIntroductionChange} />
                 <br />
-                <button onClick={handleClickUserInfo} className={UserInfoStyle.modalBtn} type="submit">保存</button>
+                <button disabled={isDisabled} onClick={handleClickUserInfo} className={UserInfoStyle.modalBtn} type="submit">保存</button>
               </form>
             </Modal>
           </div>
