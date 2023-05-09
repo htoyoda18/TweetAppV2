@@ -10,6 +10,7 @@ type User interface {
 	Get(*model.User, *gorm.DB) (*model.User, error)
 	Add(*model.User, *gorm.DB) (*model.User, error)
 	UpdatePassword(*model.User, *gorm.DB) error
+	UpdateUser(*model.User, *gorm.DB) error
 }
 
 type user struct{}
@@ -38,6 +39,21 @@ func (u user) Add(user *model.User, db *gorm.DB) (*model.User, error) {
 
 func (u user) UpdatePassword(user *model.User, db *gorm.DB) error {
 	if err := db.Model(&model.User{}).Where("id = ?", user.ID).Update("password", user.Password).Error; err != nil {
+		shaerd.Error(LogVal("UpdatePassword", err))
+		return err
+	}
+
+	return nil
+}
+
+func (u user) UpdateUser(user *model.User, db *gorm.DB) error {
+	updates := map[string]interface{}{
+		"name":         user.Name,
+		"introduction": user.Introduction,
+		"icon":         user.Icon,
+	}
+
+	if err := db.Model(&model.User{}).Where("id = ?", user.ID).Updates(updates).Error; err != nil {
 		shaerd.Error(LogVal("UpdatePassword", err))
 		return err
 	}

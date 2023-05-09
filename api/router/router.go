@@ -29,12 +29,14 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 		v1.POST("/login", handler.User.Login)
 		v1.POST("/password_reset", handler.User.PasswordReset)
 		v1.POST("/password_update/:token", handler.User.UpdatePassword)
+		v1.POST("/user/update", handler.User.UpdateUser)
 		v1.POST("/tweet", handler.Tweet.Create)
 		v1.GET("/tweet", handler.Tweet.List)
 		v1.GET("/tweet/:userID", handler.Tweet.ListUser)
 		v1.GET("/tweet_detail/:id", handler.Tweet.Get)
 		v1.POST("/reply", handler.Reply.Add)
 		v1.GET("/validate_token", handler.Token.ValidateToken)
+		v1.POST("/upload", handler.Upload.UploadFile)
 	}
 	return r
 }

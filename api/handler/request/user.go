@@ -18,3 +18,9 @@ type PasswordReset struct {
 type UpdatePassword struct {
 	Password string `json:"password" binding:"required"`
 }
+
+type UpdateUser struct {
+	Icon         string `json:"icon" binding:"required"`
+	Username     string `json:"userName" binding:"required"`
+	Introduction string `json:"introduction" binding:"required"`
+}

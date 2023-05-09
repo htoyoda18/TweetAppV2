@@ -32,7 +32,7 @@ func (r reply) Add(c *gin.Context) {
 	var params request.Reply
 	if err := c.ShouldBindJSON(&params); err != nil {
 		shaerd.Error(LogVal("Add", err))
-		err = errors.New(shaerd.ShouldBindJSONErr)
+		err = errors.New(shaerd.ShouldBindJsonErr)
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}

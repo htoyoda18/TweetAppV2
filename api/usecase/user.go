@@ -18,6 +18,7 @@ type User interface {
 	Show(params request.Login) (*model.User, error)
 	PasswordReset(mail string) error
 	UpdatePassword(password string, userID int) error
+	UpdateUser(userID int, icon string, userName string, introduction string) error
 	Get(userID int) (*model.User, error)
 }
 
@@ -126,6 +127,21 @@ func (u user) UpdatePassword(password string, userID int) error {
 	if err != nil {
 		shaerd.Error(LogVal("UpdatePassword", err))
 		err := errors.New(shaerd.EmailNotFound)
+		return err
+	}
+
+	return nil
+}
+
+func (u user) UpdateUser(userID int, icon string, userName string, introduction string) error {
+	err := u.userRepository.UpdateUser(&model.User{
+		ID:           userID,
+		Icon:         icon,
+		Name:         userName,
+		Introduction: introduction,
+	}, u.db)
+	if err != nil {
+		shaerd.Error(LogVal("UpdateUser", err))
 		return err
 	}
 
