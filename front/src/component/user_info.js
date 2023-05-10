@@ -100,7 +100,7 @@ const EditUserInfoBtn = (props) => {
       console.error('Error in handleClickUserInfo:', error);
     }
   };
-  
+
   const handleClickUserInfoEdit = () => {
     setUsername(props.userName)
     setIntroduction(props.userIntroduction)
@@ -145,7 +145,7 @@ const EditUserInfoBtn = (props) => {
               <button className={UserInfoStyle.modalClose} onClick={() => { setModalIsOpen(false); enableScroll(); }}>&times;</button>
               <div className={UserInfoStyle.modalTitle}>プロフィールを編集</div>
               <ImageUploader
-                image="https://d38vrblg2ltm93.cloudfront.net/res/wonder-fe/user_id_46268/work/2021/10/10/image/20211010235446.png"
+                image=""
                 onImageChange={(file) => { handleIconChange(file) }}
               />
               <form>
