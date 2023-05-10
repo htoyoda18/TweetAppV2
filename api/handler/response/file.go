@@ -1,5 +1,5 @@
 package response
 
-type FileName struct {
-	FileName string `json:"fileName"`
+type File struct {
+	Name string `json:"fileName"`
 }

@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/gin-gonic/gin"
+	"github.com/htoyoda18/TweetAppV2/api/handler/response"
 	"github.com/htoyoda18/TweetAppV2/api/shaerd"
 )
 
@@ -38,5 +39,5 @@ func (u file) Upload(c *gin.Context) {
 		return
 	}
 
-	c.String(http.StatusOK, "fileName", fileName)
+	c.JSON(http.StatusOK, response.File{Name: fileName})
 }
