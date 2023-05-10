@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import { Tweet } from "../component/tweet"
 import UserInfoStyle from '../css/user_info.module.css';
 import { useNavigate } from "react-router-dom";
-import { GenerateImageUrl } from "../component/shared"
+import { UserIconGet } from "../api/icon_get"
 
 export const User = () => {
 	const navigate = useNavigate();
@@ -27,13 +27,17 @@ export const User = () => {
 			const url = 'v1/user/' + params.id
 			client
 				.get(url, { headers: { Authorization: token } })
-				.then((res) => {
-					setUser(res.data)
-					UserIconGet(res.data.icon)
+				.then(async(res) => {
+					if (res.data !== undefined) {
+						setUser(res.data);
+						if (res.data.icon !== undefined) {
+							const iconUrl = await UserIconGet(res.data.icon);
+							setIcon(iconUrl);
+						}
+					}
 				})
 				.catch((err) => {
-					console.log("err", err.response)
-					if (err.response.data === 'Fail auth token') {
+					if (err.response && err.response.data === 'Fail auth token') {
 						navigate('/login');
 					}
 				})
@@ -44,24 +48,6 @@ export const User = () => {
 				.get(url, { headers: { Authorization: token } })
 				.then((res) => {
 					setTweets(res.data)
-				})
-				.catch((err) => {
-					console.log("err", err.response)
-					if (err.response.data === 'Fail auth token') {
-						navigate('/login');
-					}
-				})
-		}
-		const UserIconGet = (icon) => {
-			const url = 'v1/icon/' + icon
-			client
-				.get(url, {
-					headers: { Authorization: token },
-					responseType: 'arraybuffer',
-				})
-				.then((res) => {
-					const iconUrl = GenerateImageUrl(res.data);
-					setIcon(iconUrl)
 				})
 				.catch((err) => {
 					console.log("err", err.response)
