@@ -155,7 +155,7 @@ func (u user) UpdateUser(c *gin.Context) {
 		return
 	}
 
-	err = u.userUsecase.UpdateUser(userID, params.Icon, params.Introduction, params.Username)
+	err = u.userUsecase.UpdateUser(userID, params.Icon, params.Username, params.Introduction)
 	if err != nil {
 		shaerd.Error(LogVal("UpdatePassword", err))
 		c.JSON(http.StatusBadRequest, err.Error())
