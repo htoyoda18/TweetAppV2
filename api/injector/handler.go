@@ -6,12 +6,12 @@ import (
 )
 
 type Handler struct {
-	User   handler.User
-	Ping   handler.Ping
-	Upload handler.Upload
-	Tweet  handler.Tweet
-	Reply  handler.Reply
-	Token  handler.Token
+	User  handler.User
+	Ping  handler.Ping
+	File  handler.File
+	Tweet handler.Tweet
+	Reply handler.Reply
+	Token handler.Token
 }
 
 func NewHandler(db *gorm.DB) *Handler {
@@ -22,13 +22,13 @@ func NewHandler(db *gorm.DB) *Handler {
 	tweetHandler := handler.NewTweet(usecase.Tweet)
 	replyHandler := handler.NewReply(usecase.Reply)
 	tokenHandler := handler.NewToken()
-	uploadHandler := handler.NewUpload()
+	uploadHandler := handler.NewFile()
 	return &Handler{
-		User:   userHandler,
-		Ping:   pingHandler,
-		Tweet:  tweetHandler,
-		Reply:  replyHandler,
-		Token:  tokenHandler,
-		Upload: uploadHandler,
+		User:  userHandler,
+		Ping:  pingHandler,
+		Tweet: tweetHandler,
+		Reply: replyHandler,
+		Token: tokenHandler,
+		File:  uploadHandler,
 	}
 }

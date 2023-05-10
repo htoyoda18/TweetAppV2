@@ -6,37 +6,38 @@ import (
 	"path/filepath"
 
 	"github.com/gin-gonic/gin"
+	"github.com/htoyoda18/TweetAppV2/api/handler/response"
 	"github.com/htoyoda18/TweetAppV2/api/shaerd"
 )
 
 // 次は、ファイルをローカルストレージに保存するAPIを作成する
-type Upload interface {
-	UploadFile(*gin.Context)
+type File interface {
+	Upload(*gin.Context)
 }
 
-type upload struct{}
+type file struct{}
 
-func NewUpload() Upload {
-	return upload{}
+func NewFile() File {
+	return file{}
 }
 
-func (u upload) UploadFile(c *gin.Context) {
-	shaerd.Info("UploadFile")
+func (u file) Upload(c *gin.Context) {
+	shaerd.Info("Upload")
 
 	file, err := c.FormFile("file")
 	if err != nil {
-		shaerd.Error("UploadFile", err)
+		shaerd.Error("Upload", err)
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	// ファイルの保存
-	filename := filepath.Base(file.Filename)
-	path := fmt.Sprintf("./uploads/icon/%s", filename)
+	fileName := filepath.Base(file.Filename)
+	path := fmt.Sprintf("./uploads/icon/%s", fileName)
 	if err := c.SaveUploadedFile(file, path); err != nil {
 		c.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	c.Status(http.StatusOK)
+	c.JSON(http.StatusOK, response.File{Name: fileName})
 }

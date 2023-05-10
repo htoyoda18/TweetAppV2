@@ -134,6 +134,7 @@ func (u user) UpdatePassword(password string, userID int) error {
 }
 
 func (u user) UpdateUser(userID int, icon string, userName string, introduction string) error {
+	shaerd.Info(LogVal("UpdateUser"))
 	err := u.userRepository.UpdateUser(&model.User{
 		ID:           userID,
 		Icon:         icon,

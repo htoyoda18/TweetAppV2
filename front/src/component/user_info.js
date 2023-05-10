@@ -3,13 +3,14 @@ import { LargeIcon } from '../component/shared'
 import { ImageUploader } from '../component/icon_upload'
 import UserInfoStyle from '../css/user_info.module.css';
 import Modal from "react-modal";
+import { client } from '../libs/axios'
 
 export const UserInfo = (props) => {
   return (
     <div className={UserInfoStyle.userInfo}>
       <div className={UserInfoStyle.content}>
         <LargeIcon image="https://d38vrblg2ltm93.cloudfront.net/res/wonder-fe/user_id_46268/work/2021/10/10/image/20211010235446.png" />
-        <EditUserInfoBtn showUserId={props.userID} />
+        <EditUserInfoBtn showUserId={props.userID} userName={props.userName} userIntroduction={props.userIntroduction} userIcon={props.userIcon} />
         <div className={UserInfoStyle.userName}>{props.userName}</div>
         <div className={UserInfoStyle.introduction}>自己紹介</div>
       </div>
@@ -24,7 +25,7 @@ const EditUserInfoBtn = (props) => {
   const [username, setUsername] = useState('');
   const [introduction, setIntroduction] = useState('');
   const [icon, setIcon] = useState(null);
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   function handleUsernameChange(event) {
     setUsername(event.target.value);
@@ -49,44 +50,60 @@ const EditUserInfoBtn = (props) => {
     handleSaveButtonDisabled()
   }
 
-  const fileUpload = () => {
+  const fileUpload = async () => {
     const formData = new FormData();
     formData.append('file', icon);
-    fetch('http://localhost:8080/v1/upload', {
-      method: 'POST',
-      body: formData
-    })
-      .then(response => response.json())
-  }
-
-  const updateUser = () => {
-    const token = localStorage.getItem('token');
-    fetch('http://localhost:8080/v1/user/update', {
-      method: 'POST',
-      headers: {
-        Authorization: token,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        icon: icon.name,
-        userName: username,
-        introduction: introduction,
-      })
-    })
-      .then(response => {
-        return response.json();
-      })
-      .catch(error => {
-        console.error(error);
+    try {
+      const response = await fetch('http://localhost:8080/v1/upload', {
+        method: 'POST',
+        body: formData
       });
-  }
-
-  const handleClickUserInfo = () => {
-    handleSaveButtonDisabled()
-    if (icon) {
-      fileUpload()
-      updateUser()
+  
+      if (response.ok) {
+        const data = await response.json();
+        return data.fileName; // 返されたファイル名
+      } else {
+        throw new Error('File upload failed');
+      }
+    } catch (error) {
+      console.error(error);
     }
+  };
+  
+  const updateUser = (uploadedIconName) => {
+    const token = localStorage.getItem('token');
+    const body = {
+      icon: uploadedIconName,
+      userName: username,
+      introduction: introduction,
+    };
+    client
+      .post('v1/user/update', body, { headers: { Authorization: token } })
+      .then((res) => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log("v1/user/update", err.response);
+      });
+  };
+  
+  const handleClickUserInfo = async (event) => {
+    event.preventDefault();
+    try {
+      const uploadedIconName = await fileUpload();
+      if (uploadedIconName) {
+        updateUser(uploadedIconName);
+      } else {
+        console.error('Failed to update user due to file upload error');
+      }
+    } catch (error) {
+      console.error('Error in handleClickUserInfo:', error);
+    }
+  };
+
+  const handleClickUserInfoEdit = () => {
+    setUsername(props.userName)
+    setIntroduction(props.userIntroduction)
   }
 
   useEffect(() => {
@@ -100,6 +117,8 @@ const EditUserInfoBtn = (props) => {
   const handleSaveButtonDisabled = () => {
     if (icon && username !== '' && introduction !== '') {
       setIsDisabled(false)
+    } else {
+      setIsDisabled(true)
     }
   }
 
@@ -107,7 +126,7 @@ const EditUserInfoBtn = (props) => {
     <div>
       {isSelf && (
         <div>
-          <button className={UserInfoStyle.editUser} onClick={() => { setModalIsOpen(true); disableScroll(); }}>
+          <button className={UserInfoStyle.editUser} onClick={() => { setModalIsOpen(true); disableScroll(); handleClickUserInfoEdit(); }}>
             プロフィールを編集
           </button>
           <div>
@@ -126,7 +145,7 @@ const EditUserInfoBtn = (props) => {
               <button className={UserInfoStyle.modalClose} onClick={() => { setModalIsOpen(false); enableScroll(); }}>&times;</button>
               <div className={UserInfoStyle.modalTitle}>プロフィールを編集</div>
               <ImageUploader
-                image="https://d38vrblg2ltm93.cloudfront.net/res/wonder-fe/user_id_46268/work/2021/10/10/image/20211010235446.png"
+                image=""
                 onImageChange={(file) => { handleIconChange(file) }}
               />
               <form>
@@ -134,7 +153,7 @@ const EditUserInfoBtn = (props) => {
                 <br />
                 <textarea className={UserInfoStyle.modalIntroduction} type="text" placeholder='自己紹介' value={introduction} onChange={handleIntroductionChange} />
                 <br />
-                <button disabled={isDisabled} onClick={handleClickUserInfo} className={UserInfoStyle.modalBtn} type="submit">保存</button>
+                <button disabled={isDisabled} onClick={(e) => handleClickUserInfo(e)} className={UserInfoStyle.modalBtn} type="submit">保存</button>
               </form>
             </Modal>
           </div>

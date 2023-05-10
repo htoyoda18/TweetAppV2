@@ -19,7 +19,7 @@ export const ImageUploader = (props) => {
                 type="file"
                 id="fileInput"
                 accept="image/*"
-                onChange={handleImageChange}
+                onInput={handleImageChange}
                 style={{ display: 'none' }}
             />
             <img
@@ -43,5 +43,3 @@ export const ImageUploader = (props) => {
         </div>
     );
 };
-
-export default ImageUploader;
