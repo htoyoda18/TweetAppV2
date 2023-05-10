@@ -9,7 +9,7 @@ export const UserInfo = (props) => {
   return (
     <div className={UserInfoStyle.userInfo}>
       <div className={UserInfoStyle.content}>
-        <LargeIcon image="https://d38vrblg2ltm93.cloudfront.net/res/wonder-fe/user_id_46268/work/2021/10/10/image/20211010235446.png" />
+        <LargeIcon image={props.userIcon} />
         <EditUserInfoBtn showUserId={props.userID} userName={props.userName} userIntroduction={props.userIntroduction} userIcon={props.userIcon} />
         <div className={UserInfoStyle.userName}>{props.userName}</div>
         <div className={UserInfoStyle.introduction}>{props.userIntroduction}</div>

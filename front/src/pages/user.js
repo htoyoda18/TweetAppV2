@@ -15,6 +15,7 @@ export const User = () => {
 	const [user, setUser] = useState({});
 	const [tweets, setTweets] = useState([]);
 	const params = useParams();
+	const [icon, setIcon] = useState('');
 
 	useEffect(() => {
 		if (!token) {
@@ -27,6 +28,7 @@ export const User = () => {
 				.get(url, { headers: { Authorization: token } })
 				.then((res) => {
 					setUser(res.data)
+					UserIconGet(res.data.icon)
 				})
 				.catch((err) => {
 					console.log("err", err.response)
@@ -49,6 +51,26 @@ export const User = () => {
 					}
 				})
 		}
+		const UserIconGet = (icon) => {
+			const url = 'v1/icon/' + icon
+			client
+				.get(url, {
+					headers: { Authorization: token },
+					responseType: 'arraybuffer',
+				})
+				.then((res) => {
+					const blob = new Blob([res.data], { type: 'image/png' });
+					const iconUrl = URL.createObjectURL(blob);
+					setIcon(iconUrl)
+				})
+				.catch((err) => {
+					console.log("err", err.response)
+					if (err.response.data === 'Fail auth token') {
+						navigate('/login');
+					}
+				})
+		}
+
 		UserGet();
 		TweetList();
 	}, [params.id, token, navigate]);
@@ -56,7 +78,7 @@ export const User = () => {
 		<div className={TweetStyle.Tweet}>
 			<Sidebar />
 			<div className={UserInfoStyle.userTweets}>
-				<UserInfo userName={user.name} userID={user.id} userIntroduction={user.introduction} userIcon={user.icon} />
+				<UserInfo userName={user.name} userID={user.id} userIntroduction={user.introduction} userIcon={icon} />
 				{tweets.map((value, key) => {
 					return (
 						<Tweet userID={value.user.id} id={value.id} userName={value.user.name} tweet={value.tweet} reply={value.replies} likes={value.like} image='https://sp-akiba-souken.k-img.com/images/vote/000/170/170628.jpg' />

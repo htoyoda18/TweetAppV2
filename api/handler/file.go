@@ -49,10 +49,17 @@ func (u file) Upload(c *gin.Context) {
 func (u file) IconGet(c *gin.Context) {
 	shaerd.Info("IconGet")
 
-	filePath := "./uploads/icon" + c.Param("filename")
+	filePath := "./uploads/icon/" + c.Param("filename")
+
+	_, err := shaerd.AuthUser(c)
+	if err != nil {
+		shaerd.Error(LogVal("UpdatePassword", err))
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
 
 	// ファイルの存在を確認
-	_, err := os.Stat(filePath)
+	_, err = os.Stat(filePath)
 	if err != nil {
 		if os.IsNotExist(err) {
 			shaerd.Error("IconGet", errors.New(shaerd.FailNotFound))
