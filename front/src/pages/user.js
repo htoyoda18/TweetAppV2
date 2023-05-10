@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { Tweet } from "../component/tweet"
 import UserInfoStyle from '../css/user_info.module.css';
 import { useNavigate } from "react-router-dom";
+import { GenerateImageUrl } from "../component/shared"
 
 export const User = () => {
 	const navigate = useNavigate();
@@ -59,8 +60,7 @@ export const User = () => {
 					responseType: 'arraybuffer',
 				})
 				.then((res) => {
-					const blob = new Blob([res.data], { type: 'image/png' });
-					const iconUrl = URL.createObjectURL(blob);
+					const iconUrl = GenerateImageUrl(res.data);
 					setIcon(iconUrl)
 				})
 				.catch((err) => {
