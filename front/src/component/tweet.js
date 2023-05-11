@@ -22,22 +22,38 @@ export const Tweet = (props) => {
         navigate(url);
     }
 
+    const handleLikeButton = (isLike) => {
+        if (isLike) {
+            return (
+                <div className={TweetStyle.like}><FavoriteBorderIcon /></div>
+            );
+        }
+    }
+
+    const handleReplyButton = (isReply) => {
+        if (isReply) {
+            return (
+                <div className={TweetStyle.reply}><CommentIcon /></div>
+            );
+        }
+    }
+
     return (
         <div className={TweetStyle.Tweet} onClick={handleClick}>
             <div className={TweetStyle.tweetContent}>
-                    <form>
-                        <div className={TweetStyle.Section1}>
-                            <Icon image={props.iconUrl} userID={props.userID} />
-                            <div className={TweetStyle.content}>
-                                <div className={TweetStyle.userName}>{props.userName}</div>
-                                <div className={TweetStyle.tweet}>{props.tweet}</div>
-                            </div>
+                <form>
+                    <div className={TweetStyle.Section1}>
+                        <Icon image={props.iconUrl} userID={props.userID} />
+                        <div className={TweetStyle.content}>
+                            <div className={TweetStyle.userName}>{props.userName}</div>
+                            <div className={TweetStyle.tweet}>{props.tweet}</div>
                         </div>
-                        <div className={TweetStyle.Section2}>
-                            <div className={TweetStyle.reply}><CommentIcon /></div>
-                            <div className={TweetStyle.like}><FavoriteBorderIcon /></div>
-                        </div>
-                    </form>
+                    </div>
+                    <div className={TweetStyle.Section2}>
+                        {handleReplyButton(props.isReply)}
+                        {handleLikeButton(props.isLike)}
+                    </div>
+                </form>
             </div>
         </div>
     )
