@@ -58,7 +58,7 @@ export const TweetDetail = () => {
 				{replys.map((value, key) => {
 					console.log("Reply", icon)
 					return (
-						<Reply userID={user.id} replies={value.replies} userName={value.user.name} icon={value.user.icon} />
+						<Reply userID={user.id} reply={value.reply} userName={value.user.name} icon={value.user.icon} />
 					)
 				})}
 			</div>
