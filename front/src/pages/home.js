@@ -64,6 +64,8 @@ export const Home = () => {
 						replies={value.replies}
 						likes={value.like}
 						iconUrl={iconUrls[value.user.id]}
+						isReply={true}
+						isLike={true}
 					/>
 				))}
 			</div>

@@ -27,7 +27,7 @@ export const User = () => {
 			const url = 'v1/user/' + params.id
 			client
 				.get(url, { headers: { Authorization: token } })
-				.then(async(res) => {
+				.then(async (res) => {
 					if (res.data !== undefined) {
 						setUser(res.data);
 						if (res.data.icon !== undefined) {
@@ -67,7 +67,17 @@ export const User = () => {
 				<UserInfo userName={user.name} userID={user.id} userIntroduction={user.introduction} userIcon={icon} />
 				{tweets.map((value, key) => {
 					return (
-						<Tweet userID={value.user.id} id={value.id} userName={value.user.name} tweet={value.tweet} reply={value.replies} likes={value.like} iconUrl={icon} />
+						<Tweet
+							userID={value.user.id}
+							id={value.id}
+							userName={value.user.name}
+							tweet={value.tweet}
+							reply={value.replies}
+							likes={value.like}
+							iconUrl={icon}
+							isReply={true}
+							isLike={true}
+						/>
 					)
 				})}
 			</div>

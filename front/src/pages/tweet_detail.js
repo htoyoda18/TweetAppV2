@@ -68,7 +68,17 @@ export const TweetDetail = () => {
 		<div className={TweetStyleList.TweetList}>
 			<Sidebar />
 			<div className={TweetDetailStyleList.tweetDetail}>
-				<Tweet userID={user.id} id={tweetDetail.id} userName={user.name} tweet={tweetDetail.tweet} reply={tweetDetail.replies} likes={tweetDetail.like} iconUrl={icon} />
+				<Tweet
+					userID={user.id}
+					id={tweetDetail.id}
+					userName={user.name}
+					tweet={tweetDetail.tweet}
+					reply={tweetDetail.replies}
+					likes={tweetDetail.like}
+					iconUrl={icon}
+					isReply={true}
+					isLike={true}
+				/>
 				<ReplyPost tweetID={tweetDetail.id} iconUrl={icon} />
 				{replies.map((value, key) => {
 					return (
