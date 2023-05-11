@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 
 export const Tweet = (props) => {
     const navigate = useNavigate();
-
     const [likeCount, setLikeCount] = useState(0);
     const [replyCount, setReplyCount] = useState(0);
 
