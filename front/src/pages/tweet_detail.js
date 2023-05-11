@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { Tweet } from "../component/tweet"
 import { ReplyPost, Reply } from "../component/reply"
 import { useNavigate } from "react-router-dom";
+import { UserIconGet } from "../api/icon_get"
 
 export const TweetDetail = () => {
 	const params = useParams();
@@ -16,6 +17,7 @@ export const TweetDetail = () => {
 	const [user, setUser] = useState({});
 	const token = localStorage.getItem('token');
 	const navigate = useNavigate();
+	const [icon, setIcon] = useState('');
 
 	useEffect(() => {
 		if (!token) {
@@ -26,10 +28,16 @@ export const TweetDetail = () => {
 			const url = 'v1/tweet_detail/' + params.id
 			client
 				.get(url, { headers: { Authorization: token } })
-				.then((res) => {
-					setTweetDetail(res.data)
-					setUser(res.data.user)
-					setReplys(res.data.replies)
+				.then(async(res) => {
+					if (res.data !== undefined) {
+						setTweetDetail(res.data)
+						setUser(res.data.user)
+						setReplys(res.data.replies)
+						if (res.data.user.icon !== undefined) {
+							const iconUrl = await UserIconGet(res.data.user.icon);
+							setIcon(iconUrl);
+						}
+					}
 				})
 				.catch((err) => {
 					console.log("err", err.response)
@@ -45,11 +53,12 @@ export const TweetDetail = () => {
 		<div className={TweetStyleList.TweetList}>
 			<Sidebar />
 			<div className={TweetDetailStyleList.tweetDetail}>
-				<Tweet userID={user.id} id={tweetDetail.id} userName={user.name} tweet={tweetDetail.tweet} reply={tweetDetail.replies} likes={tweetDetail.like} image='https://sp-akiba-souken.k-img.com/images/vote/000/170/170628.jpg' />
-				<ReplyPost tweetID={tweetDetail.id} />
+				<Tweet userID={user.id} id={tweetDetail.id} userName={user.name} tweet={tweetDetail.tweet} reply={tweetDetail.replies} likes={tweetDetail.like} iconUrl={icon} />
+				<ReplyPost tweetID={tweetDetail.id} iconUrl={icon} />
 				{replys.map((value, key) => {
+					console.log("Reply", icon)
 					return (
-						<Reply userID={user.id} replies={value.replies} userName={value.user.name} image='https://sp-akiba-souken.k-img.com/images/vote/000/170/170628.jpg' />
+						<Reply userID={user.id} replies={value.replies} userName={value.user.name} icon={value.user.icon} />
 					)
 				})}
 			</div>

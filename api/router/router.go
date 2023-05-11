@@ -37,6 +37,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 		v1.POST("/reply", handler.Reply.Add)
 		v1.GET("/validate_token", handler.Token.ValidateToken)
 		v1.POST("/upload", handler.File.Upload)
+		v1.GET("/icon/:filename", handler.File.IconGet)
 	}
 	return r
 }

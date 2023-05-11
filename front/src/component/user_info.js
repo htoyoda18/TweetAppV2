@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { LargeIcon } from '../component/shared'
+import { LargeIcon } from '../component/icon'
 import { ImageUploader } from '../component/icon_upload'
 import UserInfoStyle from '../css/user_info.module.css';
 import Modal from "react-modal";
@@ -9,10 +9,10 @@ export const UserInfo = (props) => {
   return (
     <div className={UserInfoStyle.userInfo}>
       <div className={UserInfoStyle.content}>
-        <LargeIcon image="https://d38vrblg2ltm93.cloudfront.net/res/wonder-fe/user_id_46268/work/2021/10/10/image/20211010235446.png" />
-        <EditUserInfoBtn showUserId={props.userID} userName={props.userName} userIntroduction={props.userIntroduction} userIcon={props.userIcon} />
+        <LargeIcon image={props.userIcon} />
+        <EditUserInfoBtn showUserId={props.userID} userName={props.userName} userIntroduction={props.userIntroduction} iconUrl={props.userIcon} />
         <div className={UserInfoStyle.userName}>{props.userName}</div>
-        <div className={UserInfoStyle.introduction}>自己紹介</div>
+        <div className={UserInfoStyle.introduction}>{props.userIntroduction}</div>
       </div>
     </div>
   )
@@ -145,7 +145,7 @@ const EditUserInfoBtn = (props) => {
               <button className={UserInfoStyle.modalClose} onClick={() => { setModalIsOpen(false); enableScroll(); }}>&times;</button>
               <div className={UserInfoStyle.modalTitle}>プロフィールを編集</div>
               <ImageUploader
-                image=""
+                iconUrl={props.iconUrl}
                 onImageChange={(file) => { handleIconChange(file) }}
               />
               <form>

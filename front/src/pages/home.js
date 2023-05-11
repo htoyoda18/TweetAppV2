@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import Sidebar from '../component/sidebar';
 import TweetListStyle from '../css/tweet_list.module.css';
 import { Tweet } from "../component/tweet";
+import { client } from '../libs/axios'
+import { UserIconGet } from "../api/icon_get"
 
 export const Home = () => {
 	const [tweets, setTweets] = useState([]);
+	const [iconUrls, setIconUrls] = useState({});
 	const token = localStorage.getItem('token');
 	const navigate = useNavigate();
 
@@ -15,34 +18,54 @@ export const Home = () => {
 			return;
 		}
 
-		const fetchData = async () => {
-			const response = await fetch('http://localhost:8080/v1/tweet', {
-				headers: {
-					Authorization: token,
-				},
-			});
-			const res = await response.json();
-			if (!response.ok) {
-				if (res === 'Fail auth token') { // エラーメッセージを確認する
-					navigate('/login');
-					return;
+		const TweetList = () => {
+			client
+				.get('v1/tweet', { headers: { Authorization: token } })
+				.then((res) => {
+					if (res.data) {
+						setTweets(res.data);
+					}
+				})
+				.catch((err) => {
+					console.log("err", err.response)
+					if (err.response.data === 'Fail auth token') {
+						navigate('/login');
+					}
+				})
+		}
+		TweetList();
+	}, [token, navigate]);
+
+	useEffect(() => {
+		const fetchIcons = async () => {
+			let newIconUrls = { ...iconUrls }; // 現在のiconUrlsをコピー
+			for (const tweet of tweets) {
+				if (tweet.user.icon !== '' && !(tweet.user.id in newIconUrls)) { // 既に取得済みのユーザーのアイコンは取得しない
+					const iconUrl = await UserIconGet(tweet.user.icon);
+					newIconUrls = { ...newIconUrls, [tweet.user.id]: iconUrl };
 				}
 			}
-			setTweets(res);
+			setIconUrls(newIconUrls);
 		};
-
-		fetchData();
-	}, [token, navigate]);
+		fetchIcons();
+	}, [tweets]);
 
 	return (
 		<div className={TweetListStyle.TweetList}>
 			<Sidebar />
 			<div className={TweetListStyle.Tweet}>
-				{tweets.map((value, key) => {
-					return (
-						<Tweet userID={value.user.id} id={value.id} userName={value.user.name} tweet={value.tweet} replies={value.replies} likes={value.like} image='https://sp-akiba-souken.k-img.com/images/vote/000/170/170628.jpg' />
-					)
-				})}
+				{tweets.map((value, key) => (
+					<Tweet
+						key={key}
+						userID={value.user.id}
+						id={value.id}
+						userName={value.user.name}
+						tweet={value.tweet}
+						replies={value.replies}
+						likes={value.like}
+						iconUrl={iconUrls[value.user.id]}
+					/>
+				))}
 			</div>
 		</div>
 	);

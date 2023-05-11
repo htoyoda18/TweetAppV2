@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { Tweet } from "../component/tweet"
 import UserInfoStyle from '../css/user_info.module.css';
 import { useNavigate } from "react-router-dom";
+import { UserIconGet } from "../api/icon_get"
 
 export const User = () => {
 	const navigate = useNavigate();
@@ -15,6 +16,7 @@ export const User = () => {
 	const [user, setUser] = useState({});
 	const [tweets, setTweets] = useState([]);
 	const params = useParams();
+	const [icon, setIcon] = useState('');
 
 	useEffect(() => {
 		if (!token) {
@@ -25,12 +27,17 @@ export const User = () => {
 			const url = 'v1/user/' + params.id
 			client
 				.get(url, { headers: { Authorization: token } })
-				.then((res) => {
-					setUser(res.data)
+				.then(async(res) => {
+					if (res.data !== undefined) {
+						setUser(res.data);
+						if (res.data.icon !== undefined) {
+							const iconUrl = await UserIconGet(res.data.icon);
+							setIcon(iconUrl);
+						}
+					}
 				})
 				.catch((err) => {
-					console.log("err", err.response)
-					if (err.response.data === 'Fail auth token') {
+					if (err.response && err.response.data === 'Fail auth token') {
 						navigate('/login');
 					}
 				})
@@ -49,6 +56,7 @@ export const User = () => {
 					}
 				})
 		}
+
 		UserGet();
 		TweetList();
 	}, [params.id, token, navigate]);
@@ -56,10 +64,10 @@ export const User = () => {
 		<div className={TweetStyle.Tweet}>
 			<Sidebar />
 			<div className={UserInfoStyle.userTweets}>
-				<UserInfo userName={user.name} userID={user.id} userIntroduction={user.introduction} userIcon={user.icon} />
+				<UserInfo userName={user.name} userID={user.id} userIntroduction={user.introduction} userIcon={icon} />
 				{tweets.map((value, key) => {
 					return (
-						<Tweet userID={value.user.id} id={value.id} userName={value.user.name} tweet={value.tweet} reply={value.replies} likes={value.like} image='https://sp-akiba-souken.k-img.com/images/vote/000/170/170628.jpg' />
+						<Tweet userID={value.user.id} id={value.id} userName={value.user.name} tweet={value.tweet} reply={value.replies} likes={value.like} iconUrl={icon} />
 					)
 				})}
 			</div>
