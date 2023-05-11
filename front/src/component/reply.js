@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ReplyStyle from '../css/reply.module.css';
 import { Icon } from "../component/icon"
 import { useState } from 'react';
 import { client } from '../libs/axios'
 import TweetStyle from '../css/tweet_list.module.css';
 import { useNavigate } from 'react-router-dom';
-import { UserIconGet } from "../api/icon_get"
 
 export const ReplyPost = (props) => {
     const [disabled, setDisabled] = useState(true);
@@ -60,20 +59,12 @@ export const ReplyPost = (props) => {
 }
 
 export const Reply = (props) => {
-    const [iconUrl, setIconUrl] = useState('');
-    const userIconGet = async (icon) => {
-        const iconUrl = await UserIconGet(icon);
-        setIconUrl(iconUrl)
-    }
-    useEffect( () => {
-        userIconGet(props.icon)
-    }, [props.icon]);
     return (
         <div className={TweetStyle.Tweet}>
             <div className={TweetStyle.tweetContent}>
                 <form>
                     <div className={TweetStyle.Section1}>
-                        <Icon image={iconUrl} userID={props.userID} />
+                        <Icon image={props.iconUrl} userID={props.userID} />
                         <div className={TweetStyle.content}>
                             <div className={TweetStyle.userName}>{props.userName}</div>
                             <div className={TweetStyle.tweet}>{props.reply}</div>
