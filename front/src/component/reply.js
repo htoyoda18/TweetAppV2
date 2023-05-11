@@ -3,7 +3,6 @@ import ReplyStyle from '../css/reply.module.css';
 import { Icon } from "../component/icon"
 import { useState } from 'react';
 import { client } from '../libs/axios'
-import TweetStyle from '../css/tweet_list.module.css';
 import { useNavigate } from 'react-router-dom';
 
 export const ReplyPost = (props) => {
@@ -13,24 +12,20 @@ export const ReplyPost = (props) => {
 
     const handleChange = (e) => {
         const { value } = e.target;
-        setReply(value)
-        if (reply.length > 0) {
-            setDisabled(false)
-            return
-        }
+        setReply(value);
+        setDisabled(!value || value.length === 0);
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
         if (reply.length < 1) {
             setDisabled(true)
-            return
+            return;
         }
+        postReply();
     }
-    const handleSubmit = () => {
-        if (reply.length < 1) {
-            setDisabled(true)
-            return
-        }
-        ReplyPost()
-    }
-    const ReplyPost = () => {
+
+    const postReply = () => {
         const body = {
             reply: reply.trim(),
             tweetID: props.tweetID,
@@ -39,6 +34,7 @@ export const ReplyPost = (props) => {
         client
             .post('v1/reply', body, { headers: { Authorization: token } })
             .then((res) => {
+                window.location.reload();
             })
             .catch((err) => {
                 console.log("err", err.response)
@@ -49,9 +45,9 @@ export const ReplyPost = (props) => {
     }
     return (
         <div className={ReplyStyle.Reply}>
-            <form onSubmit={() => handleSubmit()}>
+            <form onSubmit={(e) => handleSubmit(e)}>
                 <Icon image={props.iconUrl} />
-                <textarea placeholder='返信をツイート' className={ReplyStyle.replyText} onChange={(e) => handleChange(e)} onClick={(e) => handleChange(e)}></textarea>
+                <textarea placeholder='返信をツイート' className={ReplyStyle.replyText} onChange={(e) => handleChange(e)}></textarea>
                 <button disabled={disabled} className={ReplyStyle.ReplyBtn}>返信</button>
             </form>
         </div>
