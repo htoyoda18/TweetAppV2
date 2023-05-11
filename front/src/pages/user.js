@@ -67,7 +67,7 @@ export const User = () => {
 				<UserInfo userName={user.name} userID={user.id} userIntroduction={user.introduction} userIcon={icon} />
 				{tweets.map((value, key) => {
 					return (
-						<Tweet userID={value.user.id} id={value.id} userName={value.user.name} tweet={value.tweet} reply={value.replies} likes={value.like} image={value.user.icon} />
+						<Tweet userID={value.user.id} id={value.id} userName={value.user.name} tweet={value.tweet} reply={value.replies} likes={value.like} image={icon} />
 					)
 				})}
 			</div>
