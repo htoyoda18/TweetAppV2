@@ -19,15 +19,15 @@ export const Home = () => {
 		const TweetList = () => {
 			client
 				.get('v1/tweet', { headers: { Authorization: token } })
-				.then(async (res) => {
+				.then((res) => {
 					if (res.data) {
 						setTweets(res.data);
 					}
-					if (!res.ok) {
-						if (res === 'Fail auth token') {
-							navigate('/login');
-							return;
-						}
+				})
+				.catch((err) => {
+					console.log("err", err.response)
+					if (err.response.data === 'Fail auth token') {
+						navigate('/login');
 					}
 				})
 		}
@@ -41,14 +41,14 @@ export const Home = () => {
 			<div className={TweetListStyle.Tweet}>
 				{tweets.map((value, key) => (
 					<Tweet
-					userID={value.user.id}
-					id={value.id}
-					userName={value.user.name}
-					tweet={value.tweet}
-					replies={value.replies}
-					likes={value.like}
-					image={value.user.icon}
-				/>
+						userID={value.user.id}
+						id={value.id}
+						userName={value.user.name}
+						tweet={value.tweet}
+						replies={value.replies}
+						likes={value.like}
+						image={value.user.icon}
+					/>
 				))}
 			</div>
 		</div>
