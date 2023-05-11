@@ -38,9 +38,9 @@ export const Home = () => {
 
 	useEffect(() => {
 		const fetchIcons = async () => {
-			let newIconUrls = {};
+			let newIconUrls = { ...iconUrls }; // 現在のiconUrlsをコピー
 			for (const tweet of tweets) {
-				if (tweet.user.icon !== '') {
+				if (tweet.user.icon !== '' && !(tweet.user.id in newIconUrls)) { // 既に取得済みのユーザーのアイコンは取得しない
 					const iconUrl = await UserIconGet(tweet.user.icon);
 					newIconUrls = { ...newIconUrls, [tweet.user.id]: iconUrl };
 				}
