@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { LargeIcon } from '../component/shared'
+import { LargeIcon } from '../component/icon'
 import { ImageUploader } from '../component/icon_upload'
 import UserInfoStyle from '../css/user_info.module.css';
 import Modal from "react-modal";

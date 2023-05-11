@@ -1,4 +1,4 @@
-import { GenerateImageUrl } from "../component/shared"
+import { GenerateImageUrl } from "../component/icon"
 import { client } from '../libs/axios'
 
 export const UserIconGet = async (icon) => {

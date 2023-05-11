@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CommentIcon from '@mui/icons-material/Comment';
 import TweetStyle from '../css/tweet_list.module.css';
-import { Icon } from "../component/shared"
+import { Icon } from "../component/icon"
 import { useNavigate } from 'react-router-dom';
 import { UserIconGet } from "../api/icon_get"
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReplyStyle from '../css/reply.module.css';
-import { Icon } from "../component/shared"
+import { Icon } from "../component/icon"
 import { useState } from 'react';
 import { client } from '../libs/axios'
 import TweetStyle from '../css/tweet_list.module.css';
