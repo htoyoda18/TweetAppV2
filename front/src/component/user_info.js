@@ -10,7 +10,7 @@ export const UserInfo = (props) => {
     <div className={UserInfoStyle.userInfo}>
       <div className={UserInfoStyle.content}>
         <LargeIcon image={props.userIcon} />
-        <EditUserInfoBtn showUserId={props.userID} userName={props.userName} userIntroduction={props.userIntroduction} userIcon={props.userIcon} />
+        <EditUserInfoBtn showUserId={props.userID} userName={props.userName} userIntroduction={props.userIntroduction} iconUrl={props.userIcon} />
         <div className={UserInfoStyle.userName}>{props.userName}</div>
         <div className={UserInfoStyle.introduction}>{props.userIntroduction}</div>
       </div>
@@ -145,7 +145,7 @@ const EditUserInfoBtn = (props) => {
               <button className={UserInfoStyle.modalClose} onClick={() => { setModalIsOpen(false); enableScroll(); }}>&times;</button>
               <div className={UserInfoStyle.modalTitle}>プロフィールを編集</div>
               <ImageUploader
-                image=""
+                iconUrl={props.iconUrl}
                 onImageChange={(file) => { handleIconChange(file) }}
               />
               <form>

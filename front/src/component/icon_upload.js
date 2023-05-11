@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import sharedStyle from '../css/shared.module.css';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import { LargeIcon } from "../component/icon"
 
 export const ImageUploader = (props) => {
-    const [preview, setPreview] = useState(props.image);
+    const [preview, setPreview] = useState(props.iconUrl);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -22,10 +22,8 @@ export const ImageUploader = (props) => {
                 onInput={handleImageChange}
                 style={{ display: 'none' }}
             />
-            <img
-                alt=''
-                className={sharedStyle.largeIcon}
-                src={preview}
+            <LargeIcon
+                image={preview}
                 onClick={() => document.getElementById('fileInput').click()}
                 style={{ cursor: 'pointer' }}
             />
