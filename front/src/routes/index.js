@@ -10,6 +10,7 @@ import { Setting } from '../pages/setting';
 import { Tweet } from '../pages/tweet';
 import { TweetDetail } from '../pages/tweet_detail';
 import { User } from '../pages/user';
+import { NotFound } from '../pages/not_found';
 
 export const AppRouter = () => {
   return (
@@ -24,6 +25,7 @@ export const AppRouter = () => {
       <Route path="/password_update/:token" element={<PasswordUpdate />}></Route>
       <Route path="/tweet_detail/:id" element={<TweetDetail />}></Route>
       <Route path="/user/:id" element={<User />}></Route>
+      <Route path="/*" element={<NotFound />}></Route>
     </Routes>
   )
 }
