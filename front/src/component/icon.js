@@ -1,17 +1,27 @@
 import React from 'react';
 import sharedStyle from '../css/shared.module.css';
 
+const isIcon = (icon) => {
+    if (icon) {
+        return icon
+    }
+
+    return 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png'
+}
+
 export const Icon = (props) => {
+    const iconUrl = isIcon(props.image)
     return (
         <a className={sharedStyle.userLink} href={"/user/" + props.userID}>
-            <img className={sharedStyle.icon} src={props.image} alt="" />
+            <img className={sharedStyle.icon} src={iconUrl} alt="" />
         </a>
     )
 }
 
 export const LargeIcon = (props) => {
+    const iconUrl = isIcon(props.image)
     return (
-        <img className={sharedStyle.largeIcon} src={props.image} alt="" />
+        <img className={sharedStyle.largeIcon} src={iconUrl} alt="" />
     )
 }
 

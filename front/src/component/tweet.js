@@ -27,7 +27,7 @@ export const Tweet = (props) => {
             <div className={TweetStyle.tweetContent}>
                     <form>
                         <div className={TweetStyle.Section1}>
-                            <Icon image={props.image} userID={props.userID} />
+                            <Icon image={props.iconUrl} userID={props.userID} />
                             <div className={TweetStyle.content}>
                                 <div className={TweetStyle.userName}>{props.userName}</div>
                                 <div className={TweetStyle.tweet}>{props.tweet}</div>
