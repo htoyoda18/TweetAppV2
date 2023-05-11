@@ -23,9 +23,27 @@ form {
 
 .Section2 {
     display: flex;
+    margin-top: 1%;
     margin-left: 5%;
-    margin-bottom: 1%;
-    padding-top: 1%;
+}
+
+.reply {
+    display: flex;
+    margin-right: 5%;
+}
+
+.replyCount {
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+.like {
+    display: flex;
+}
+
+.likeCount {
+    font-size: 20px;
+    margin-left: 5px;
 }
 
 .content {
@@ -38,8 +56,12 @@ form {
     font-weight: bold;
 }
 
-.like {
-    margin-left: 5%;
+.count {
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    margin-left: 1px;
+    display: inline;
 }
 
 .tweetContent {
