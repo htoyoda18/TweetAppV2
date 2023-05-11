@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../component/sidebar';
 import TweetListStyle from '../css/tweet_list.module.css';
@@ -8,7 +8,7 @@ import { UserIconGet } from "../api/icon_get"
 
 export const Home = () => {
 	const [tweets, setTweets] = useState([]);
-	const iconUrls = useRef({}); // iconUrlsを参照として保持
+	const [iconUrls, setIconUrls] = useState({});
 	const token = localStorage.getItem('token');
 	const navigate = useNavigate();
 
@@ -38,14 +38,14 @@ export const Home = () => {
 
 	useEffect(() => {
 		const fetchIcons = async () => {
-			let newIconUrls = { ...iconUrls.current }; // 現在のiconUrlsをコピー
+			let newIconUrls = { ...iconUrls }; // 現在のiconUrlsをコピー
 			for (const tweet of tweets) {
 				if (tweet.user.icon !== '' && !(tweet.user.id in newIconUrls)) { // 既に取得済みのユーザーのアイコンは取得しない
 					const iconUrl = await UserIconGet(tweet.user.icon);
 					newIconUrls = { ...newIconUrls, [tweet.user.id]: iconUrl };
 				}
 			}
-			iconUrls.current = newIconUrls;
+			setIconUrls(newIconUrls);
 		};
 		fetchIcons();
 	}, [tweets]);
@@ -63,7 +63,7 @@ export const Home = () => {
 						tweet={value.tweet}
 						replies={value.replies}
 						likes={value.like}
-						iconUrl={iconUrls.current[value.user.id]}
+						iconUrl={iconUrls[value.user.id]}
 					/>
 				))}
 			</div>
