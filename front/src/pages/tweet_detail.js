@@ -74,7 +74,7 @@ export const TweetDetail = () => {
 					userName={user.name}
 					tweet={tweetDetail.tweet}
 					replies={tweetDetail.replies}
-					like={tweetDetail.like}
+					likes={tweetDetail.likes}
 					iconUrl={icon}
 					isReply={true}
 					isLike={true}

@@ -73,7 +73,7 @@ export const User = () => {
 							userName={value.user.name}
 							tweet={value.tweet}
 							replies={value.replies}
-							like={value.like}
+							likes={value.likes}
 							iconUrl={icon}
 							isReply={true}
 							isLike={true}

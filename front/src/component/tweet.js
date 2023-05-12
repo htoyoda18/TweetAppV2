@@ -11,13 +11,13 @@ export const Tweet = (props) => {
     const [replyCount, setReplyCount] = useState(0);
 
     useEffect(() => {
-        if (props.like > 0) {
-            setLikeCount(props.like);
+        if (props.likes !== undefined && props.likes.length > 0) {
+            setLikeCount(props.likes.length);
         }
         if (props.replies !== undefined && props.replies.length > 0) {
             setReplyCount(props.replies.length);
         }
-    }, [props.like, props.replies]);
+    }, [props.likes, props.replies]);
 
     const handleClick = () => {
         const url = '/tweet_detail/' + props.id;
