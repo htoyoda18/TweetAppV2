@@ -3,6 +3,7 @@ package handler
 import (
 	"errors"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/htoyoda18/TweetAppV2/api/handler/request"
@@ -12,6 +13,7 @@ import (
 
 type Like interface {
 	Add(*gin.Context)
+	Delete(*gin.Context)
 }
 
 type like struct {
@@ -48,6 +50,31 @@ func (l like) Add(c *gin.Context) {
 	if err := l.likeUsecase.Add(
 		params,
 		userID,
+	); err != nil {
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	c.Status(http.StatusOK)
+}
+
+func (l like) Delete(c *gin.Context) {
+	shaerd.Info("Delete")
+
+	userID, err := shaerd.AuthUser(c)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+	tweetID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if err := l.likeUsecase.Delete(
+		userID,
+		tweetID,
 	); err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 		return

@@ -12,6 +12,7 @@ import (
 
 type Like interface {
 	Add(params request.Like, userID int) error
+	Delete(userID int, tweetID int) error
 }
 
 type like struct {
@@ -43,6 +44,24 @@ func (l like) Add(params request.Like, userID int) error {
 		TweetID: params.TweetID,
 		UserID:  userID,
 	}, l.db); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (l like) Delete(userID int, tweetID int) error {
+	shaerd.Info(LogVal("Delete"))
+
+	like, err := l.likeRepository.Get(&model.Like{
+		TweetID: tweetID,
+		UserID:  userID,
+	}, l.db)
+	if err != nil {
+		return err
+	}
+
+	if err := l.likeRepository.Delete(like, l.db); err != nil {
 		return err
 	}
 
