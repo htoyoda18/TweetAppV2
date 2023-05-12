@@ -6,7 +6,8 @@ CREATE TABLE `likes` (
     `tweet_id` INT NOT NULL,
     `created_at` DATETIME NOT NULL,
     FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),
-    FOREIGN KEY (`tweet_id`) REFERENCES `tweets`(`id`)
+    FOREIGN KEY (`tweet_id`) REFERENCES `tweets`(`id`),
+    `deleted_at` DATETIME
 );
 
 -- +goose Down

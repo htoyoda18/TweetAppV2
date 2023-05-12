@@ -24,7 +24,7 @@ func preload() func(db *gorm.DB) *gorm.DB {
 			Preload("User").
 			Preload("Replies").
 			Preload("Replies.User").
-			Preload("Like")
+			Preload("Likes")
 	}
 }
 
