@@ -6,7 +6,8 @@ import { client } from '../libs/axios'
 import { useParams } from "react-router-dom";
 import { useState } from 'react';
 import { Tweet } from "../component/tweet"
-import { ReplyPost } from "../component/reply"
+import { Reply } from "../component/reply"
+import { ReplyPost } from "../component/reply_post"
 import { useNavigate } from "react-router-dom";
 import { UserIconGet } from "../api/icon_get"
 
@@ -77,20 +78,16 @@ export const TweetDetail = () => {
 					replies={tweetDetail.replies}
 					likes={tweetDetail.likes}
 					iconUrl={icon}
-					isReply={true}
-					isLike={true}
 				/>
 				<ReplyPost tweetID={tweetDetail.id} iconUrl={icon} />
 				{replies.map((value, key) => {
 					return (
-						<Tweet
+						<Reply
 							key={key}
 							userID={user.id}
 							userName={user.name}
 							tweet={value.reply}
 							iconUrl={iconUrls[value.user.id]}
-							isReply={false}
-							isLike={false}
 						/>
 					)
 				})}

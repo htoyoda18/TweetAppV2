@@ -76,8 +76,6 @@ export const User = () => {
 							replies={value.replies}
 							likes={value.likes}
 							iconUrl={icon}
-							isReply={true}
-							isLike={true}
 						/>
 					)
 				})}

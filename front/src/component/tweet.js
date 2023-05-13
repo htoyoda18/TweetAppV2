@@ -20,17 +20,6 @@ export const Tweet = (props) => {
         navigate(url);
     }
 
-    const handleReplyButton = (isReply) => {
-        if (isReply) {
-            return (
-                <div className={TweetStyle.reply}>
-                    <div><CommentIcon /></div>
-                    <div className={TweetStyle.replyCount}>{replyCount}</div>
-                </div>
-            );
-        }
-    }
-
     return (
         <div className={TweetStyle.Tweet}>
             <div className={TweetStyle.tweetContent}>
@@ -43,8 +32,11 @@ export const Tweet = (props) => {
                         </div>
                     </div>
                     <div className={TweetStyle.Section2}>
-                        {handleReplyButton(props.isReply)}
-                        <Like isLike={props.isLike} likes={props.likes} tweetID={props.tweetID} />
+                        <div className={TweetStyle.reply}>
+                            <div><CommentIcon /></div>
+                            <div className={TweetStyle.replyCount}>{replyCount}</div>
+                        </div>
+                        <Like likes={props.likes} tweetID={props.tweetID} />
                     </div>
                 </form>
             </div>
