@@ -1,7 +1,6 @@
 import { client } from '../libs/axios'
 
 export const AddLike = (tweetID) => {
-    console.log('AddLikeを実行', intTweetID)
     const intTweetID = parseInt(tweetID);
     const body = {
         tweetID: intTweetID,
@@ -23,7 +22,6 @@ export const AddLike = (tweetID) => {
 }
 
 export const DeleteLike = (tweetID) => {
-    console.log('DeleteLikeを実行', tweetID)
     const url = 'v1/like/' + tweetID
     const token = localStorage.getItem('token')
     client

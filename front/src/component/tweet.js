@@ -44,7 +44,7 @@ export const Tweet = (props) => {
                     </div>
                     <div className={TweetStyle.Section2}>
                         {handleReplyButton(props.isReply)}
-                        <Like isLike={props.isLike} likes={props.likes} />
+                        <Like isLike={props.isLike} likes={props.likes} tweetID={props.tweetID} />
                     </div>
                 </form>
             </div>

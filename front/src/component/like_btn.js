@@ -23,9 +23,9 @@ export const Like = (props) => {
             color: isLikePush ? likeColor : 'black',
         }));
         if (isLikePush) {
-            AddLike('1')
+            AddLike(props.tweetID)
         } else {
-            DeleteLike('1')
+            DeleteLike(props.tweetID)
         }
     }
 
