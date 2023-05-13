@@ -5,9 +5,10 @@ CREATE TABLE `likes` (
     `user_id` INT NOT NULL,
     `tweet_id` INT NOT NULL,
     `created_at` DATETIME NOT NULL,
+    `updated_at` DATETIME NOT NULL,
+    `deleted_at` DATETIME,
     FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),
     FOREIGN KEY (`tweet_id`) REFERENCES `tweets`(`id`),
-    `deleted_at` DATETIME
 );
 
 -- +goose Down
