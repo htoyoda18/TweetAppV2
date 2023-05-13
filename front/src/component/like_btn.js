@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TweetStyle from '../css/tweet_list.module.css';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import {AddLike, DeleteLike} from '../api/like';
 
 export const Like = (props) => {
     const [likeCount, setLikeCount] = useState(0);
@@ -21,6 +22,11 @@ export const Like = (props) => {
             ...prevStyle,
             color: isLikePush ? likeColor : 'black',
         }));
+        if (isLikePush) {
+            AddLike('1')
+        } else {
+            DeleteLike('1')
+        }
     }
 
     const handleMouseEnter = () => {

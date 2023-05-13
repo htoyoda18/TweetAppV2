@@ -1,9 +1,16 @@
 import { client } from '../libs/axios'
 
 export const AddLike = (tweetID) => {
+    console.log('AddLikeを実行', intTweetID)
+    const intTweetID = parseInt(tweetID);
     const body = {
-        tweetID: tweetID,
+        tweetID: intTweetID,
     }
+
+    if (isNaN(intTweetID)) {
+        return
+    }
+
     const token = localStorage.getItem('token')
     client
         .post('v1/like', body, { headers: { Authorization: token } })
@@ -12,14 +19,11 @@ export const AddLike = (tweetID) => {
         })
         .catch((err) => {
             console.log("err", err.response)
-            if (err.response.data === 'Fail auth token') {
-                navigate('/login');
-            }
-            throw err
         })
 }
 
 export const DeleteLike = (tweetID) => {
+    console.log('DeleteLikeを実行', tweetID)
     const url = 'v1/like/' + tweetID
     const token = localStorage.getItem('token')
     client
@@ -29,9 +33,5 @@ export const DeleteLike = (tweetID) => {
         })
         .catch((err) => {
             console.log("err", err.response)
-            if (err.response.data === 'Fail auth token') {
-                navigate('/login');
-            }
-            throw err
         })
 }
