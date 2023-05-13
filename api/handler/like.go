@@ -10,6 +10,7 @@ import (
 	"github.com/htoyoda18/TweetAppV2/api/handler/response"
 	"github.com/htoyoda18/TweetAppV2/api/shaerd"
 	"github.com/htoyoda18/TweetAppV2/api/usecase"
+	"gorm.io/gorm"
 )
 
 type Like interface {
@@ -103,7 +104,7 @@ func (l like) Get(c *gin.Context) {
 	if err := l.likeUsecase.Get(
 		userID,
 		tweetID,
-	); errors.Is(err, shaerd.ErrRecordNotFound) {
+	); errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusOK, response.IsLikedByUser{IsLikedByUser: false})
 		return
 	} else if err != nil {
