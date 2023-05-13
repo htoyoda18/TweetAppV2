@@ -7,12 +7,14 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/htoyoda18/TweetAppV2/api/handler/request"
+	"github.com/htoyoda18/TweetAppV2/api/handler/response"
 	"github.com/htoyoda18/TweetAppV2/api/shaerd"
 	"github.com/htoyoda18/TweetAppV2/api/usecase"
 )
 
 type Like interface {
 	Add(*gin.Context)
+	Get(*gin.Context)
 	Delete(*gin.Context)
 }
 
@@ -81,4 +83,33 @@ func (l like) Delete(c *gin.Context) {
 	}
 
 	c.Status(http.StatusOK)
+}
+
+func (l like) Get(c *gin.Context) {
+	shaerd.Info("Get")
+
+	userID, err := shaerd.AuthUser(c)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	tweetID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if err := l.likeUsecase.Get(
+		userID,
+		tweetID,
+	); errors.Is(err, shaerd.ErrRecordNotFound) {
+		c.JSON(http.StatusOK, response.IsLikedByUser{IsLikedByUser: false})
+		return
+	} else if err != nil {
+		c.JSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, response.IsLikedByUser{IsLikedByUser: true})
 }

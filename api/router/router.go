@@ -39,6 +39,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 		v1.POST("/upload", handler.File.Upload)
 		v1.GET("/icon/:filename", handler.File.IconGet)
 		v1.POST("/like", handler.Like.Add)
+		v1.GET("/like/:id", handler.Like.Get)
 		v1.DELETE("/like/:id", handler.Like.Delete)
 	}
 	return r
