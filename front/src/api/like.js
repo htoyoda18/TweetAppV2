@@ -35,6 +35,9 @@ export const DeleteLike = (tweetID) => {
 }
 
 export const IsLikedByUser = async (tweetID) => {
+    if (tweetID === undefined) {
+        return
+    }
     try {
         const url = 'v1/like/' + tweetID
         const token = localStorage.getItem('token')
