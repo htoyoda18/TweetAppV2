@@ -12,6 +12,7 @@ type Handler struct {
 	Tweet handler.Tweet
 	Reply handler.Reply
 	Token handler.Token
+	Like  handler.Like
 }
 
 func NewHandler(db *gorm.DB) *Handler {
@@ -23,6 +24,7 @@ func NewHandler(db *gorm.DB) *Handler {
 	replyHandler := handler.NewReply(usecase.Reply)
 	tokenHandler := handler.NewToken()
 	uploadHandler := handler.NewFile()
+	likeHandler := handler.NewLike(usecase.Like)
 	return &Handler{
 		User:  userHandler,
 		Ping:  pingHandler,
@@ -30,5 +32,6 @@ func NewHandler(db *gorm.DB) *Handler {
 		Reply: replyHandler,
 		Token: tokenHandler,
 		File:  uploadHandler,
+		Like:  likeHandler,
 	}
 }

@@ -61,11 +61,10 @@ export const Home = () => {
 						id={value.id}
 						userName={value.user.name}
 						tweet={value.tweet}
+						tweetID={value.id}
 						replies={value.replies}
-						like={value.like}
+						likes={value.likes}
 						iconUrl={iconUrls[value.user.id]}
-						isReply={true}
-						isLike={true}
 					/>
 				))}
 			</div>

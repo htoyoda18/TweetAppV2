@@ -72,11 +72,10 @@ export const User = () => {
 							id={value.id}
 							userName={value.user.name}
 							tweet={value.tweet}
+							tweetID={value.id}
 							replies={value.replies}
-							like={value.like}
+							likes={value.likes}
 							iconUrl={icon}
-							isReply={true}
-							isLike={true}
 						/>
 					)
 				})}
