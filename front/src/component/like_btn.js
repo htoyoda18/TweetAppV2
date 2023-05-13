@@ -2,31 +2,48 @@ import React, { useState, useEffect } from 'react';
 import TweetStyle from '../css/tweet_list.module.css';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import {AddLike, DeleteLike} from '../api/like';
+import { AddLike, DeleteLike, IsLikedByUser } from '../api/like';
 
-export const Like = (props) => {
+const likeColor = 'rgb(249, 24, 128)';
+
+export const Like = ({ likes, tweetID, isLike }) => {
     const [likeCount, setLikeCount] = useState(0);
     const [likeStyle, setLikeStyle] = useState({});
-    const [isLikePush, setIsLikePush] = useState(true);
-    const likeColor = 'rgb(249, 24, 128)';
+    const [isLikePush, setIsLikePush] = useState(false);
 
     useEffect(() => {
-        if (props.likes !== undefined && props.likes.length > 0) {
-            setLikeCount(props.likes.length);
+        if (likes !== undefined && likes.length > 0) {
+            setLikeCount(likes.length);
         }
-    }, [props.likes]);
+    }, [likes]);
+
+    useEffect(() => {
+        const isLikedByUser = async () => {
+            const isLiked = await IsLikedByUser(tweetID)
+            if (isLiked) {
+                setIsLikePush(true)
+                setLikeStyle({
+                    color: likeColor,
+                });
+            } else {
+                setIsLikePush(false)
+            }
+        }
+        isLikedByUser()
+    }, [tweetID]);
 
     const handleLikeClick = () => {
-        setIsLikePush(!isLikePush)
-        setLikeStyle(prevStyle => ({
-            ...prevStyle,
-            color: isLikePush ? likeColor : 'black',
-        }));
         if (isLikePush) {
-            AddLike(props.tweetID)
+            DeleteLike(tweetID)
+            setLikeCount(likeCount - 1)
         } else {
-            DeleteLike(props.tweetID)
+            AddLike(tweetID)
+            setLikeCount(likeCount + 1)
+            setLikeStyle({
+                color: likeColor,
+            });
         }
+        setIsLikePush(!isLikePush)
     }
 
     const handleMouseEnter = () => {
@@ -38,22 +55,21 @@ export const Like = (props) => {
 
     const handleMouseLeave = () => {
         setLikeStyle({
-            color: isLikePush ? 'black' : likeColor,
-            cursor: 'pointer',
+            color: isLikePush ? likeColor : 'black',
         });
     }
 
     return (
         <div>
-            {props.isLike && (
+            {isLike && (
                 <div
                     className={TweetStyle.like}
                     onClick={handleLikeClick}
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                 >
-                    <div style={likeStyle}>{isLikePush ? <FavoriteBorderIcon /> : <FavoriteIcon />}</div>
-                    <div className={TweetStyle.likeCount} style={likeStyle}>{likeCount}</div>
+                    <div style={likeStyle}>{isLikePush ? <FavoriteIcon /> : <FavoriteBorderIcon />}</div>
+                    <div className={TweetStyle.likeCount} style={likeStyle}>{likeCount > 0 && likeCount}</div>
                 </div>
             )}
         </div>

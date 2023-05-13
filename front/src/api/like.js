@@ -33,3 +33,18 @@ export const DeleteLike = (tweetID) => {
             console.log("err", err.response)
         })
 }
+
+export const IsLikedByUser = async (tweetID) => {
+    try {
+        const url = 'v1/like/' + tweetID
+        const token = localStorage.getItem('token')
+        const res = await client.get(url, { headers: { Authorization: token } })
+
+        if (res.data.isLikedByUser !== undefined) {
+            return res.data.isLikedByUser
+        }
+        return null;
+    } catch (err) {
+        console.log("err", err.response)
+    }
+}
