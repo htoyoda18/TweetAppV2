@@ -47,10 +47,18 @@ export const Like = ({ likes, tweetID }) => {
     }
 
     const handleMouseEnter = () => {
-        setLikeStyle({
-            color: likeColor,
-            cursor: 'pointer',
-        });
+        if (isLikePush) {
+            setLikeStyle({
+                color: likeColor,
+                opacity: 0.7,
+                cursor: 'pointer',
+            });
+        } else {
+            setLikeStyle({
+                color: likeColor,
+                cursor: 'pointer',
+            });
+        }
     }
 
     const handleMouseLeave = () => {
