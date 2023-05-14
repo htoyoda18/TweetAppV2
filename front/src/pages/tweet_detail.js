@@ -10,6 +10,7 @@ import { Reply } from "../component/reply"
 import { ReplyPost } from "../component/reply_post"
 import { useNavigate } from "react-router-dom";
 import { UserIconGet } from "../api/icon_get"
+import {ErrorMessages} from '../shaerd/error'
 
 export const TweetDetail = () => {
 	const params = useParams();
@@ -43,10 +44,10 @@ export const TweetDetail = () => {
 				})
 				.catch((err) => {
 					switch (err.response.data) {
-						case 'Fail auth token':
+						case ErrorMessages.FailAuthToken:
 							navigate('/login');
 							break;
-						case 'record not found':
+						case ErrorMessages.RecordNotFound:
 							navigate('/not_found');
 							break;
 						default:
