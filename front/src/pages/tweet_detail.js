@@ -42,9 +42,15 @@ export const TweetDetail = () => {
 					}
 				})
 				.catch((err) => {
-					console.log("err", err.response)
-					if (err.response.data === 'Fail auth token') {
-						navigate('/login');
+					switch (err.response.data) {
+						case 'Fail auth token':
+							navigate('/login');
+							break;
+						case 'record not found':
+							navigate('/not_found');
+							break;
+						default:
+							console.log("err", err.response)
 					}
 				})
 		}
