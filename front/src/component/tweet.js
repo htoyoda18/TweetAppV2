@@ -2,7 +2,7 @@ import React from 'react';
 import TweetStyle from '../css/tweet_list.module.css';
 import { Icon } from "../component/icon"
 import { useNavigate } from 'react-router-dom';
-import { Like } from '../component/like_btn';
+import { LikeIconAndCount } from '../component/like_btn';
 import { ReplyIconAndCount } from '../component/reply';
 
 export const Tweet = (props) => {
@@ -26,7 +26,7 @@ export const Tweet = (props) => {
                     </div>
                     <div className={TweetStyle.Section2}>
                         <ReplyIconAndCount replies={props.replies}/>
-                        <Like likes={props.likes} tweetID={props.tweetID} />
+                        <LikeIconAndCount likes={props.likes} tweetID={props.tweetID} />
                     </div>
                 </form>
             </div>

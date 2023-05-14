@@ -6,7 +6,7 @@ import { AddLike, DeleteLike, IsLikedByUser } from '../api/like';
 
 const likeColor = 'rgb(249, 24, 128)';
 
-export const Like = ({ likes, tweetID }) => {
+export const LikeIconAndCount = ({ likes, tweetID }) => {
     const [likeCount, setLikeCount] = useState(0);
     const [likeStyle, setLikeStyle] = useState({});
     const [isLikePush, setIsLikePush] = useState(false);
