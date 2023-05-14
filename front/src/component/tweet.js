@@ -1,19 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import CommentIcon from '@mui/icons-material/Comment';
+import React from 'react';
 import TweetStyle from '../css/tweet_list.module.css';
 import { Icon } from "../component/icon"
 import { useNavigate } from 'react-router-dom';
-import { Like } from '../component/like_btn';
+import { LikeIconAndCount } from '../component/like_btn';
+import { ReplyIconAndCount } from '../component/reply';
 
 export const Tweet = (props) => {
     const navigate = useNavigate();
-    const [replyCount, setReplyCount] = useState(0);
-
-    useEffect(() => {
-        if (props.replies !== undefined && props.replies.length > 0) {
-            setReplyCount(props.replies.length);
-        }
-    }, [props.likes, props.replies]);
 
     const handleClick = () => {
         const url = '/tweet_detail/' + props.id;
@@ -32,11 +25,8 @@ export const Tweet = (props) => {
                         </div>
                     </div>
                     <div className={TweetStyle.Section2}>
-                        <div className={TweetStyle.reply}>
-                            <div><CommentIcon /></div>
-                            <div className={TweetStyle.replyCount}>{replyCount}</div>
-                        </div>
-                        <Like likes={props.likes} tweetID={props.tweetID} />
+                        <ReplyIconAndCount replies={props.replies}/>
+                        <LikeIconAndCount likes={props.likes} tweetID={props.tweetID} />
                     </div>
                 </form>
             </div>
