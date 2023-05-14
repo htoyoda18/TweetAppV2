@@ -43,6 +43,9 @@ export const TweetDetail = () => {
 					}
 				})
 				.catch((err) => {
+					if (!err.response || !err.response.data) {
+						return
+					}
 					switch (err.response.data) {
 						case ErrorMessages.FailAuthToken:
 							navigate('/login');
