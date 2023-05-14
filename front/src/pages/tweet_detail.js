@@ -26,7 +26,7 @@ export const TweetDetail = () => {
 			navigate('/login');
 			return;
 		}
-		const TweetDetalGet = () => {
+		const TweetDetailGet = () => {
 			const url = 'v1/tweet_detail/' + params.id
 			client
 				.get(url, { headers: { Authorization: token } })
@@ -48,7 +48,7 @@ export const TweetDetail = () => {
 					}
 				})
 		}
-		TweetDetalGet()
+		TweetDetailGet()
 	}, [params.id, token, navigate]);
 
 	useEffect(() => {
