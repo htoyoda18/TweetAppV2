@@ -10,6 +10,7 @@ import { Reply } from "../component/reply"
 import { ReplyPost } from "../component/reply_post"
 import { useNavigate } from "react-router-dom";
 import { UserIconGet } from "../api/icon_get"
+import {ErrorMessages} from '../shaerd/error'
 
 export const TweetDetail = () => {
 	const params = useParams();
@@ -26,7 +27,7 @@ export const TweetDetail = () => {
 			navigate('/login');
 			return;
 		}
-		const TweetDetalGet = () => {
+		const TweetDetailGet = () => {
 			const url = 'v1/tweet_detail/' + params.id
 			client
 				.get(url, { headers: { Authorization: token } })
@@ -42,13 +43,19 @@ export const TweetDetail = () => {
 					}
 				})
 				.catch((err) => {
-					console.log("err", err.response)
-					if (err.response.data === 'Fail auth token') {
-						navigate('/login');
+					switch (err.response.data) {
+						case ErrorMessages.FailAuthToken:
+							navigate('/login');
+							break;
+						case ErrorMessages.RecordNotFound:
+							navigate('/not_found');
+							break;
+						default:
+							console.log("err", err.response)
 					}
 				})
 		}
-		TweetDetalGet()
+		TweetDetailGet()
 	}, [params.id, token, navigate]);
 
 	useEffect(() => {
