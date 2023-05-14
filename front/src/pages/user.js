@@ -9,6 +9,7 @@ import { Tweet } from "../component/tweet"
 import UserInfoStyle from '../css/user_info.module.css';
 import { useNavigate } from "react-router-dom";
 import { UserIconGet } from "../api/icon_get"
+import {ErrorMessages} from '../shaerd/error'
 
 export const User = () => {
 	const navigate = useNavigate();
@@ -37,8 +38,18 @@ export const User = () => {
 					}
 				})
 				.catch((err) => {
-					if (err.response && err.response.data === 'Fail auth token') {
-						navigate('/login');
+					if (!err.response || !err.response.data) {
+						return
+					}
+					switch (err.response.data) {
+						case ErrorMessages.FailAuthToken:
+							navigate('/login');
+							break;
+						case ErrorMessages.RecordNotFound:
+							navigate('/not_found');
+							break;
+						default:
+							console.log("err", err.response)
 					}
 				})
 		}
