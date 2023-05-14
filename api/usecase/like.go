@@ -6,7 +6,7 @@ import (
 	"github.com/htoyoda18/TweetAppV2/api/handler/request"
 	"github.com/htoyoda18/TweetAppV2/api/model"
 	"github.com/htoyoda18/TweetAppV2/api/repository"
-	"github.com/htoyoda18/TweetAppV2/api/shaerd"
+	"github.com/htoyoda18/TweetAppV2/api/shared"
 	"gorm.io/gorm"
 )
 
@@ -32,12 +32,12 @@ func NewLike(
 }
 
 func (l like) Add(params request.Like, userID int) error {
-	shaerd.Info(LogVal("Add"))
+	shared.Info(LogVal("Add"))
 	if like, _ := l.likeRepository.Get(&model.Like{
 		TweetID: params.TweetID,
 		UserID:  userID,
 	}, l.db); like != nil {
-		err := errors.New(shaerd.DuplicateLike)
+		err := errors.New(shared.DuplicateLike)
 		return err
 	}
 
@@ -52,7 +52,7 @@ func (l like) Add(params request.Like, userID int) error {
 }
 
 func (l like) Delete(userID int, tweetID int) error {
-	shaerd.Info(LogVal("Delete"))
+	shared.Info(LogVal("Delete"))
 
 	like, err := l.likeRepository.Get(&model.Like{
 		TweetID: tweetID,
@@ -70,7 +70,7 @@ func (l like) Delete(userID int, tweetID int) error {
 }
 
 func (l like) Get(userID int, tweetID int) error {
-	shaerd.Info(LogVal("Get"))
+	shared.Info(LogVal("Get"))
 
 	_, err := l.likeRepository.Get(&model.Like{
 		TweetID: tweetID,

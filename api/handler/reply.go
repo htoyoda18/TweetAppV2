@@ -6,7 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/htoyoda18/TweetAppV2/api/handler/request"
-	"github.com/htoyoda18/TweetAppV2/api/shaerd"
+	"github.com/htoyoda18/TweetAppV2/api/shared"
 	"github.com/htoyoda18/TweetAppV2/api/usecase"
 )
 
@@ -27,17 +27,17 @@ func NewReply(
 }
 
 func (r reply) Add(c *gin.Context) {
-	shaerd.Info("Add")
+	shared.Info("Add")
 
 	var params request.Reply
 	if err := c.ShouldBindJSON(&params); err != nil {
-		shaerd.Error(LogVal("Add", err))
-		err = errors.New(shaerd.ShouldBindJsonErr)
+		shared.Error(LogVal("Add", err))
+		err = errors.New(shared.ShouldBindJsonErr)
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	userID, err := shaerd.AuthUser(c)
+	userID, err := shared.AuthUser(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 		return

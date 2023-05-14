@@ -1,4 +1,4 @@
-package shaerd
+package shared
 
 import (
 	"go.uber.org/zap"

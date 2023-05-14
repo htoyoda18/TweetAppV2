@@ -55,7 +55,7 @@ volumes:
     name: mysql_test_volume
 
 networks:
-   backend:
+  backend:
     driver: bridge
     ipam:
       driver: default
