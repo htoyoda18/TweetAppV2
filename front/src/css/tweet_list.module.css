@@ -1,6 +1,8 @@
 .TweetList {
     display: flex;
     background-color: #ABE1FA;
+    max-height: 100vh;
+    overflow-y: auto;
 }
 
 .Tweet {
