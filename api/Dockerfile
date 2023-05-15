@@ -9,4 +9,3 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize
     && rm dockerize-linux-amd64-v0.6.1.tar.gz
 
 WORKDIR /go/src
-CMD ["air", "-c", ".air.toml"]
