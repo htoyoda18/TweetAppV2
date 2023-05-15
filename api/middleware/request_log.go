@@ -7,7 +7,7 @@ import (
 	"github.com/htoyoda18/TweetAppV2/api/shared"
 )
 
-type RequestLogger struct {
+type requestLog struct {
 	RequestPath string      `json:"requestPath"`
 	Method      string      `json:"method"`
 	RequestBody interface{} `json:"requestBody"`
@@ -15,20 +15,20 @@ type RequestLogger struct {
 	IPAddress   string      `json:"ipAddress"`
 }
 
-func OutputRequestDetailsLog() gin.HandlerFunc {
+func RequestDetailsLog() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		requestLogger := RequestLogger{
+		requestLogger := requestLog{
 			RequestPath: c.Request.URL.Path,
 			Method:      c.Request.Method,
 			RequestBody: c.Request.Body,
 			IPAddress:   c.ClientIP(),
 		}
-		requestLoggerJson, err := json.Marshal(requestLogger)
+		requestLogJson, err := json.Marshal(requestLogger)
 		if err != nil {
 			shared.Error("Log marshing failed: ", err)
 		}
 
-		shared.Info("RequestLog: ", string(requestLoggerJson))
+		shared.Info("RequestLog: ", string(requestLogJson))
 
 		c.Next()
 	}

@@ -23,7 +23,8 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 		AllowCredentials: true,
 	}))
 	r.Use(middleware.LoggerMiddleware())
-	r.Use(middleware.OutputRequestDetailsLog())
+	r.Use(middleware.RequestDetailsLog())
+	r.Use(middleware.ResponseLogInfo())
 
 	v1 := r.Group("v1")
 	{
