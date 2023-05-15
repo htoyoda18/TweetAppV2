@@ -5,6 +5,7 @@ import TweetListStyle from '../css/tweet_list.module.css';
 import { Tweet } from "../component/tweet";
 import { client } from '../libs/axios'
 import { UserIconGet } from "../api/icon_get"
+import { ErrorMessages } from '../shaerd/error'
 
 export const Home = () => {
 	const [tweets, setTweets] = useState([]);
@@ -27,8 +28,11 @@ export const Home = () => {
 					}
 				})
 				.catch((err) => {
-					console.log("err", err.response)
-					if (err.response.data === 'Fail auth token') {
+					console.log("err", err)
+					if (!err.response || !err.response.data) {
+						return
+					}
+					if (err.response.data === ErrorMessages.FailAuthToken) {
 						navigate('/login');
 					}
 				})

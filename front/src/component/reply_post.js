@@ -4,6 +4,7 @@ import { Icon } from "./icon"
 import { useState } from 'react';
 import { client } from '../libs/axios'
 import { useNavigate } from 'react-router-dom';
+import { ErrorMessages } from '../shaerd/error'
 
 export const ReplyPost = (props) => {
     const [disabled, setDisabled] = useState(true);
@@ -37,8 +38,11 @@ export const ReplyPost = (props) => {
                 window.location.reload();
             })
             .catch((err) => {
-                console.log("err", err.response)
-                if (err.response.data === 'Fail auth token') {
+                console.log("err", err)
+                if (!err.response || !err.response.data) {
+                    return
+                }
+                if (err.response.data === ErrorMessages.FailAuthToken) {
                     navigate('/login');
                 }
             })

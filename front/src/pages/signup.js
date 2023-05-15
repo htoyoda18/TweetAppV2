@@ -3,11 +3,12 @@ import { useState } from 'react';
 import { client } from '../libs/axios'
 import SignUpStyle from '../css/signup.module.css';
 import { useNavigate } from "react-router-dom";
-import {TweetApp} from "../component/tweet_app"
+import { TweetApp } from "../component/tweet_app"
 import { Note } from "../component/note"
 import { Formbtn } from "../component/form_btn"
 import { ErrorMsg } from "../component/error_message"
 import IndexStyle from '../css/index.module.css';
+import { ErrorMessages } from '../shaerd/error'
 
 export const SignUp = () => {
 	const initialValues = { userName: "", mailAddress: "", password: "" };
@@ -36,19 +37,22 @@ export const SignUp = () => {
 			email: formValues.mailAddress.trim(),
 		}
 		client
-		.post('v1/signup', body)
-		.then((results) => {
-			console.log("results", results)
-			navigate("/login");
-		})
-		.catch((err) => {
-			console.log("err", err.response)
-			if (err.response.data === 'User email duplicate' ) {
-				setFromError({resErr: "このメールアドレスは既に登録されています"})
-			} else {
-				setFromError({resErr: "予期せぬエラーです"})
-			}
-		})
+			.post('v1/signup', body)
+			.then((results) => {
+				console.log("results", results)
+				navigate("/login");
+			})
+			.catch((err) => {
+				console.log("err", err)
+				if (!err.response || !err.response.data) {
+					return
+				}
+				if (err.response.data === ErrorMessages.UserEmailDuplicate) {
+					setFromError({ resErr: "このメールアドレスは既に登録されています" })
+				} else {
+					setFromError({ resErr: "予期せぬエラーです" })
+				}
+			})
 	}
 
 	const validate = (values) => {
@@ -83,23 +87,23 @@ export const SignUp = () => {
 							<label>ユーザ名</label>
 							<input type="text" placeholder="ユーザ名" name="userName" onClick={() => setFromError(validate(formValues))} onChange={(e) => handleChange(e)} />
 						</div>
-						<ErrorMsg err={fomrErrors.userName}/>
+						<ErrorMsg err={fomrErrors.userName} />
 						<div className={SignUpStyle.formFiled}>
 							<label>メールアドレス</label>
 							<input type="text" placeholder="メールアドレス" name="mailAddress" onClick={() => setFromError(validate(formValues))} onChange={(e) => handleChange(e)} />
 						</div>
-						<ErrorMsg err={fomrErrors.mailAddress}/>
+						<ErrorMsg err={fomrErrors.mailAddress} />
 						<div className={SignUpStyle.formFiled}>
 							<label>パスワード</label>
 							<input type="text" placeholder="パスワード" name="password" onClick={() => setFromError(validate(formValues))} onChange={(e) => handleChange(e)} />
 						</div>
-						<ErrorMsg err={fomrErrors.password}/>
-						<ErrorMsg err={fomrErrors.resErr}/>
+						<ErrorMsg err={fomrErrors.password} />
+						<ErrorMsg err={fomrErrors.resErr} />
 						<Formbtn name="新規登録" />
 					</div>
 				</form>
 			</div>
-			<Note text="アカウントをお持ちの方は" link="ログイン" url="http://localhost:3000/login"/>
+			<Note text="アカウントをお持ちの方は" link="ログイン" url="http://localhost:3000/login" />
 		</div>
 	);
 }
