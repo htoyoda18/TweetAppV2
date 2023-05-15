@@ -17,8 +17,10 @@ func NewReply() Reply {
 }
 
 func (r reply) Add(reply *model.Reply, db *gorm.DB) error {
+	shared.Debug(LogVal("Reply", "Add"))
+
 	if err := db.Create(reply).Error; err != nil {
-		shared.Error(LogVal("Add", err))
+		shared.Error(LogVal("Reply", "Add", err))
 		return err
 	}
 	return nil

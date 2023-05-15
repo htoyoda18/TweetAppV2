@@ -29,14 +29,18 @@ func preload() func(db *gorm.DB) *gorm.DB {
 }
 
 func (t tweet) Add(tweet *model.Tweet, db *gorm.DB) error {
+	shared.Debug(LogVal("Tweet", "Add"))
+
 	if err := db.Create(tweet).Error; err != nil {
-		shared.Error(LogVal("Add", err))
+		shared.Error(LogVal("Tweet", "Add", err))
 		return err
 	}
 	return nil
 }
 
 func (t tweet) List(where *model.Tweet, db *gorm.DB) ([]*model.Tweet, error) {
+	shared.Debug(LogVal("Tweet", "List"))
+
 	tweet := []*model.Tweet{}
 	if where != nil {
 		db = db.Where(where)
@@ -45,7 +49,7 @@ func (t tweet) List(where *model.Tweet, db *gorm.DB) ([]*model.Tweet, error) {
 		Scopes(preload()).
 		Order("created_at DESC").
 		Find(&tweet).Error; err != nil {
-		shared.Error(LogVal("List", err))
+		shared.Error(LogVal("Tweet", "List", err))
 		return nil, err
 	}
 
@@ -53,13 +57,15 @@ func (t tweet) List(where *model.Tweet, db *gorm.DB) ([]*model.Tweet, error) {
 }
 
 func (t tweet) Get(tweetID int, db *gorm.DB) (*model.Tweet, error) {
+	shared.Debug(LogVal("Tweet", "Get"))
+
 	tweet := &model.Tweet{}
 	if err := db.
 		Scopes(preload()).
 		Where("id = ?", tweetID).
 		Order("created_at DESC").
 		First(&tweet).Error; err != nil {
-		shared.Error(LogVal("Get", err))
+		shared.Error(LogVal("Tweet", "Get", err))
 		return nil, err
 	}
 

@@ -25,7 +25,7 @@ func NewFile() File {
 }
 
 func (u file) Upload(c *gin.Context) {
-	shared.Info("Upload")
+	shared.Debug(LogVal("File", "Upload"))
 
 	file, err := c.FormFile("file")
 	if err != nil {
@@ -47,13 +47,13 @@ func (u file) Upload(c *gin.Context) {
 }
 
 func (u file) IconGet(c *gin.Context) {
-	shared.Info("IconGet")
+	shared.Debug(LogVal("File", "IconGet"))
 
 	filePath := "./uploads/icon/" + c.Param("filename")
 
 	_, err := shared.AuthUser(c)
 	if err != nil {
-		shared.Error(LogVal("UpdatePassword", err))
+		shared.Error(LogVal("File", "UpdatePassword", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}

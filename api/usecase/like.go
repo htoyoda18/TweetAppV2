@@ -32,7 +32,8 @@ func NewLike(
 }
 
 func (l like) Add(params request.Like, userID int) error {
-	shared.Info(LogVal("Add"))
+	shared.Debug(LogVal("Like", "Add"))
+
 	if like, _ := l.likeRepository.Get(&model.Like{
 		TweetID: params.TweetID,
 		UserID:  userID,
@@ -52,7 +53,7 @@ func (l like) Add(params request.Like, userID int) error {
 }
 
 func (l like) Delete(userID int, tweetID int) error {
-	shared.Info(LogVal("Delete"))
+	shared.Debug(LogVal("Like", "Delete"))
 
 	like, err := l.likeRepository.Get(&model.Like{
 		TweetID: tweetID,
@@ -70,7 +71,7 @@ func (l like) Delete(userID int, tweetID int) error {
 }
 
 func (l like) Get(userID int, tweetID int) error {
-	shared.Info(LogVal("Get"))
+	shared.Debug(LogVal("Like", "Get"))
 
 	_, err := l.likeRepository.Get(&model.Like{
 		TweetID: tweetID,

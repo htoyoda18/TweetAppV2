@@ -32,7 +32,7 @@ func NewTweet(
 }
 
 func (t tweet) Create(c *gin.Context) {
-	shared.Info("Create")
+	shared.Debug(LogVal("Tweet", "Create"))
 
 	var params request.Tweet
 	if err := c.ShouldBindJSON(&params); err != nil {
@@ -58,7 +58,7 @@ func (t tweet) Create(c *gin.Context) {
 }
 
 func (t tweet) List(c *gin.Context) {
-	shared.Info("List")
+	shared.Debug(LogVal("Tweet", "List"))
 
 	_, err := shared.AuthUser(c)
 	if err != nil {
@@ -77,7 +77,7 @@ func (t tweet) List(c *gin.Context) {
 
 // userIDに紐づくツイートを取得する
 func (t tweet) ListUser(c *gin.Context) {
-	shared.Info("ListUser")
+	shared.Debug(LogVal("Tweet", "ListUser"))
 
 	_, err := shared.AuthUser(c)
 	if err != nil {
@@ -98,7 +98,7 @@ func (t tweet) ListUser(c *gin.Context) {
 }
 
 func (t tweet) Get(c *gin.Context) {
-	shared.Info("Get")
+	shared.Debug(LogVal("Tweet", "Get"))
 
 	_, err := shared.AuthUser(c)
 	if err != nil {

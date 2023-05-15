@@ -20,9 +20,11 @@ func NewUser() User {
 }
 
 func (u user) Get(where *model.User, db *gorm.DB) (*model.User, error) {
+	shared.Debug(LogVal("User", "Get"))
+
 	user := &model.User{}
 	if err := db.Debug().Where(where).First(user).Error; err != nil {
-		shared.Error(LogVal("Get", err))
+		shared.Error(LogVal("User", "Get", err))
 		return nil, err
 	}
 
@@ -30,16 +32,20 @@ func (u user) Get(where *model.User, db *gorm.DB) (*model.User, error) {
 }
 
 func (u user) Add(user *model.User, db *gorm.DB) (*model.User, error) {
+	shared.Debug(LogVal("User", "Add"))
+
 	if err := db.Create(user).Error; err != nil {
-		shared.Error(LogVal("Add", err))
+		shared.Error(LogVal("User", "Add", err))
 		return nil, err
 	}
 	return user, nil
 }
 
 func (u user) UpdatePassword(user *model.User, db *gorm.DB) error {
+	shared.Debug(LogVal("User", "UpdatePassword"))
+
 	if err := db.Model(&model.User{}).Where("id = ?", user.ID).Update("password", user.Password).Error; err != nil {
-		shared.Error(LogVal("UpdatePassword", err))
+		shared.Error(LogVal("User", "UpdatePassword", err))
 		return err
 	}
 
@@ -47,6 +53,8 @@ func (u user) UpdatePassword(user *model.User, db *gorm.DB) error {
 }
 
 func (u user) UpdateUser(user *model.User, db *gorm.DB) error {
+	shared.Debug(LogVal("User", "UpdateUser"))
+
 	updates := map[string]interface{}{
 		"name":         user.Name,
 		"introduction": user.Introduction,
@@ -54,7 +62,7 @@ func (u user) UpdateUser(user *model.User, db *gorm.DB) error {
 	}
 
 	if err := db.Model(&model.User{}).Where("id = ?", user.ID).Updates(updates).Error; err != nil {
-		shared.Error(LogVal("UpdatePassword", err))
+		shared.Error(LogVal("User", "UpdatePassword", err))
 		return err
 	}
 

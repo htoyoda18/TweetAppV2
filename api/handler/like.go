@@ -32,12 +32,12 @@ func NewLike(
 }
 
 func (l like) Add(c *gin.Context) {
-	shared.Info("Add")
+	shared.Debug(LogVal("Like", "Add"))
 
 	var params request.Like
 
 	if err := c.ShouldBindJSON(&params); err != nil {
-		shared.Error(LogVal("UpdatePassword", err))
+		shared.Error(LogVal("Like", "Add", err))
 		err = errors.New(shared.ShouldBindJsonErr)
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
@@ -45,7 +45,7 @@ func (l like) Add(c *gin.Context) {
 
 	userID, err := shared.AuthUser(c)
 	if err != nil {
-		shared.Error(LogVal("UpdatePassword", err))
+		shared.Error(LogVal("Like", "Add", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -62,7 +62,7 @@ func (l like) Add(c *gin.Context) {
 }
 
 func (l like) Delete(c *gin.Context) {
-	shared.Info("Delete")
+	shared.Debug(LogVal("Like", "Delete"))
 
 	userID, err := shared.AuthUser(c)
 	if err != nil {
@@ -87,7 +87,7 @@ func (l like) Delete(c *gin.Context) {
 }
 
 func (l like) Get(c *gin.Context) {
-	shared.Info("Get")
+	shared.Debug(LogVal("Like", "Get"))
 
 	userID, err := shared.AuthUser(c)
 	if err != nil {

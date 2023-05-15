@@ -9,7 +9,7 @@ var zapLog *zap.Logger
 
 func Setup() {
 	config := zap.Config{
-		Level:             zap.NewAtomicLevelAt(zap.InfoLevel),
+		Level:             zap.NewAtomicLevelAt(zap.DebugLevel),
 		Development:       true,
 		DisableStacktrace: true,
 		Encoding:          "console",
@@ -34,6 +34,10 @@ func Setup() {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func Debug(message string, args ...interface{}) {
+	zapLog.Sugar().Debugf("%s %s", message, args)
 }
 
 func Info(message string, args ...interface{}) {
