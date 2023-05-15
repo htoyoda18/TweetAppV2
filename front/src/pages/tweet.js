@@ -33,7 +33,7 @@ export const Tweet = () => {
 				navigate("/");
 			})
 			.catch((err) => {
-				console.log("err", err.response)
+				console.log("err", err)
 				if (err.response.data === 'Fail auth token') {
 					navigate('/login');
 				}

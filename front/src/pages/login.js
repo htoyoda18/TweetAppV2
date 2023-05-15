@@ -66,7 +66,10 @@ export const Login = () => {
 				navigate("/");
 			})
 			.catch((err) => {
-				console.log("err", err.response)
+				console.log("err", err)
+				if (!err.response || !err.response.data) {
+					return
+				}
 				if (err.response.data === 'User not found') {
 					setFromError({ resErr: "メールアドレス又は、パスワードが違います" })
 				} else {

@@ -83,7 +83,7 @@ const EditUserInfoBtn = (props) => {
         window.location.reload();
       })
       .catch((err) => {
-        console.log("v1/user/update", err.response);
+        console.log("err", err)
       });
   };
   

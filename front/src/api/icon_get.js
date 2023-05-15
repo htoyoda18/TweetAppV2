@@ -13,6 +13,6 @@ export const UserIconGet = async (icon) => {
         const iconUrl = GenerateImageUrl(res.data)
         return iconUrl
     } catch (err) {
-        console.log("err", err.response)
+        console.log("err", err)
     }
 }

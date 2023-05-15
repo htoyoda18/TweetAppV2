@@ -17,7 +17,7 @@ export const AddLike = (tweetID) => {
             return res
         })
         .catch((err) => {
-            console.log("err", err.response)
+            console.log("err", err)
         })
 }
 
@@ -30,7 +30,7 @@ export const DeleteLike = (tweetID) => {
             return res
         })
         .catch((err) => {
-            console.log("err", err.response)
+            console.log("err", err)
         })
 }
 
@@ -48,6 +48,6 @@ export const IsLikedByUser = async (tweetID) => {
         }
         return null;
     } catch (err) {
-        console.log("err", err.response)
+        console.log("err", err)
     }
 }

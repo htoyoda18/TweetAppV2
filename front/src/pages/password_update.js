@@ -49,7 +49,10 @@ export const PasswordUpdate = () => {
 				navigate("/login");
 			})
 			.catch((err) => {
-				console.log("err", err.response)
+				console.log("err", err)
+				if (!err.response || !err.response.data) {
+					return
+				}
 				if (err.response.data === 'User email duplicate') {
 					setFromError({ resErr: "このメールアドレスは既に登録されています" })
 				} else if (err.response.data === 'Fail auth token') {

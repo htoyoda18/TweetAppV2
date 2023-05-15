@@ -43,6 +43,7 @@ export const TweetDetail = () => {
 					}
 				})
 				.catch((err) => {
+					console.log("err", err)
 					if (!err.response || !err.response.data) {
 						return
 					}

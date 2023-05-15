@@ -19,7 +19,7 @@ export const NotFound = () => {
                     console.log('imageUrl', images[0].url);
                 }
             } catch (err) {
-                console.log("err", err.response);
+                console.log("err", err);
             }
         };
 

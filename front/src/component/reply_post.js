@@ -37,7 +37,10 @@ export const ReplyPost = (props) => {
                 window.location.reload();
             })
             .catch((err) => {
-                console.log("err", err.response)
+                console.log("err", err)
+                if (!err.response || !err.response.data) {
+                    return
+                }
                 if (err.response.data === 'Fail auth token') {
                     navigate('/login');
                 }

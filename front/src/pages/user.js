@@ -38,6 +38,7 @@ export const User = () => {
 					}
 				})
 				.catch((err) => {
+					console.log("err", err)
 					if (!err.response || !err.response.data) {
 						return
 					}
