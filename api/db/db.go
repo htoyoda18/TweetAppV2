@@ -2,10 +2,10 @@ package db
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"time"
 
-	"github.com/htoyoda18/TweetAppV2/api/shaerd"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -17,11 +17,11 @@ func InitDB() (*gorm.DB, error) {
 
 	db, err := gorm.Open(mysql.Open(dbConnection), &gorm.Config{})
 	if err != nil {
-		shaerd.Error("InitDB: ", err)
+		log.Println("InitDB: ", err)
 	}
 	sqlDB, err := db.DB()
 	if err != nil {
-		shaerd.Error("InitDB: ", err)
+		log.Println("InitDB: ", err)
 	}
 	for {
 		err = sqlDB.Ping()

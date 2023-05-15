@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/htoyoda18/TweetAppV2/api/handler/request"
 	"github.com/htoyoda18/TweetAppV2/api/model"
-	"github.com/htoyoda18/TweetAppV2/api/shaerd"
+	"github.com/htoyoda18/TweetAppV2/api/shared"
 	"github.com/htoyoda18/TweetAppV2/api/usecase"
 )
 
@@ -32,17 +32,17 @@ func NewTweet(
 }
 
 func (t tweet) Create(c *gin.Context) {
-	shaerd.Info("Create")
+	shared.Info("Create")
 
 	var params request.Tweet
 	if err := c.ShouldBindJSON(&params); err != nil {
-		shaerd.Error("Create", err)
-		err = errors.New(shaerd.ShouldBindJsonErr)
+		shared.Error("Create", err)
+		err = errors.New(shared.ShouldBindJsonErr)
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	userID, err := shaerd.AuthUser(c)
+	userID, err := shared.AuthUser(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
@@ -58,9 +58,9 @@ func (t tweet) Create(c *gin.Context) {
 }
 
 func (t tweet) List(c *gin.Context) {
-	shaerd.Info("List")
+	shared.Info("List")
 
-	_, err := shaerd.AuthUser(c)
+	_, err := shared.AuthUser(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
@@ -77,9 +77,9 @@ func (t tweet) List(c *gin.Context) {
 
 // userIDに紐づくツイートを取得する
 func (t tweet) ListUser(c *gin.Context) {
-	shaerd.Info("ListUser")
+	shared.Info("ListUser")
 
-	_, err := shaerd.AuthUser(c)
+	_, err := shared.AuthUser(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
@@ -98,9 +98,9 @@ func (t tweet) ListUser(c *gin.Context) {
 }
 
 func (t tweet) Get(c *gin.Context) {
-	shaerd.Info("Get")
+	shared.Info("Get")
 
-	_, err := shaerd.AuthUser(c)
+	_, err := shared.AuthUser(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 		return

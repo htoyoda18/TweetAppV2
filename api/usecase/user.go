@@ -9,7 +9,7 @@ import (
 	"github.com/htoyoda18/TweetAppV2/api/handler/request"
 	"github.com/htoyoda18/TweetAppV2/api/model"
 	"github.com/htoyoda18/TweetAppV2/api/repository"
-	"github.com/htoyoda18/TweetAppV2/api/shaerd"
+	"github.com/htoyoda18/TweetAppV2/api/shared"
 	"gorm.io/gorm"
 )
 
@@ -40,11 +40,11 @@ func NewUser(
 func (u user) Create(params request.Signup) (*model.User, error) {
 	selectUser, _ := u.userRepository.Get(&model.User{Email: params.Email}, u.db)
 	if selectUser != nil {
-		err := errors.New(shaerd.UserEmailDuplicate)
+		err := errors.New(shared.UserEmailDuplicate)
 		return nil, err
 	}
 
-	password, _ := shaerd.PasswordEncrypt(params.Password)
+	password, _ := shared.PasswordEncrypt(params.Password)
 	log.Println(password)
 
 	user, err := u.userRepository.Add(&model.User{
@@ -53,7 +53,7 @@ func (u user) Create(params request.Signup) (*model.User, error) {
 		Password: password,
 	}, u.db)
 	if err != nil {
-		shaerd.Error(LogVal("Create", err))
+		shared.Error(LogVal("Create", err))
 		return nil, err
 	}
 
@@ -76,14 +76,14 @@ func (u user) Show(params request.Login) (*model.User, error) {
 		Email: params.Email,
 	}, u.db)
 	if err != nil {
-		shaerd.Error(LogVal("Show", err))
-		err := errors.New(shaerd.UserNotFound)
+		shared.Error(LogVal("Show", err))
+		err := errors.New(shared.UserNotFound)
 		return nil, err
 	}
-	err = shaerd.CompareHashAndPassword(user.Password, params.Password)
+	err = shared.CompareHashAndPassword(user.Password, params.Password)
 	if err != nil {
-		shaerd.Error(LogVal("Show", err))
-		err := errors.New(shaerd.UserNotFound)
+		shared.Error(LogVal("Show", err))
+		err := errors.New(shared.UserNotFound)
 		return nil, err
 	}
 
@@ -95,13 +95,13 @@ func (u user) PasswordReset(mail string) error {
 		Email: mail,
 	}, u.db)
 	if err != nil {
-		shaerd.Error(LogVal("PasswordReset", err))
-		err := errors.New(shaerd.EmailNotFound)
+		shared.Error(LogVal("PasswordReset", err))
+		err := errors.New(shared.EmailNotFound)
 		return err
 	}
 
 	expiration := time.Now().Add(time.Minute * 15).Unix()
-	jwt := shaerd.NewJwt(user, expiration)
+	jwt := shared.NewJwt(user, expiration)
 	url := fmt.Sprintf("http://localhost:3000/password_update/%s", jwt)
 
 	err = SendMail(SendMailParam{
@@ -118,15 +118,15 @@ func (u user) PasswordReset(mail string) error {
 }
 
 func (u user) UpdatePassword(password string, userID int) error {
-	hashPassword, _ := shaerd.PasswordEncrypt(password)
+	hashPassword, _ := shared.PasswordEncrypt(password)
 
 	err := u.userRepository.UpdatePassword(&model.User{
 		ID:       userID,
 		Password: hashPassword,
 	}, u.db)
 	if err != nil {
-		shaerd.Error(LogVal("UpdatePassword", err))
-		err := errors.New(shaerd.EmailNotFound)
+		shared.Error(LogVal("UpdatePassword", err))
+		err := errors.New(shared.EmailNotFound)
 		return err
 	}
 
@@ -134,7 +134,7 @@ func (u user) UpdatePassword(password string, userID int) error {
 }
 
 func (u user) UpdateUser(userID int, icon string, userName string, introduction string) error {
-	shaerd.Info(LogVal("UpdateUser"))
+	shared.Info(LogVal("UpdateUser"))
 	err := u.userRepository.UpdateUser(&model.User{
 		ID:           userID,
 		Icon:         icon,
@@ -142,7 +142,7 @@ func (u user) UpdateUser(userID int, icon string, userName string, introduction 
 		Introduction: introduction,
 	}, u.db)
 	if err != nil {
-		shaerd.Error(LogVal("UpdateUser", err))
+		shared.Error(LogVal("UpdateUser", err))
 		return err
 	}
 
@@ -154,7 +154,7 @@ func (u user) Get(userID int) (*model.User, error) {
 		ID: userID,
 	}, u.db)
 	if err != nil {
-		shaerd.Error(LogVal("Get", err))
+		shared.Error(LogVal("Get", err))
 		return user, err
 	}
 

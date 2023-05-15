@@ -8,7 +8,7 @@ import (
 
 	"github.com/htoyoda18/TweetAppV2/api/handler/request"
 	"github.com/htoyoda18/TweetAppV2/api/handler/response"
-	"github.com/htoyoda18/TweetAppV2/api/shaerd"
+	"github.com/htoyoda18/TweetAppV2/api/shared"
 	"github.com/htoyoda18/TweetAppV2/api/usecase"
 
 	"github.com/gin-gonic/gin"
@@ -36,19 +36,19 @@ func NewUser(
 }
 
 func (u user) Create(c *gin.Context) {
-	shaerd.Info("Create")
+	shared.Info("Create")
 
 	var params request.Signup
 
 	if err := c.ShouldBindJSON(&params); err != nil {
-		shaerd.Error(LogVal("Create", err))
+		shared.Error(LogVal("Create", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	user, err := u.userUsecase.Create(params)
 	if err != nil {
-		shaerd.Error(LogVal("Create", err))
+		shared.Error(LogVal("Create", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -57,26 +57,26 @@ func (u user) Create(c *gin.Context) {
 }
 
 func (u user) Login(c *gin.Context) {
-	shaerd.Info("Login")
+	shared.Info("Login")
 
 	var params request.Login
 
 	if err := c.ShouldBindJSON(&params); err != nil {
-		err = errors.New(shaerd.ShouldBindJsonErr)
-		shaerd.Error(LogVal("Login", err))
+		err = errors.New(shared.ShouldBindJsonErr)
+		shared.Error(LogVal("Login", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	user, err := u.userUsecase.Show(params)
 	if err != nil {
-		shaerd.Error(LogVal("Login", err))
+		shared.Error(LogVal("Login", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	expiration := time.Now().Add(time.Hour * 24).Unix()
-	jwt := shaerd.NewJwt(user, expiration)
+	jwt := shared.NewJwt(user, expiration)
 	loginResponse := response.LoginResponse{
 		Token:  jwt,
 		UserID: user.ID,
@@ -86,20 +86,20 @@ func (u user) Login(c *gin.Context) {
 }
 
 func (u user) PasswordReset(c *gin.Context) {
-	shaerd.Info("PasswordReset")
+	shared.Info("PasswordReset")
 
 	var params request.PasswordReset
 
 	if err := c.ShouldBindJSON(&params); err != nil {
-		shaerd.Error(LogVal("PasswordReset", err))
-		err = errors.New(shaerd.ShouldBindJsonErr)
+		shared.Error(LogVal("PasswordReset", err))
+		err = errors.New(shared.ShouldBindJsonErr)
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	err := u.userUsecase.PasswordReset(params.Email)
 	if err != nil {
-		shaerd.Error(LogVal("PasswordReset", err))
+		shared.Error(LogVal("PasswordReset", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -108,19 +108,19 @@ func (u user) PasswordReset(c *gin.Context) {
 }
 
 func (u user) UpdatePassword(c *gin.Context) {
-	shaerd.Info("UpdatePassword")
+	shared.Info("UpdatePassword")
 
 	var params request.UpdatePassword
 
 	if err := c.ShouldBindJSON(&params); err != nil {
-		shaerd.Error(LogVal("UpdatePassword", err))
-		err = errors.New(shaerd.ShouldBindJsonErr)
+		shared.Error(LogVal("UpdatePassword", err))
+		err = errors.New(shared.ShouldBindJsonErr)
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	token := c.Param("token")
-	userID, err := shaerd.JwtParse(token)
+	userID, err := shared.JwtParse(token)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
@@ -128,7 +128,7 @@ func (u user) UpdatePassword(c *gin.Context) {
 
 	err = u.userUsecase.UpdatePassword(params.Password, userID)
 	if err != nil {
-		shaerd.Error(LogVal("UpdatePassword", err))
+		shared.Error(LogVal("UpdatePassword", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -137,27 +137,27 @@ func (u user) UpdatePassword(c *gin.Context) {
 }
 
 func (u user) UpdateUser(c *gin.Context) {
-	shaerd.Info("UpdateUser")
+	shared.Info("UpdateUser")
 
 	var params request.UpdateUser
 
 	if err := c.ShouldBindJSON(&params); err != nil {
-		shaerd.Error(LogVal("UpdatePassword", err))
-		err = errors.New(shaerd.ShouldBindJsonErr)
+		shared.Error(LogVal("UpdatePassword", err))
+		err = errors.New(shared.ShouldBindJsonErr)
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	userID, err := shaerd.AuthUser(c)
+	userID, err := shared.AuthUser(c)
 	if err != nil {
-		shaerd.Error(LogVal("UpdatePassword", err))
+		shared.Error(LogVal("UpdatePassword", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	err = u.userUsecase.UpdateUser(userID, params.Icon, params.Username, params.Introduction)
 	if err != nil {
-		shaerd.Error(LogVal("UpdatePassword", err))
+		shared.Error(LogVal("UpdatePassword", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -166,9 +166,9 @@ func (u user) UpdateUser(c *gin.Context) {
 }
 
 func (u user) Get(c *gin.Context) {
-	shaerd.Info("Get")
+	shared.Info("Get")
 
-	_, err := shaerd.AuthUser(c)
+	_, err := shared.AuthUser(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 		return

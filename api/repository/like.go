@@ -2,7 +2,7 @@ package repository
 
 import (
 	"github.com/htoyoda18/TweetAppV2/api/model"
-	"github.com/htoyoda18/TweetAppV2/api/shaerd"
+	"github.com/htoyoda18/TweetAppV2/api/shared"
 	"gorm.io/gorm"
 )
 
@@ -19,10 +19,10 @@ func NewLike() Like {
 }
 
 func (l like) Get(where *model.Like, db *gorm.DB) (*model.Like, error) {
-	shaerd.Info("Get")
+	shared.Info("Get")
 	like := &model.Like{}
 	if err := db.Debug().Where(where).First(like).Error; err != nil {
-		shaerd.Error(LogVal("Get", err))
+		shared.Error(LogVal("Get", err))
 		return nil, err
 	}
 
@@ -30,9 +30,9 @@ func (l like) Get(where *model.Like, db *gorm.DB) (*model.Like, error) {
 }
 
 func (l like) Add(like *model.Like, db *gorm.DB) error {
-	shaerd.Info("Add")
+	shared.Info("Add")
 	if err := db.Debug().Create(like).Error; err != nil {
-		shaerd.Error(LogVal("Add", err))
+		shared.Error(LogVal("Add", err))
 		return err
 	}
 
@@ -40,9 +40,9 @@ func (l like) Add(like *model.Like, db *gorm.DB) error {
 }
 
 func (l like) Delete(like *model.Like, db *gorm.DB) error {
-	shaerd.Info("Delete")
+	shared.Info("Delete")
 	if err := db.Debug().Unscoped().Delete(like).Error; err != nil {
-		shaerd.Error(LogVal("Delete", err))
+		shared.Error(LogVal("Delete", err))
 		return err
 	}
 

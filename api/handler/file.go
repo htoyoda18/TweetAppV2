@@ -9,7 +9,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/htoyoda18/TweetAppV2/api/handler/response"
-	"github.com/htoyoda18/TweetAppV2/api/shaerd"
+	"github.com/htoyoda18/TweetAppV2/api/shared"
 )
 
 // 次は、ファイルをローカルストレージに保存するAPIを作成する
@@ -25,11 +25,11 @@ func NewFile() File {
 }
 
 func (u file) Upload(c *gin.Context) {
-	shaerd.Info("Upload")
+	shared.Info("Upload")
 
 	file, err := c.FormFile("file")
 	if err != nil {
-		shaerd.Error("Upload", err)
+		shared.Error("Upload", err)
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -38,7 +38,7 @@ func (u file) Upload(c *gin.Context) {
 	fileName := filepath.Base(file.Filename)
 	path := fmt.Sprintf("./uploads/icon/%s", fileName)
 	if err := c.SaveUploadedFile(file, path); err != nil {
-		shaerd.Error("Upload", err)
+		shared.Error("Upload", err)
 		c.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -47,13 +47,13 @@ func (u file) Upload(c *gin.Context) {
 }
 
 func (u file) IconGet(c *gin.Context) {
-	shaerd.Info("IconGet")
+	shared.Info("IconGet")
 
 	filePath := "./uploads/icon/" + c.Param("filename")
 
-	_, err := shaerd.AuthUser(c)
+	_, err := shared.AuthUser(c)
 	if err != nil {
-		shaerd.Error(LogVal("UpdatePassword", err))
+		shared.Error(LogVal("UpdatePassword", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -62,11 +62,11 @@ func (u file) IconGet(c *gin.Context) {
 	_, err = os.Stat(filePath)
 	if err != nil {
 		if os.IsNotExist(err) {
-			shaerd.Error("IconGet", errors.New(shaerd.FailNotFound))
+			shared.Error("IconGet", errors.New(shared.FailNotFound))
 			c.JSON(http.StatusBadRequest, err.Error())
 			return
 		}
-		shaerd.Error("IconGet", errors.New(shaerd.FailNotOpen))
+		shared.Error("IconGet", errors.New(shared.FailNotOpen))
 		c.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}

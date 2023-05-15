@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/htoyoda18/TweetAppV2/api/shaerd"
+	"github.com/htoyoda18/TweetAppV2/api/shared"
 )
 
 type Token interface {
@@ -18,7 +18,7 @@ func NewToken() Token {
 }
 
 func (t token) ValidateToken(c *gin.Context) {
-	_, err := shaerd.AuthUser(c)
+	_, err := shared.AuthUser(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 		return

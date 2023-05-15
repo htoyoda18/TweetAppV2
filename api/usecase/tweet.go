@@ -3,7 +3,7 @@ package usecase
 import (
 	"github.com/htoyoda18/TweetAppV2/api/model"
 	"github.com/htoyoda18/TweetAppV2/api/repository"
-	"github.com/htoyoda18/TweetAppV2/api/shaerd"
+	"github.com/htoyoda18/TweetAppV2/api/shared"
 	"gorm.io/gorm"
 )
 
@@ -34,7 +34,7 @@ func (t tweet) Create(userID int, tweet string) error {
 		Tweet:  tweet,
 	}, t.db)
 	if err != nil {
-		shaerd.Error(LogVal("Create", err))
+		shared.Error(LogVal("Create", err))
 		return err
 	}
 
@@ -44,7 +44,7 @@ func (t tweet) Create(userID int, tweet string) error {
 func (t tweet) List(where *model.Tweet) ([]*model.Tweet, error) {
 	tweet, err := t.tweetRepository.List(where, t.db)
 	if err != nil {
-		shaerd.Error(LogVal("List", err))
+		shared.Error(LogVal("List", err))
 		return tweet, err
 	}
 
@@ -54,7 +54,7 @@ func (t tweet) List(where *model.Tweet) ([]*model.Tweet, error) {
 func (t tweet) Get(tweetID int) (*model.Tweet, error) {
 	tweet, err := t.tweetRepository.Get(tweetID, t.db)
 	if err != nil {
-		shaerd.Error(LogVal("Get", err))
+		shared.Error(LogVal("Get", err))
 		return tweet, err
 	}
 
