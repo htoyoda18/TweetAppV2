@@ -8,4 +8,4 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.1.tar.gz \
     && rm dockerize-linux-amd64-v0.6.1.tar.gz
 
-WORKDIR /go/src
+WORKDIR /api/src

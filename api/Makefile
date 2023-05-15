@@ -18,11 +18,11 @@ log:
 
 .PHONY: log-api
 log-api:
-	docker logs -f go || exit 1
+	docker logs -f api || exit 1
 
 .PHONY: wait-for-api
 wait-for-api:
-	until docker logs go | grep "Start API"; do sleep 1; done || exit 1
+	until docker logs api | grep "Start API"; do sleep 1; done || exit 1
 
 .PHONY: setup
 setup:

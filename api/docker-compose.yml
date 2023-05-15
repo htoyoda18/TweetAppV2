@@ -30,8 +30,8 @@ services:
     networks:
       - backend
 
-  go:
-    container_name: go
+  api:
+    container_name: api
     command: >
       /bin/sh -c "dockerize -wait tcp://db:3306 -timeout 60s && air -c .air.toml"
     build:
@@ -48,7 +48,7 @@ services:
     volumes:
       - type: bind
         source: ./
-        target: /go/src
+        target: /api/src
     networks:
       - backend
 
