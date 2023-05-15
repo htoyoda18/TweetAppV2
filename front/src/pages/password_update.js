@@ -7,6 +7,7 @@ import PasswordUpdateStyle from '../css/password_update.module.css';
 import { Formbtn } from "../component/form_btn"
 import IndexStyle from '../css/index.module.css';
 import { client } from '../libs/axios'
+import {ErrorMessages} from '../shaerd/error'
 
 export const PasswordUpdate = () => {
 	const initialValues = { password: "", passwordConfirm: "" };
@@ -53,9 +54,9 @@ export const PasswordUpdate = () => {
 				if (!err.response || !err.response.data) {
 					return
 				}
-				if (err.response.data === 'User email duplicate') {
+				if (err.response.data === ErrorMessages.UserEmailDuplicate) {
 					setFromError({ resErr: "このメールアドレスは既に登録されています" })
-				} else if (err.response.data === 'Fail auth token') {
+				} else if (err.response.data === ErrorMessages.FailAuthToken) {
 					navigate('/login');
 				} else {
 					setFromError({ resErr: "予期せぬエラーです" })

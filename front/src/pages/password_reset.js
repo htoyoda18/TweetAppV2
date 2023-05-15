@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { TweetApp } from "../component/tweet_app"
 import PasswordResetStyle from '../css/password_reset.module.css';
 import { Formbtn } from "../component/form_btn"
@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { client } from '../libs/axios'
 import { useNavigate } from "react-router-dom";
 import { ErrorMsg } from "../component/error_message"
+import { ErrorMessages } from '../shaerd/error'
 
 export const PasswordReset = () => {
 	const [formValues, setFromValues] = useState({});
@@ -51,9 +52,9 @@ export const PasswordReset = () => {
 				if (!err.response || !err.response.data) {
 					return
 				}
-				if (err.response.data === 'Email not found') {
+				if (err.response.data === ErrorMessages.EmailNotFound) {
 					setFromError("存在しないメールアドレスです")
-				} else if (err.response.data === 'Should bind JSON error') {
+				} else if (err.response.data === ErrorMessages.ShouldBindJsonErr) {
 					setFromError("メールアドレスの形式が間違ってます")
 				} else {
 					setFromError("予期せぬエラーです")

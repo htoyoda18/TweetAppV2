@@ -4,6 +4,7 @@ import TweetStyle from '../css/tweet.module.css';
 import { useState } from 'react';
 import { client } from '../libs/axios'
 import { useNavigate } from "react-router-dom";
+import { ErrorMessages } from '../shaerd/error'
 
 export const Tweet = () => {
 	const [tweet, setTweet] = useState("");
@@ -34,7 +35,7 @@ export const Tweet = () => {
 			})
 			.catch((err) => {
 				console.log("err", err)
-				if (err.response.data === 'Fail auth token') {
+				if (err.response.data === ErrorMessages.FailAuthToken) {
 					navigate('/login');
 				}
 			})

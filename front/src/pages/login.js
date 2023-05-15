@@ -8,6 +8,7 @@ import { TweetApp } from "../component/tweet_app"
 import { Note } from "../component/note"
 import { Formbtn } from "../component/form_btn"
 import { ErrorMsg } from "../component/error_message"
+import { ErrorMessages } from '../shaerd/error'
 
 export const Login = () => {
 	const initialValues = { mailAddress: "", password: "" };
@@ -70,7 +71,7 @@ export const Login = () => {
 				if (!err.response || !err.response.data) {
 					return
 				}
-				if (err.response.data === 'User not found') {
+				if (err.response.data === ErrorMessages.UserNotFound) {
 					setFromError({ resErr: "メールアドレス又は、パスワードが違います" })
 				} else {
 					setFromError({ resErr: "予期せぬエラーです" })
