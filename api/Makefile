@@ -1,29 +1,36 @@
 include $(PWD)/db/Makefile
 
-
-.PHONY: setup
-setup:
-	docker-compose up -d --build
-	sleep 5
-	docker-compose up -d
-	sleep 10
-	make migrate-up ENV=development
+.PHONY: docker-build
+docker-build:
+	docker-compose up -d --build || exit 1
 
 .PHONY: kill
 kill:
-	docker-compose kill
+	docker-compose kill || exit 1
+
+.PHONY: down
+down:
+	docker-compose down -v || exit 1
 
 .PHONY: log
 log:
-	docker-compose logs
+	docker-compose logs || exit 1
 
-.PHONY: log-go
-log-go:
-	docker logs -f go
+.PHONY: log-api
+log-api:
+	docker logs -f go || exit 1
+
+.PHONY: wait-for-api
+wait-for-api:
+	until docker logs go | grep "Start API"; do sleep 1; done || exit 1
+
+.PHONY: setup
+setup:
+	$(MAKE) docker-build
+	$(MAKE) wait-for-api
+	$(MAKE) migrate-up ENV=development
 
 .PHONY: restart
 restart:
-	docker-compose kill
-	docker-compose up -d --build
-	sleep 5
-	docker-compose up -d
+	docker-compose kill || exit 1
+	$(MAKE) docker-build

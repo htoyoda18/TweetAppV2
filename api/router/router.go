@@ -1,6 +1,8 @@
 package router
 
 import (
+	"log"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/htoyoda18/TweetAppV2/api/injector"
@@ -9,6 +11,7 @@ import (
 )
 
 func SetupRouter(db *gorm.DB) *gin.Engine {
+	log.Println("Start API")
 	r := gin.Default()
 
 	handler := injector.NewHandler(db)
