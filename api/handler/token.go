@@ -18,8 +18,11 @@ func NewToken() Token {
 }
 
 func (t token) ValidateToken(c *gin.Context) {
+	shared.Debug(LogVal("Token", "ValidateToken"))
+
 	_, err := shared.AuthUser(c)
 	if err != nil {
+		shared.Warn(LogVal("Token", "ValidateToken", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}

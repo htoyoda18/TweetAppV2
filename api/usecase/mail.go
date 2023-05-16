@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"github.com/htoyoda18/TweetAppV2/api/shared"
 	gomail "gopkg.in/gomail.v2"
 )
 
@@ -12,6 +13,8 @@ type SendMailParam struct {
 }
 
 func SendMail(param SendMailParam) error {
+	shared.Debug(LogVal("SendMail", ""))
+
 	mailer := gomail.NewMessage()
 	mailer.SetHeader("From", param.From)
 	mailer.SetHeader("To", param.From)
@@ -20,6 +23,7 @@ func SendMail(param SendMailParam) error {
 
 	d := gomail.Dialer{Host: "smtp", Port: 1025}
 	if err := d.DialAndSend(mailer); err != nil {
+		shared.Error(LogVal("SendMail", "gomail.Diale Error", param, err))
 		return err
 	}
 	return nil

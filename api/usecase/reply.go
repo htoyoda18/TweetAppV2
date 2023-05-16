@@ -28,6 +28,8 @@ func NewReply(
 }
 
 func (r reply) Add(userIO int, replyParams request.Reply) error {
+	shared.Debug(LogVal("Reply", "Add"))
+
 	err := r.replyRepository.Add(&model.Reply{
 		UserID:  userIO,
 		Reply:   replyParams.Reply,
@@ -35,7 +37,7 @@ func (r reply) Add(userIO int, replyParams request.Reply) error {
 	}, r.db)
 
 	if err != nil {
-		shared.Error(LogVal("Add", err))
+		shared.Warn(LogVal("Reply", "Add", err))
 		return err
 	}
 

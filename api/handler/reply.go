@@ -27,11 +27,11 @@ func NewReply(
 }
 
 func (r reply) Add(c *gin.Context) {
-	shared.Info("Add")
+	shared.Debug(LogVal("Reply", "Add"))
 
 	var params request.Reply
 	if err := c.ShouldBindJSON(&params); err != nil {
-		shared.Error(LogVal("Add", err))
+		shared.Warn(LogVal("Reply", "Add", err))
 		err = errors.New(shared.ShouldBindJsonErr)
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
@@ -39,12 +39,14 @@ func (r reply) Add(c *gin.Context) {
 
 	userID, err := shared.AuthUser(c)
 	if err != nil {
+		shared.Warn(LogVal("Reply", "Add", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	err = r.replyUseCase.Add(userID, params)
 	if err != nil {
+		shared.Warn(LogVal("Reply", "Add", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
