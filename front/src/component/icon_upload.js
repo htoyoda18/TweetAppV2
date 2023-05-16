@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import { LargeIcon } from "../component/icon"
 
-export const ImageUploader = (props) => {
-    const [preview, setPreview] = useState(props.iconUrl);
+export const ImageUploader = ({iconUrl, onImageChange}) => {
+    const [preview, setPreview] = useState(iconUrl);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
             setPreview(URL.createObjectURL(file));
-            props.onImageChange(file);
+            onImageChange(file);
         }
     };
 

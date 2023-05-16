@@ -1,8 +1,8 @@
 import React from 'react';
 import btnStyle from '../css/btn.module.css';
 
-export const Formbtn = (props) => {
+export const Formbtn = ({name}) => {
 	return (
-		<button className={btnStyle.formbtn}>{props.name}</button>
+		<button className={btnStyle.formbtn}>{name}</button>
 	)
 }

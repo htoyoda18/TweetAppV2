@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { TweetApp } from "../component/tweet_app"
 import PasswordResetStyle from '../css/password_reset.module.css';
 import { Formbtn } from "../component/form_btn"
@@ -13,14 +13,6 @@ export const PasswordReset = () => {
 	const [formValues, setFromValues] = useState({});
 	const [fomrErrors, setFromError] = useState("");
 	const navigate = useNavigate();
-	const token = localStorage.getItem('token');
-
-	useEffect(() => {
-		if (!token) {
-			navigate('/login');
-			return;
-		}
-	}, [token, navigate]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;

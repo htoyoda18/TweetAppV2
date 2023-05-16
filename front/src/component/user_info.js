@@ -5,20 +5,20 @@ import UserInfoStyle from '../css/user_info.module.css';
 import Modal from "react-modal";
 import { client } from '../libs/axios'
 
-export const UserInfo = (props) => {
+export const UserInfo = ({userIcon, userID, userName, userIntroduction, }) => {
   return (
     <div className={UserInfoStyle.userInfo}>
       <div className={UserInfoStyle.content}>
-        <LargeIcon image={props.userIcon} />
-        <EditUserInfoBtn showUserId={props.userID} userName={props.userName} userIntroduction={props.userIntroduction} iconUrl={props.userIcon} />
-        <div className={UserInfoStyle.userName}>{props.userName}</div>
-        <div className={UserInfoStyle.introduction}>{props.userIntroduction}</div>
+        <LargeIcon image={userIcon} />
+        <EditUserInfoBtn showUserId={userID} userName={userName} userIntroduction={userIntroduction} iconUrl={userIcon} />
+        <div className={UserInfoStyle.userName}>{userName}</div>
+        <div className={UserInfoStyle.introduction}>{userIntroduction}</div>
       </div>
     </div>
   )
 }
 
-const EditUserInfoBtn = (props) => {
+const EditUserInfoBtn = ({userName, userIntroduction, showUserId, iconUrl}) => {
   const [isSelf, setIsSelf] = useState(false);
   const selfId = parseInt(localStorage.getItem('userID'), 10);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -102,17 +102,17 @@ const EditUserInfoBtn = (props) => {
   };
 
   const handleClickUserInfoEdit = () => {
-    setUsername(props.userName)
-    setIntroduction(props.userIntroduction)
+    setUsername(userName)
+    setIntroduction(userIntroduction)
   }
 
   useEffect(() => {
-    if (selfId === props.showUserId) {
+    if (selfId === showUserId) {
       setIsSelf(true);
     } else {
       setIsSelf(false);
     }
-  }, [selfId, props.showUserId]);
+  }, [selfId, showUserId]);
 
   const handleSaveButtonDisabled = () => {
     if (icon && username !== '' && introduction !== '') {
@@ -145,7 +145,7 @@ const EditUserInfoBtn = (props) => {
               <button className={UserInfoStyle.modalClose} onClick={() => { setModalIsOpen(false); enableScroll(); }}>&times;</button>
               <div className={UserInfoStyle.modalTitle}>プロフィールを編集</div>
               <ImageUploader
-                iconUrl={props.iconUrl}
+                iconUrl={iconUrl}
                 onImageChange={(file) => { handleIconChange(file) }}
               />
               <form>

@@ -6,7 +6,7 @@ import { client } from '../libs/axios'
 import { useNavigate } from 'react-router-dom';
 import { ErrorMessages } from '../shaerd/error'
 
-export const ReplyPost = (props) => {
+export const ReplyPost = ({tweetID, iconUrl}) => {
     const [disabled, setDisabled] = useState(true);
     const [reply, setReply] = useState("");
     const navigate = useNavigate();
@@ -29,7 +29,7 @@ export const ReplyPost = (props) => {
     const postReply = () => {
         const body = {
             reply: reply.trim(),
-            tweetID: props.tweetID,
+            tweetID: tweetID,
         }
         const token = localStorage.getItem('token')
         client
@@ -50,7 +50,7 @@ export const ReplyPost = (props) => {
     return (
         <div className={ReplyStyle.Reply}>
             <form onSubmit={(e) => handleSubmit(e)}>
-                <Icon image={props.iconUrl} />
+                <Icon image={iconUrl} />
                 <textarea placeholder='返信をツイート' className={ReplyStyle.replyText} onChange={(e) => handleChange(e)}></textarea>
                 <button disabled={disabled} className={ReplyStyle.ReplyBtn}>返信</button>
             </form>
