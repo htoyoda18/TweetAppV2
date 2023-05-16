@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"errors"
 	"net/http"
 	"strconv"
 	"time"
@@ -42,6 +41,7 @@ func (u user) Create(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&params); err != nil {
 		shared.Warn(LogVal("User", "Create", err))
+		err = shared.ShouldBindJsonErr
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -62,8 +62,8 @@ func (u user) Login(c *gin.Context) {
 	var params request.Login
 
 	if err := c.ShouldBindJSON(&params); err != nil {
-		err = errors.New(shared.ShouldBindJsonErr)
 		shared.Warn(LogVal("User", "Login", err))
+		err = shared.ShouldBindJsonErr
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -92,7 +92,7 @@ func (u user) PasswordReset(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&params); err != nil {
 		shared.Warn(LogVal("User", "PasswordReset", err))
-		err = errors.New(shared.ShouldBindJsonErr)
+		err = shared.ShouldBindJsonErr
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -114,7 +114,7 @@ func (u user) UpdatePassword(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&params); err != nil {
 		shared.Warn(LogVal("User", "UpdatePassword", err))
-		err = errors.New(shared.ShouldBindJsonErr)
+		err = shared.ShouldBindJsonErr
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -144,7 +144,7 @@ func (u user) UpdateUser(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&params); err != nil {
 		shared.Warn(LogVal("User", "UpdatePassword", err))
-		err = errors.New(shared.ShouldBindJsonErr)
+		err = shared.ShouldBindJsonErr
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}

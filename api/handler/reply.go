@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -32,7 +31,7 @@ func (r reply) Add(c *gin.Context) {
 	var params request.Reply
 	if err := c.ShouldBindJSON(&params); err != nil {
 		shared.Warn(LogVal("Reply", "Add", err))
-		err = errors.New(shared.ShouldBindJsonErr)
+		err = shared.ShouldBindJsonErr
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}

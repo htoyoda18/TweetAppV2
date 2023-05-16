@@ -1,8 +1,6 @@
 package usecase
 
 import (
-	"errors"
-
 	"github.com/htoyoda18/TweetAppV2/api/handler/request"
 	"github.com/htoyoda18/TweetAppV2/api/model"
 	"github.com/htoyoda18/TweetAppV2/api/repository"
@@ -38,7 +36,7 @@ func (l like) Add(params request.Like, userID int) error {
 		TweetID: params.TweetID,
 		UserID:  userID,
 	}, l.db); like != nil {
-		err := errors.New(shared.DuplicateLike)
+		err := shared.DuplicateLike
 		shared.Warn(LogVal("Like", "Add: Fail Duplicate Like", err))
 		return err
 	}

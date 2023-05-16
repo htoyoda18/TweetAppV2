@@ -42,7 +42,7 @@ func (u user) Create(params request.Signup) (*model.User, error) {
 
 	selectUser, _ := u.userRepository.Get(&model.User{Email: params.Email}, u.db)
 	if selectUser != nil {
-		err := errors.New(shared.UserEmailDuplicate)
+		err := shared.UserEmailDuplicate
 		shared.Warn(LogVal("User", "Create", err))
 		return nil, err
 	}
@@ -82,13 +82,13 @@ func (u user) Show(params request.Login) (*model.User, error) {
 	}, u.db)
 	if err != nil {
 		shared.Warn(LogVal("User", "Show", err))
-		err := errors.New(shared.UserNotFound)
+		err := shared.UserNotFound
 		return nil, err
 	}
 	err = shared.CompareHashAndPassword(user.Password, params.Password)
 	if err != nil {
 		shared.Warn(LogVal("User", "Show", err))
-		err := errors.New(shared.UserNotFound)
+		err := shared.UserNotFound
 		return nil, err
 	}
 
@@ -103,7 +103,7 @@ func (u user) PasswordReset(mail string) error {
 	}, u.db)
 	if err != nil {
 		shared.Warn(LogVal("User", "PasswordReset", err))
-		err := errors.New(shared.EmailNotFound)
+		err := shared.EmailNotFound
 		return err
 	}
 
@@ -135,7 +135,7 @@ func (u user) UpdatePassword(password string, userID int) error {
 		Password: hashPassword,
 	}, u.db)
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		err := errors.New(shared.EmailNotFound)
+		err := shared.EmailNotFound
 		shared.Warn(LogVal("User", "UpdatePassword", err))
 		return err
 	} else if err != nil {
