@@ -7,5 +7,6 @@ export const ErrorMessages = {
     FailNotFound: 'Fail Not Found',
     FailAuthToken: 'Fail auth token',
     DuplicateLike: 'DuplicateLike',
-    RecordNotFound: 'record not found'
+    RecordNotFound: 'record not found',
+    TokenIsExpired: 'Token is expired'
 };
