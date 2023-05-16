@@ -91,7 +91,12 @@ export const Login = () => {
 					<div className={LoginStyle.uiForm}>
 						<div className={LoginStyle.formFiled}>
 							<label>メールアドレス</label>
-							<input type="text" placeholder="メールアドレス" name="mailAddress" onChange={(e) => handleChange(e)} />
+							<input
+								type="text"
+								placeholder="メールアドレス"
+								name="mailAddress"
+								onChange={(e) => handleChange(e)}
+							/>
 						</div>
 						<ErrorMsg err={fomrErrors.mailAddress} />
 						<div className={LoginStyle.formFiled}>
@@ -104,8 +109,16 @@ export const Login = () => {
 					</div>
 				</form>
 			</div>
-			<Note text="パスワードを忘れた場合は" link="こちら" url="http://localhost:3000/password_reset" />
-			<Note text="アカウントをお持ちでない場合は" link="登録" url="http://localhost:3000/signup" />
+			<Note
+				text="パスワードを忘れた場合は"
+				link="こちら"
+				url="http://localhost:3000/password_reset"
+			/>
+			<Note
+				text="アカウントをお持ちでない場合は"
+				link="登録"
+				url="http://localhost:3000/signup"
+			/>
 		</div>
 	);
 }

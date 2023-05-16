@@ -10,7 +10,10 @@ export const Reply = ({ iconUrl, userID, userName, tweet }) => {
             <div className={TweetStyle.tweetContent}>
                 <form>
                     <div className={TweetStyle.Section1}>
-                        <Icon image={iconUrl} userID={userID} />
+                        <Icon
+                            image={iconUrl}
+                            userID={userID}
+                        />
                         <div className={TweetStyle.content}>
                             <div className={TweetStyle.userName}>{userName}</div>
                             <div className={TweetStyle.tweet}>{tweet}</div>

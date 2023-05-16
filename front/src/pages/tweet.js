@@ -43,8 +43,15 @@ export const Tweet = () => {
 	return (
 		<div className={TweetStyle.Tweet}>
 			<Sidebar />
-			<form class={TweetStyle.from} onSubmit={(e) => handleSubmit(e)} >
-				<textarea className={TweetStyle.tweetText} placeholder="ツイートする" onChange={(e) => handleChange(e)}></textarea>
+			<form
+				class={TweetStyle.from}
+				onSubmit={(e) => handleSubmit(e)}
+			>
+				<textarea
+					className={TweetStyle.tweetText}
+					placeholder="ツイートする"
+					onChange={(e) => handleChange(e)}
+				/>
 				<div className={TweetStyle.post}>
 					<button className={TweetStyle.button}>投稿</button>
 				</div>
