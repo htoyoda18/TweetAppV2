@@ -101,12 +101,9 @@ func (u user) PasswordReset(mail string) error {
 	user, err := u.userRepository.Get(&model.User{
 		Email: mail,
 	}, u.db)
-	if errors.Is(err, gorm.ErrRecordNotFound) {
+	if err != nil {
 		shared.Warn(LogVal("User", "PasswordReset", err))
 		err := errors.New(shared.EmailNotFound)
-		return err
-	} else if err != nil {
-		shared.Error(LogVal("User", "PasswordReset", err))
 		return err
 	}
 

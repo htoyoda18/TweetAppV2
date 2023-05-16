@@ -46,7 +46,7 @@ func (r reply) Add(c *gin.Context) {
 
 	err = r.replyUseCase.Add(userID, params)
 	if err != nil {
-		shared.Error(LogVal("Reply", "Add", err))
+		shared.Warn(LogVal("Reply", "Add", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
