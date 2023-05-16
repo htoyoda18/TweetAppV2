@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { TweetApp } from "../component/tweet_app"
 import IndexStyle from '../css/index.module.css';
 import PasswordResetSendStyle from '../css/password_reset_send.module.css';
@@ -6,14 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 export const PasswordResetSend = () => {
 	const navigate = useNavigate();
-	const token = localStorage.getItem('token');
 
-	useEffect(() => {
-		if (!token) {
-			navigate('/login');
-			return;
-		}
-	}, [token, navigate]);
 	return (
 		<div>
 			<TweetApp />
