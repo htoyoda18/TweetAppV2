@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"errors"
 	"net/http"
 	"strconv"
 
@@ -37,7 +36,7 @@ func (t tweet) Create(c *gin.Context) {
 	var params request.Tweet
 	if err := c.ShouldBindJSON(&params); err != nil {
 		shared.Warn(LogVal("Tweet", "Create", err))
-		err = errors.New(shared.ShouldBindJsonErr)
+		err = shared.ShouldBindJsonErr
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}

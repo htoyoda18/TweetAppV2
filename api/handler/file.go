@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -62,11 +61,11 @@ func (u file) IconGet(c *gin.Context) {
 	_, err = os.Stat(filePath)
 	if err != nil {
 		if os.IsNotExist(err) {
-			shared.Warn(LogVal("File", "IconGet", errors.New(shared.FailNotFound)))
+			shared.Warn(LogVal("File", "IconGet", shared.FailNotFound))
 			c.JSON(http.StatusBadRequest, err.Error())
 			return
 		}
-		shared.Error(LogVal("File", "IconGet", errors.New(shared.FailNotOpen)))
+		shared.Error(LogVal("File", "IconGet", shared.FailNotOpen))
 		c.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}

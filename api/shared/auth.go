@@ -1,7 +1,6 @@
 package shared
 
 import (
-	"errors"
 	"log"
 	"os"
 	"time"
@@ -34,20 +33,20 @@ func JwtParse(tokenString string) (int, error) {
 	var userID int
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			err := errors.New(FailToParse)
+			err := FailToParse
 			return "", err
 		}
 		return []byte(os.Getenv("JWTKEY")), nil
 	})
 	if err != nil {
-		log.Printf(FailToParse)
+		log.Println("FailToParse: ", FailToParse)
 		return 0, err
 	}
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		userID = int(claims["sub"].(float64))
 	} else {
-		log.Printf(FailAuthToken)
+		log.Println("FailToParse:", FailAuthToken)
 	}
 
 	return userID, nil
@@ -58,7 +57,7 @@ func AuthUser(c *gin.Context) (int, error) {
 	userID, err := JwtParse(cookie)
 	if err != nil {
 		log.Printf(err.Error())
-		return 0, errors.New(FailAuthToken)
+		return 0, FailAuthToken
 	}
 	return userID, nil
 }

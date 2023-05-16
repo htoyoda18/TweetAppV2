@@ -38,7 +38,7 @@ func (l like) Add(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&params); err != nil {
 		shared.Warn(LogVal("Like", "Add", err))
-		err = errors.New(shared.ShouldBindJsonErr)
+		err = shared.ShouldBindJsonErr
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
