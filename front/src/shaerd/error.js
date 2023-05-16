@@ -8,4 +8,4 @@ export const ErrorMessages = {
     FailAuthToken: 'Fail auth token',
     DuplicateLike: 'DuplicateLike',
     RecordNotFound: 'record not found'
-}; 
+};

@@ -10,7 +10,7 @@ import { Reply } from "../component/reply"
 import { ReplyPost } from "../component/reply_post"
 import { useNavigate } from "react-router-dom";
 import { UserIconGet } from "../api/icon_get"
-import {ErrorMessages} from '../shaerd/error'
+import { ErrorMessages } from '../shaerd/error'
 
 export const TweetDetail = () => {
 	const params = useParams();

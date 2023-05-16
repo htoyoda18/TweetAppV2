@@ -9,7 +9,7 @@ const isIcon = (icon) => {
     return 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png'
 }
 
-export const Icon = ({image, userID}) => {
+export const Icon = ({ image, userID }) => {
     const iconUrl = isIcon(image)
     return (
         <a className={sharedStyle.userLink} href={"/user/" + userID}>
@@ -18,7 +18,7 @@ export const Icon = ({image, userID}) => {
     )
 }
 
-export const LargeIcon = ({image}) => {
+export const LargeIcon = ({ image }) => {
     const iconUrl = isIcon(image)
     return (
         <img className={sharedStyle.largeIcon} src={iconUrl} alt="" />

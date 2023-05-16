@@ -7,7 +7,7 @@ import PasswordUpdateStyle from '../css/password_update.module.css';
 import { Formbtn } from "../component/form_btn"
 import IndexStyle from '../css/index.module.css';
 import { client } from '../libs/axios'
-import {ErrorMessages} from '../shaerd/error'
+import { ErrorMessages } from '../shaerd/error'
 
 export const PasswordUpdate = () => {
 	const initialValues = { password: "", passwordConfirm: "" };

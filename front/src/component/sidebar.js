@@ -11,8 +11,8 @@ export default function sidebar() {
         {SidebarData.map((value, key) => {
           return (
             <li key={key}
-              id={window.location.pathname === value.link ? name=SidebarStyle.active : name=SidebarStyle.row}
-              className = {name}
+              id={window.location.pathname === value.link ? name = SidebarStyle.active : name = SidebarStyle.row}
+              className={name}
               onClick={() => {
                 window.location.pathname = value.link
               }}>

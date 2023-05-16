@@ -5,7 +5,7 @@ import UserInfoStyle from '../css/user_info.module.css';
 import Modal from "react-modal";
 import { client } from '../libs/axios'
 
-export const UserInfo = ({userIcon, userID, userName, userIntroduction, }) => {
+export const UserInfo = ({ userIcon, userID, userName, userIntroduction, }) => {
   return (
     <div className={UserInfoStyle.userInfo}>
       <div className={UserInfoStyle.content}>
@@ -18,7 +18,7 @@ export const UserInfo = ({userIcon, userID, userName, userIntroduction, }) => {
   )
 }
 
-const EditUserInfoBtn = ({userName, userIntroduction, showUserId, iconUrl}) => {
+const EditUserInfoBtn = ({ userName, userIntroduction, showUserId, iconUrl }) => {
   const [isSelf, setIsSelf] = useState(false);
   const selfId = parseInt(localStorage.getItem('userID'), 10);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -58,7 +58,7 @@ const EditUserInfoBtn = ({userName, userIntroduction, showUserId, iconUrl}) => {
         method: 'POST',
         body: formData
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         return data.fileName; // 返されたファイル名
@@ -69,7 +69,7 @@ const EditUserInfoBtn = ({userName, userIntroduction, showUserId, iconUrl}) => {
       console.error(error);
     }
   };
-  
+
   const updateUser = (uploadedIconName) => {
     const token = localStorage.getItem('token');
     const body = {
@@ -86,7 +86,7 @@ const EditUserInfoBtn = ({userName, userIntroduction, showUserId, iconUrl}) => {
         console.log("err", err)
       });
   };
-  
+
   const handleClickUserInfo = async (event) => {
     event.preventDefault();
     try {

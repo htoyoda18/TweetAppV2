@@ -22,7 +22,7 @@ export const Reply = ({ iconUrl, userID, userName, tweet }) => {
     )
 }
 
-export const ReplyIconAndCount = ({replies}) => {
+export const ReplyIconAndCount = ({ replies }) => {
     const [replyCount, setReplyCount] = useState(0);
 
     useEffect(() => {
