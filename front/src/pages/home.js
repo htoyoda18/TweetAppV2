@@ -62,7 +62,6 @@ export const Home = () => {
 					<Tweet
 						key={key}
 						userID={value.user.id}
-						id={value.id}
 						userName={value.user.name}
 						tweet={value.tweet}
 						tweetID={value.id}

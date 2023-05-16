@@ -82,7 +82,6 @@ export const TweetDetail = () => {
 			<div className={TweetDetailStyleList.tweetDetail}>
 				<Tweet
 					userID={user.id}
-					id={tweetDetail.id}
 					userName={user.name}
 					tweet={tweetDetail.tweet}
 					tweetID={tweetDetail.id}
