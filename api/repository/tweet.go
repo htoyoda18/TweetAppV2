@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"errors"
+
 	"github.com/htoyoda18/TweetAppV2/api/model"
 	"github.com/htoyoda18/TweetAppV2/api/shared"
 	"gorm.io/gorm"
@@ -32,7 +34,7 @@ func (t tweet) Add(tweet *model.Tweet, db *gorm.DB) error {
 	shared.Debug(LogVal("Tweet", "Add"))
 
 	if err := db.Create(tweet).Error; err != nil {
-		shared.Error(LogVal("Tweet", "Add", err))
+		shared.Warn(LogVal("Tweet", "Add", err))
 		return err
 	}
 	return nil
@@ -64,9 +66,11 @@ func (t tweet) Get(tweetID int, db *gorm.DB) (*model.Tweet, error) {
 		Scopes(preload()).
 		Where("id = ?", tweetID).
 		Order("created_at DESC").
-		First(&tweet).Error; err != nil {
-		shared.Error(LogVal("Tweet", "Get", err))
+		First(&tweet).Error; errors.Is(err, gorm.ErrRecordNotFound) {
+		shared.Warn(LogVal("Tweet", "Get", err))
 		return nil, err
+	} else if err != nil {
+		shared.Error(LogVal("Tweet", "Get", err))
 	}
 
 	return tweet, nil

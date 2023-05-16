@@ -36,7 +36,7 @@ func (t tweet) Create(userID int, tweet string) error {
 		Tweet:  tweet,
 	}, t.db)
 	if err != nil {
-		shared.Error(LogVal("Tweet", "Create", err))
+		shared.Warn(LogVal("Tweet", "Create", err))
 		return err
 	}
 
@@ -48,7 +48,7 @@ func (t tweet) List(where *model.Tweet) ([]*model.Tweet, error) {
 
 	tweet, err := t.tweetRepository.List(where, t.db)
 	if err != nil {
-		shared.Error(LogVal("Tweet", "List", err))
+		shared.Warn(LogVal("Tweet", "List", err))
 		return tweet, err
 	}
 
@@ -60,7 +60,7 @@ func (t tweet) Get(tweetID int) (*model.Tweet, error) {
 
 	tweet, err := t.tweetRepository.Get(tweetID, t.db)
 	if err != nil {
-		shared.Error(LogVal("Tweet", "Get", err))
+		shared.Warn(LogVal("Tweet", "Get", err))
 		return tweet, err
 	}
 

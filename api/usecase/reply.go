@@ -37,7 +37,7 @@ func (r reply) Add(userIO int, replyParams request.Reply) error {
 	}, r.db)
 
 	if err != nil {
-		shared.Error(LogVal("Reply", "Add", err))
+		shared.Warn(LogVal("Reply", "Add", err))
 		return err
 	}
 

@@ -44,6 +44,10 @@ func Info(message string, args ...interface{}) {
 	zapLog.Sugar().Infof("%s %s", message, args)
 }
 
+func Warn(message string, args ...interface{}) {
+	zapLog.Sugar().Warnf("%s %s", message, args)
+}
+
 func Error(message string, args ...interface{}) {
 	zapLog.Sugar().Errorf("%s %s", message, args)
 }

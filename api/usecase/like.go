@@ -39,6 +39,7 @@ func (l like) Add(params request.Like, userID int) error {
 		UserID:  userID,
 	}, l.db); like != nil {
 		err := errors.New(shared.DuplicateLike)
+		shared.Warn(LogVal("Like", "Add: Fail Duplicate Like", err))
 		return err
 	}
 
@@ -46,6 +47,7 @@ func (l like) Add(params request.Like, userID int) error {
 		TweetID: params.TweetID,
 		UserID:  userID,
 	}, l.db); err != nil {
+		shared.Warn(LogVal("Like", "Add", err))
 		return err
 	}
 
@@ -60,10 +62,12 @@ func (l like) Delete(userID int, tweetID int) error {
 		UserID:  userID,
 	}, l.db)
 	if err != nil {
+		shared.Warn(LogVal("Like", "Delete", err))
 		return err
 	}
 
 	if err := l.likeRepository.Delete(like, l.db); err != nil {
+		shared.Warn(LogVal("Like", "Delete", err))
 		return err
 	}
 
@@ -78,6 +82,7 @@ func (l like) Get(userID int, tweetID int) error {
 		UserID:  userID,
 	}, l.db)
 	if err != nil {
+		shared.Warn(LogVal("Like", "Get", err))
 		return err
 	}
 

@@ -29,7 +29,7 @@ func (u file) Upload(c *gin.Context) {
 
 	file, err := c.FormFile("file")
 	if err != nil {
-		shared.Error("Upload", err)
+		shared.Warn(LogVal("File", "Upload", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -38,7 +38,7 @@ func (u file) Upload(c *gin.Context) {
 	fileName := filepath.Base(file.Filename)
 	path := fmt.Sprintf("./uploads/icon/%s", fileName)
 	if err := c.SaveUploadedFile(file, path); err != nil {
-		shared.Error("Upload", err)
+		shared.Warn(LogVal("File", "Upload", err))
 		c.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -53,7 +53,7 @@ func (u file) IconGet(c *gin.Context) {
 
 	_, err := shared.AuthUser(c)
 	if err != nil {
-		shared.Error(LogVal("File", "UpdatePassword", err))
+		shared.Warn(LogVal("File", "IconGet", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -62,11 +62,11 @@ func (u file) IconGet(c *gin.Context) {
 	_, err = os.Stat(filePath)
 	if err != nil {
 		if os.IsNotExist(err) {
-			shared.Error("IconGet", errors.New(shared.FailNotFound))
+			shared.Warn(LogVal("File", "IconGet", errors.New(shared.FailNotFound)))
 			c.JSON(http.StatusBadRequest, err.Error())
 			return
 		}
-		shared.Error("IconGet", errors.New(shared.FailNotOpen))
+		shared.Error(LogVal("File", "IconGet", errors.New(shared.FailNotOpen)))
 		c.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}

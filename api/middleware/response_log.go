@@ -13,7 +13,6 @@ type responseLog struct {
 	RequestDuration time.Duration `json:"requestTime"`
 	URL             string        `json:"url"`
 	Method          string        `json:"method"`
-	UserID          int           `json:"userID"`
 }
 
 func ResponseLogInfo() gin.HandlerFunc {
@@ -28,7 +27,6 @@ func ResponseLogInfo() gin.HandlerFunc {
 			RequestDuration: duration,
 			URL:             c.Request.URL.Path,
 			Method:          c.Request.Method,
-			UserID:          0,
 		}
 
 		responseLogJson, err := json.Marshal(responseLog)

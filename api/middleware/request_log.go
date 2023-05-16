@@ -8,11 +8,9 @@ import (
 )
 
 type requestLog struct {
-	RequestPath string      `json:"requestPath"`
-	Method      string      `json:"method"`
-	RequestBody interface{} `json:"requestBody"`
-	UserID      int         `json:"userID"`
-	IPAddress   string      `json:"ipAddress"`
+	RequestPath string `json:"requestPath"`
+	Method      string `json:"method"`
+	IPAddress   string `json:"ipAddress"`
 }
 
 func RequestDetailsLog() gin.HandlerFunc {
@@ -20,7 +18,6 @@ func RequestDetailsLog() gin.HandlerFunc {
 		requestLogger := requestLog{
 			RequestPath: c.Request.URL.Path,
 			Method:      c.Request.Method,
-			RequestBody: c.Request.Body,
 			IPAddress:   c.ClientIP(),
 		}
 		requestLogJson, err := json.Marshal(requestLogger)

@@ -36,7 +36,7 @@ func (t tweet) Create(c *gin.Context) {
 
 	var params request.Tweet
 	if err := c.ShouldBindJSON(&params); err != nil {
-		shared.Error("Create", err)
+		shared.Warn(LogVal("Tweet", "", err))
 		err = errors.New(shared.ShouldBindJsonErr)
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
@@ -44,12 +44,14 @@ func (t tweet) Create(c *gin.Context) {
 
 	userID, err := shared.AuthUser(c)
 	if err != nil {
+		shared.Warn(LogVal("Tweet", "", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	err = t.tweetUseCase.Create(userID, params.Tweet)
 	if err != nil {
+		shared.Warn(LogVal("Tweet", "", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -62,12 +64,14 @@ func (t tweet) List(c *gin.Context) {
 
 	_, err := shared.AuthUser(c)
 	if err != nil {
+		shared.Warn(LogVal("Tweet", "", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	tweets, err := t.tweetUseCase.List(nil)
 	if err != nil {
+		shared.Warn(LogVal("Tweet", "", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -81,6 +85,7 @@ func (t tweet) ListUser(c *gin.Context) {
 
 	_, err := shared.AuthUser(c)
 	if err != nil {
+		shared.Warn(LogVal("Tweet", "", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -90,6 +95,7 @@ func (t tweet) ListUser(c *gin.Context) {
 		UserID: userID,
 	})
 	if err != nil {
+		shared.Warn(LogVal("Tweet", "", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -102,6 +108,7 @@ func (t tweet) Get(c *gin.Context) {
 
 	_, err := shared.AuthUser(c)
 	if err != nil {
+		shared.Warn(LogVal("Tweet", "", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -110,6 +117,7 @@ func (t tweet) Get(c *gin.Context) {
 
 	tweet, err := t.tweetUseCase.Get(tweetID)
 	if err != nil {
+		shared.Warn(LogVal("Tweet", "", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}

@@ -23,6 +23,7 @@ func SendMail(param SendMailParam) error {
 
 	d := gomail.Dialer{Host: "smtp", Port: 1025}
 	if err := d.DialAndSend(mailer); err != nil {
+		shared.Error(LogVal("SendMail", "gomail.Diale Error", param, err))
 		return err
 	}
 	return nil
