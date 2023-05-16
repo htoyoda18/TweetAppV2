@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import Sidebar from  '../component/sidebar'
+import React, { useEffect } from 'react';
+import Sidebar from '../component/sidebar'
 import { useNavigate } from "react-router-dom";
 
 export const Setting = () => {

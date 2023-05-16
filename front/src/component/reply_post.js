@@ -6,7 +6,7 @@ import { client } from '../libs/axios'
 import { useNavigate } from 'react-router-dom';
 import { ErrorMessages } from '../shaerd/error'
 
-export const ReplyPost = ({tweetID, iconUrl}) => {
+export const ReplyPost = ({ tweetID, iconUrl }) => {
     const [disabled, setDisabled] = useState(true);
     const [reply, setReply] = useState("");
     const navigate = useNavigate();

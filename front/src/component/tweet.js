@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { LikeIconAndCount } from '../component/like_btn';
 import { ReplyIconAndCount } from '../component/reply';
 
-export const Tweet = ({iconUrl, userID, userName, tweet, replies, likes, tweetID}) => {
+export const Tweet = ({ iconUrl, userID, userName, tweet, replies, likes, tweetID }) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
@@ -25,7 +25,7 @@ export const Tweet = ({iconUrl, userID, userName, tweet, replies, likes, tweetID
                         </div>
                     </div>
                     <div className={TweetStyle.Section2}>
-                        <ReplyIconAndCount replies={replies}/>
+                        <ReplyIconAndCount replies={replies} />
                         <LikeIconAndCount likes={likes} tweetID={tweetID} />
                     </div>
                 </form>
