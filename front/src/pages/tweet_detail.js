@@ -89,7 +89,10 @@ export const TweetDetail = () => {
 					likes={tweetDetail.likes}
 					iconUrl={icon}
 				/>
-				<ReplyPost tweetID={tweetDetail.id} iconUrl={icon} />
+				<ReplyPost
+					tweetID={tweetDetail.id}
+					iconUrl={icon}
+				/>
 				{replies.map((value, key) => {
 					return (
 						<Reply

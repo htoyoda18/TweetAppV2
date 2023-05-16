@@ -10,7 +10,12 @@ export const UserInfo = ({ userIcon, userID, userName, userIntroduction, }) => {
     <div className={UserInfoStyle.userInfo}>
       <div className={UserInfoStyle.content}>
         <LargeIcon image={userIcon} />
-        <EditUserInfoBtn showUserId={userID} userName={userName} userIntroduction={userIntroduction} iconUrl={userIcon} />
+        <EditUserInfoBtn
+          showUserId={userID}
+          userName={userName}
+          userIntroduction={userIntroduction}
+          iconUrl={userIcon}
+        />
         <div className={UserInfoStyle.userName}>{userName}</div>
         <div className={UserInfoStyle.introduction}>{userIntroduction}</div>
       </div>

@@ -18,7 +18,10 @@ export const Tweet = ({ iconUrl, userID, userName, tweet, replies, likes, tweetI
             <div className={TweetStyle.tweetContent}>
                 <form>
                     <div className={TweetStyle.Section1} onClick={handleClick}>
-                        <Icon image={iconUrl} userID={userID} />
+                        <Icon
+                            image={iconUrl}
+                            userID={userID}
+                        />
                         <div className={TweetStyle.content}>
                             <div className={TweetStyle.userName}>{userName}</div>
                             <div className={TweetStyle.tweet}>{tweet}</div>
@@ -26,7 +29,10 @@ export const Tweet = ({ iconUrl, userID, userName, tweet, replies, likes, tweetI
                     </div>
                     <div className={TweetStyle.Section2}>
                         <ReplyIconAndCount replies={replies} />
-                        <LikeIconAndCount likes={likes} tweetID={tweetID} />
+                        <LikeIconAndCount
+                            likes={likes}
+                            tweetID={tweetID}
+                        />
                     </div>
                 </form>
             </div>

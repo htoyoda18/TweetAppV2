@@ -70,7 +70,12 @@ export const PasswordReset = () => {
 					<div className={PasswordResetStyle.formDiscription}>ご登録いただいたメールアドレスを入力してください。<br />メールアドレス宛に、パスワード変更ページのURLが記載されたメールを送信します。</div>
 					<div className={PasswordResetStyle.formFiled}>
 						<label>メールアドレス</label>
-						<input type="text" placeholder="メールアドレス" name="mailAddress" onChange={(e) => handleChange(e)} />
+						<input
+							type="text"
+							placeholder="メールアドレス"
+							name="mailAddress"
+							onChange={(e) => handleChange(e)}
+						/>
 					</div>
 					<ErrorMsg err={fomrErrors} />
 					<Formbtn name="メールを送信" />

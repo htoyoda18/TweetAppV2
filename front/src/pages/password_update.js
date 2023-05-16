@@ -80,11 +80,21 @@ export const PasswordUpdate = () => {
 					<div className={PasswordUpdateStyle.uiForm}>
 						<div className={PasswordUpdateStyle.formFiled}>
 							<label>パスワード</label>
-							<input type="text" placeholder="パスワード" name="password" onClick={() => setFromError(validate(formValues))} onChange={(e) => handleChange(e)} />
+							<input
+								type="text"
+								placeholder="パスワード"
+								name="password"
+								onClick={() => setFromError(validate(formValues))}
+								onChange={(e) => handleChange(e)} />
 						</div>
 						<div className={PasswordUpdateStyle.formFiled}>
 							<label>パスワード確認用</label>
-							<input type="text" placeholder="パスワード" name="passwordConfirm" onClick={() => setFromError(validate(formValues))} onChange={(e) => handleChange(e)} />
+							<input
+								type="text"
+								placeholder="パスワード"
+								name="passwordConfirm"
+								onClick={() => setFromError(validate(formValues))}
+								onChange={(e) => handleChange(e)} />
 						</div>
 						<ErrorMsg err={fomrErrors.password} />
 						<ErrorMsg err={fomrErrors.resErr} />

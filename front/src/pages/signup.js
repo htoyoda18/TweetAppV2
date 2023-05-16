@@ -85,17 +85,35 @@ export const SignUp = () => {
 					<div className={SignUpStyle.uiForm}>
 						<div className={SignUpStyle.formFiled}>
 							<label>ユーザ名</label>
-							<input type="text" placeholder="ユーザ名" name="userName" onClick={() => setFromError(validate(formValues))} onChange={(e) => handleChange(e)} />
+							<input
+								type="text"
+								placeholder="ユーザ名"
+								name="userName"
+								onClick={() => setFromError(validate(formValues))}
+								onChange={(e) => handleChange(e)}
+							/>
 						</div>
 						<ErrorMsg err={fomrErrors.userName} />
 						<div className={SignUpStyle.formFiled}>
 							<label>メールアドレス</label>
-							<input type="text" placeholder="メールアドレス" name="mailAddress" onClick={() => setFromError(validate(formValues))} onChange={(e) => handleChange(e)} />
+							<input
+								type="text"
+								placeholder="メールアドレス"
+								name="mailAddress"
+								onClick={() => setFromError(validate(formValues))}
+								onChange={(e) => handleChange(e)}
+							/>
 						</div>
 						<ErrorMsg err={fomrErrors.mailAddress} />
 						<div className={SignUpStyle.formFiled}>
 							<label>パスワード</label>
-							<input type="text" placeholder="パスワード" name="password" onClick={() => setFromError(validate(formValues))} onChange={(e) => handleChange(e)} />
+							<input
+								type="text"
+								placeholder="パスワード"
+								name="password"
+								onClick={() => setFromError(validate(formValues))}
+								onChange={(e) => handleChange(e)}
+							/>
 						</div>
 						<ErrorMsg err={fomrErrors.password} />
 						<ErrorMsg err={fomrErrors.resErr} />
