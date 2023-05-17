@@ -29,7 +29,7 @@ export const ReplyIconAndCount = ({ replies }) => {
     const [replyCount, setReplyCount] = useState(0);
 
     useEffect(() => {
-        if (replies !== undefined && replies.length > 0) {
+        if (replies !== undefined && replies !== null && replies.length > 0) {
             setReplyCount(replies.length);
         }
     }, [replies]);

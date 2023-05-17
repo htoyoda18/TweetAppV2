@@ -12,7 +12,7 @@ export const LikeIconAndCount = ({ likes, tweetID }) => {
     const [isLikePush, setIsLikePush] = useState(false);
 
     useEffect(() => {
-        if (likes !== undefined && likes.length > 0) {
+        if (likes !== undefined && likes !== null && likes.length > 0) {
             setLikeCount(likes.length);
         }
     }, [likes]);
