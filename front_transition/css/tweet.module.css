@@ -1,0 +1,36 @@
+.Tweet {
+    display: flex;
+}
+
+.from {
+    background-color: #ABE1FA;
+    width: 30%;
+    height: 30vh;
+    margin: 10vh auto;
+    border-radius: 20px;
+}
+
+.tweetText {
+    margin-top: 5vh;
+    margin-left: 15%;
+    width: 85%;
+    height: 18vh;
+    background-color: #ABE1FA;
+    border: none;
+    font-size: 20px;
+    outline: none;
+    resize: none;
+}
+
+.button {
+    background-color: #00B379;
+    opacity: 0.8;
+    padding: 10px 30px;
+    color: #000;
+    width: 20%;
+    margin-left: 40vh;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 10px;
+}

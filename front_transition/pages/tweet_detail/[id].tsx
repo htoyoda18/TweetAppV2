@@ -87,7 +87,7 @@ const TweetDetail: NextPage = () => {
                 })
         }
         TweetDetailGet()
-    }, [token]);
+    }, [token, router]);
 
     useEffect(() => {
         const fetchIcons = async () => {
