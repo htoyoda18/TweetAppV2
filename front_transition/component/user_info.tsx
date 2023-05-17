@@ -94,6 +94,10 @@ const EditUserInfoBtn = ({ userName, userIntroduction, showUserId, iconUrl }) =>
     };
 
     const handleClickUserInfo = async (event) => {
+        if (username === '') {
+            setIsDisabled(true)
+            return
+        }
         event.preventDefault();
         try {
             const uploadedIconName = await fileUpload();
@@ -121,7 +125,7 @@ const EditUserInfoBtn = ({ userName, userIntroduction, showUserId, iconUrl }) =>
     }, [selfId, showUserId]);
 
     const handleSaveButtonDisabled = () => {
-        if (icon && username !== '' && introduction !== '') {
+        if (username !== '') {
             setIsDisabled(false)
         } else {
             setIsDisabled(true)
@@ -132,11 +136,17 @@ const EditUserInfoBtn = ({ userName, userIntroduction, showUserId, iconUrl }) =>
         <div>
             {isSelf && (
                 <div>
-                    <button className={UserInfoStyle.editUser} onClick={() => { setModalIsOpen(true); disableScroll(); handleClickUserInfoEdit(); }}>
+                    <button
+                        className={UserInfoStyle.editUser}
+                        onClick={() => {
+                            setModalIsOpen(true); disableScroll(); handleClickUserInfoEdit();
+                        }}>
                         プロフィールを編集
                     </button>
                     <div>
-                        <Modal isOpen={modalIsOpen} onRequestClose={() => { setModalIsOpen(false); enableScroll(); }}
+                        <Modal
+                            isOpen={modalIsOpen}
+                            onRequestClose={() => { setModalIsOpen(false); enableScroll(); }}
                             className={UserInfoStyle.modal}
                             overlayClassName={UserInfoStyle.modalOverlay}
                             style={{
@@ -148,18 +158,45 @@ const EditUserInfoBtn = ({ userName, userIntroduction, showUserId, iconUrl }) =>
                                 },
                             }}
                         >
-                            <button className={UserInfoStyle.modalClose} onClick={() => { setModalIsOpen(false); enableScroll(); }}>&times;</button>
+                            <button
+                                className={UserInfoStyle.modalClose}
+                                onClick={() => {
+                                    setModalIsOpen(false);
+                                    enableScroll();
+                                }}
+                            >
+                                &times;
+                            </button>
                             <div className={UserInfoStyle.modalTitle}>プロフィールを編集</div>
                             <ImageUploader
                                 iconUrl={iconUrl}
                                 onImageChange={(file) => { handleIconChange(file) }}
                             />
                             <form>
-                                <input className={UserInfoStyle.modalUsername} type="text" placeholder='ユーザ名' value={username} onChange={handleUsernameChange} />
+                                <input
+                                    className={UserInfoStyle.modalUsername}
+                                    type="text"
+                                    placeholder='ユーザ名'
+                                    value={username}
+                                    onChange={handleUsernameChange}
+                                />
                                 <br />
-                                <textarea className={UserInfoStyle.modalIntroduction} placeholder='自己紹介' value={introduction} onChange={handleIntroductionChange} />
+                                <div className={UserInfoStyle.isUsernameEmpty}>{isDisabled ? 'ユーザ名を入力してください' : ''}</div>
+                                <textarea
+                                    className={UserInfoStyle.modalIntroduction}
+                                    placeholder='自己紹介'
+                                    value={introduction}
+                                    onChange={handleIntroductionChange}
+                                />
                                 <br />
-                                <button disabled={isDisabled} onClick={(e) => handleClickUserInfo(e)} className={UserInfoStyle.modalBtn} type="submit">保存</button>
+                                <button
+                                    disabled={isDisabled}
+                                    onClick={(e) => handleClickUserInfo(e)}
+                                    className={UserInfoStyle.modalBtn}
+                                    type="submit"
+                                >
+                                    保存
+                                </button>
                             </form>
                         </Modal>
                     </div>

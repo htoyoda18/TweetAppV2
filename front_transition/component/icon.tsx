@@ -32,9 +32,8 @@ export const LargeIcon = ({ image }) => {
     )
 }
 
-export const LargeEditIcon = ({ image, onClick }) => {
+export const LargeEditIcon = ({ image }) => {
     const iconUrl = isIcon(image)
-    onClick()
     return (
         <img
             className={sharedStyle.largeIcon}

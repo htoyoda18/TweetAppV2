@@ -67,9 +67,15 @@
 
 .modalUsername {
     width: 90%;
-    margin-bottom: 5%;
     height: 5vh;
     font-size: 20px;
+    margin-bottom: 1%;
+}
+
+.isUsernameEmpty {
+    margin-bottom: 3%;
+    color: red;
+    font-weight: bold;
 }
 
 .modalIntroduction {
@@ -82,4 +88,5 @@
 .modalBtn {
     width: 15%;
     font-size: 15px;
+    margin-bottom: 2%;
 }

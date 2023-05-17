@@ -13,6 +13,10 @@ export const ImageUploader = ({ iconUrl, onImageChange }) => {
         }
     };
 
+    const getFileInput = () => {
+        return document.getElementById('fileInput').click()
+    }
+
     return (
         <div style={{ position: 'relative', display: 'inline-block' }}>
             <input
@@ -24,10 +28,9 @@ export const ImageUploader = ({ iconUrl, onImageChange }) => {
             />
             <LargeEditIcon
                 image={preview}
-                onClick={() => document.getElementById('fileInput').click()}
             />
             <CameraAltIcon
-                onClick={() => document.getElementById('fileInput').click()}
+                onClick={getFileInput}
                 style={{
                     position: 'absolute',
                     top: '50%',
