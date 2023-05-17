@@ -2,12 +2,12 @@ import React from 'react'
 import HomeIcon from '@mui/icons-material/Home';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import PersonIcon from '@mui/icons-material/Person';
-import { GetToken } from '../shared/token'
+import { GetUserID } from '../shared/localStorage'
 
 let profileURL: string
 
 if (typeof window !== 'undefined') {
-    profileURL = "/user/" + GetToken()
+    profileURL = "/user/" + GetUserID()
 }
 
 export const SidebarData = [

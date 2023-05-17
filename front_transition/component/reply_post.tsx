@@ -1,10 +1,11 @@
 import React from 'react';
 import ReplyStyle from '../css/reply.module.css';
-import { Icon } from "./icon"
+import { Icon } from "./icon";
 import { useState } from 'react';
-import { client } from '../libs/axios'
-import { ErrorMessages } from '../shared/error'
-import { useRouter } from 'next/router'
+import { client } from '../libs/axios';
+import { ErrorMessages } from '../shared/error';
+import { useRouter } from 'next/router';
+import { GetToken } from '../shared/localStorage';
 
 export const ReplyPost = ({ tweetID, iconUrl }) => {
     const [disabled, setDisabled] = useState(true);
@@ -31,7 +32,7 @@ export const ReplyPost = ({ tweetID, iconUrl }) => {
             reply: reply.trim(),
             tweetID: tweetID,
         }
-        const token = localStorage.getItem('token')
+        const token = GetToken()
         client
             .post('v1/reply', body, { headers: { Authorization: token } })
             .then((res) => {

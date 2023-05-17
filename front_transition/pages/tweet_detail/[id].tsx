@@ -11,7 +11,7 @@ import { ReplyPost } from "../../component/reply_post"
 import { useRouter } from 'next/router'
 import { UserIconGet } from "../../api/icon_get"
 import { ErrorMessages } from '../../shared/error'
-import { GetToken } from '../../shared/token'
+import { GetToken } from '../../shared/localStorage'
 
 interface User {
     id?: number,

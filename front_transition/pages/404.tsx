@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Sidebar from '../component/sidebar';
 import NotFoundStyle from '../css/not_found.module.css';
 import { client } from '../libs/axios'
-import { GetToken } from '../shared/token'
+import { GetToken } from '../shared/localStorage'
 import { useRouter } from 'next/router';
 
 const NotFound: NextPage = () => {

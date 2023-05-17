@@ -13,7 +13,11 @@ export const Icon = ({ image, userID }) => {
     const iconUrl = isIcon(image)
     return (
         <a className={sharedStyle.userLink} href={"/user/" + userID}>
-            <img className={sharedStyle.icon} src={iconUrl} alt="" />
+            <img
+                className={sharedStyle.icon}
+                src={iconUrl}
+                alt=""
+            />
         </a>
     )
 }
@@ -21,7 +25,22 @@ export const Icon = ({ image, userID }) => {
 export const LargeIcon = ({ image }) => {
     const iconUrl = isIcon(image)
     return (
-        <img className={sharedStyle.largeIcon} src={iconUrl} alt="" />
+        <img
+            className={sharedStyle.largeIcon}
+            src={iconUrl} alt=""
+        />
+    )
+}
+
+export const LargeEditIcon = ({ image, onClick }) => {
+    const iconUrl = isIcon(image)
+    onClick()
+    return (
+        <img
+            className={sharedStyle.largeIcon}
+            src={iconUrl} alt=""
+            style={{ cursor: 'pointer' }}
+        />
     )
 }
 

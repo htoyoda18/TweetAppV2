@@ -8,7 +8,7 @@ import { Tweet } from "../component/tweet";
 import { client } from '../libs/axios'
 import { UserIconGet } from "../api/icon_get"
 import { ErrorMessages } from '../shared/error'
-import { GetToken } from '../shared/token'
+import { GetToken } from '../shared/localStorage'
 
 const Home: NextPage = () => {
 	const [tweets, setTweets] = useState([]);

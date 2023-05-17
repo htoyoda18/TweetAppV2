@@ -6,11 +6,12 @@ import sharedStyle from '../css/shared.module.css';
 import { client } from '../libs/axios'
 import { useRouter } from 'next/router'
 import { ErrorMessages } from '../shared/error'
+import { GetToken } from '../shared/localStorage'
 
 const Tweet: NextPage = () => {
     const [tweet, setTweet] = useState("");
     const router = useRouter();
-    const token = localStorage.getItem('token');
+    const token = GetToken();
 
     useEffect(() => {
         if (!token) {
@@ -28,7 +29,7 @@ const Tweet: NextPage = () => {
         const body = {
             tweet: tweet
         }
-        const token = localStorage.getItem('token')
+        const token = GetToken()
         client
             .post('v1/tweet', body, { headers: { Authorization: token } })
             .then((results) => {

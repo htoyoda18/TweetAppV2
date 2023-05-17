@@ -10,7 +10,7 @@ import { Note } from "../component/note";
 import { Formbtn } from "../component/form_btn";
 import { ErrorMsg } from "../component/error_message";
 import { ErrorMessages } from '../shared/error';
-import { GetToken } from '../shared/token'
+import { GetToken } from '../shared/localStorage'
 
 interface FormValues {
     mailAddress?: string;
