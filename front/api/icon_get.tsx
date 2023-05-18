@@ -4,7 +4,7 @@ import { GetToken } from '../shared/localStorage'
 
 export const UserIconGet = async (icon) => {
     const token = GetToken()
-    const url = 'v1/icon/' + icon
+    const url: string = 'v1/icon/' + icon
     try {
         const res = await client
             .get(url, {
