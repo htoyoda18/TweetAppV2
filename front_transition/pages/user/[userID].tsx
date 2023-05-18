@@ -11,19 +11,20 @@ import { UserIconGet } from "../../api/icon_get";
 import { ErrorMessages } from '../../shared/error';
 import { GetToken } from '../../shared/localStorage';
 
-interface UserInfo {
+interface UserRecode {
 	name?: string,
 	id?: string,
 	introduction?: string,
+	icon?: string,
 }
 
 const User: NextPage = () => {
 	const router = useRouter();
 	const token = GetToken()
-	const [user, setUser] = useState<UserInfo>({});
+	const [user, setUser] = useState<UserRecode>({});
 	const [tweets, setTweets] = useState([]);
 	const { userID } = router.query
-	const [icon, setIcon] = useState('');
+	const [iconUrl, setIconUrl] = useState('');
 
 	useEffect(() => {
 		if (!token) {
@@ -39,7 +40,7 @@ const User: NextPage = () => {
 						setUser(res.data);
 						if (res.data.icon !== undefined) {
 							const iconUrl = await UserIconGet(res.data.icon);
-							setIcon(iconUrl);
+							setIconUrl(iconUrl);
 						}
 					}
 				})
@@ -82,7 +83,7 @@ const User: NextPage = () => {
 		<div className={TweetStyle.Tweet}>
 			<Sidebar />
 			<div className={UserInfoStyle.userTweets}>
-				<UserInfo userName={user.name} userID={user.id} userIntroduction={user.introduction} userIcon={icon} />
+				<UserInfo userName={user.name} userID={user.id} userIntroduction={user.introduction} iconUrl={iconUrl} userIconFileName={user.icon} />
 				{tweets.map((value, key) => {
 					return (
 						<Tweet
@@ -93,7 +94,7 @@ const User: NextPage = () => {
 							tweetID={value.id}
 							replies={value.replies}
 							likes={value.likes}
-							iconUrl={icon}
+							iconUrl={iconUrl}
 						/>
 					)
 				})}

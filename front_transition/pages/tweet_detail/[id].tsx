@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { NextPage } from "next";
+import { NextPage, GetServerSideProps } from "next";
 import Sidebar from '../../component/sidebar'
 import TweetStyleList from '../../css/tweet_list.module.css';
 import TweetDetailStyleList from '../../css/tweet_detail.module.css';
@@ -39,10 +39,14 @@ interface TweetDetail {
     likes?: Like[],
 }
 
-const TweetDetail: NextPage = () => {
-    const [tweetDetail, setTweetDetail] = useState<TweetDetail>({id: 0, tweet: '', replies: null, likes: null});
+interface Props {
+    url: string;
+}
+
+const TweetDetail: NextPage<Props> = ({ url }) => {
+    const [tweetDetail, setTweetDetail] = useState<TweetDetail>({ id: 0, tweet: '', replies: null, likes: null });
     const [replies, setReplies] = useState<ReplyType[]>([]);
-    const [user, setUser] = useState<User>({id: 0, name: ''});
+    const [user, setUser] = useState<User>({ id: 0, name: '' });
     const token = GetToken();
     const router = useRouter();
     const [icon, setIcon] = useState('');
@@ -54,8 +58,6 @@ const TweetDetail: NextPage = () => {
             return;
         }
         const TweetDetailGet = () => {
-            const { id } = router.query
-            const url = 'v1/tweet_detail/' + id
             client
                 .get(url, { headers: { Authorization: token } })
                 .then(async (res) => {
@@ -135,5 +137,13 @@ const TweetDetail: NextPage = () => {
         </div>
     )
 };
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const { id } = context.query;
+    const url = 'v1/tweet_detail/' + id;
+
+    // 必要なデータをここで取得し、propsとして返します。
+    return { props: { url } };
+}
 
 export default TweetDetail;

@@ -53,7 +53,6 @@ const Login: NextPage = () => {
     }, [router]);
 
     const handleSubmit = (e: React.FormEvent) => {
-        console.log('これは実行されている？')
         e.preventDefault();
         const errors = validate(formValues);
         setFormErrors(errors);
@@ -83,7 +82,6 @@ const Login: NextPage = () => {
         client
             .post('v1/login', body)
             .then((res) => {
-                console.log('これで上手くいってる？？？？？')
                 localStorage.setItem("token", res.data.token);
                 localStorage.setItem("userID", res.data.userID);
                 router.push("/");

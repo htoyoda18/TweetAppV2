@@ -50,7 +50,6 @@ const PasswordUpdate: NextPage = () => {
 
 	const passwordUpdatePost = () => {
 		const { token } = router.query
-		console.log('token確認', token, {token})
 		const url = 'v1/password_update/' + token
 		const body = {
 			password: formValues.password.trim(),
@@ -85,7 +84,7 @@ const PasswordUpdate: NextPage = () => {
 		} else if (values.password.length > 21) {
 			errors.resErr = "パスワードは8文字以上, 20文字以下にしてください"
 		}
-		if (values.password !== values.passwordConfirm) {
+		if (values.password != values.passwordConfirm) {
 			errors.resErr = "パスワードが一致しません"
 		}
 

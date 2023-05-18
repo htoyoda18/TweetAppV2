@@ -6,16 +6,17 @@ import Modal from "react-modal";
 import { client } from '../libs/axios';
 import { GetToken, GetUserID } from '../shared/localStorage';
 
-export const UserInfo = ({ userIcon, userID, userName, userIntroduction, }) => {
+export const UserInfo = ({ iconUrl, userID, userName, userIntroduction, userIconFileName }) => {
     return (
         <div className={UserInfoStyle.userInfo}>
             <div className={UserInfoStyle.content}>
-                <LargeIcon image={userIcon} />
+                <LargeIcon image={iconUrl} />
                 <EditUserInfoBtn
                     showUserId={userID}
                     userName={userName}
                     userIntroduction={userIntroduction}
-                    iconUrl={userIcon}
+                    iconUrl={iconUrl}
+                    userIconFileName={userIconFileName}
                 />
                 <div className={UserInfoStyle.userName}>{userName}</div>
                 <div className={UserInfoStyle.introduction}>{userIntroduction}</div>
@@ -24,14 +25,18 @@ export const UserInfo = ({ userIcon, userID, userName, userIntroduction, }) => {
     )
 }
 
-const EditUserInfoBtn = ({ userName, userIntroduction, showUserId, iconUrl }) => {
+const EditUserInfoBtn = ({ userName, userIntroduction, showUserId, iconUrl, userIconFileName }) => {
     const [isSelf, setIsSelf] = useState(false);
     const selfId = GetUserID();
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [username, setUsername] = useState('');
     const [introduction, setIntroduction] = useState('');
-    const [icon, setIcon] = useState(null);
+    const [IconFileName, setIconFileName] = useState('');
     const [isDisabled, setIsDisabled] = useState(false);
+
+    useEffect(() => {
+        setIconFileName(userIconFileName)
+    }, [userIconFileName]);
 
     function handleUsernameChange(event) {
         setUsername(event.target.value);
@@ -52,13 +57,13 @@ const EditUserInfoBtn = ({ userName, userIntroduction, showUserId, iconUrl }) =>
     }
 
     const handleIconChange = (childIcon) => {
-        setIcon(childIcon)
+        setIconFileName(childIcon)
         handleSaveButtonDisabled()
     }
 
     const fileUpload = async () => {
         const formData = new FormData();
-        formData.append('file', icon);
+        formData.append('file', IconFileName);
         try {
             const response = await fetch('http://localhost:8080/v1/upload', {
                 method: 'POST',
@@ -94,20 +99,30 @@ const EditUserInfoBtn = ({ userName, userIntroduction, showUserId, iconUrl }) =>
     };
 
     const handleClickUserInfo = async (event) => {
+        event.preventDefault();
         if (username === '') {
             setIsDisabled(true)
             return
         }
-        event.preventDefault();
-        try {
-            const uploadedIconName = await fileUpload();
-            if (uploadedIconName) {
-                updateUser(uploadedIconName);
-            } else {
-                console.error('Failed to update user due to file upload error');
+        if (userIconFileName !== IconFileName) {
+            try {
+                const uploadedIconName = await fileUpload();
+                if (uploadedIconName) {
+                    updateUser(uploadedIconName);
+                } else {
+                    console.error('Failed to update user due to file upload error');
+                }
+            } catch (error) {
+                console.error('Error in handleClickUserInfo:', error);
             }
-        } catch (error) {
-            console.error('Error in handleClickUserInfo:', error);
+            return
+        } else {
+            try {
+                updateUser(userIconFileName);
+            } catch (error) {
+                console.error('Error in handleClickUserInfo:', error);
+            }
+            return
         }
     };
 

@@ -17,15 +17,12 @@ const Home: NextPage = () => {
 	const token = GetToken()
 
 	useEffect(() => {
-		console.log('Homeページには行っている？？？')
-		console.log('tokenは取れている？', token)
 		if (!token) {
 			router.push('/login');
 			return;
 		}
 
 		const TweetList = () => {
-			console.log('token11111111', token)
 			client
 				.get('v1/tweet', { headers: { Authorization: token } })
 				.then((res) => {

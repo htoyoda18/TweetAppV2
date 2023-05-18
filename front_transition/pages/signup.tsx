@@ -52,7 +52,6 @@ const SignUp: NextPage = () => {
         client
             .post('v1/signup', body)
             .then((results) => {
-                console.log("results", results)
                 router.push("/login");
             })
             .catch((err) => {

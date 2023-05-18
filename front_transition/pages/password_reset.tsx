@@ -31,7 +31,6 @@ const PasswordReset: NextPage = () => {
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		setFromError(validate(formValues.mailAddress));
-		console.log("formValues", formValues);
 		if (fomrErrors !== "") {
 			return
 		}
@@ -45,7 +44,6 @@ const PasswordReset: NextPage = () => {
 		client
 			.post('v1/password_reset', body)
 			.then((results) => {
-				console.log("results", results)
 				router.push("/password_reset_send");
 			})
 			.catch((err) => {

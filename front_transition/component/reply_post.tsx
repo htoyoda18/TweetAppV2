@@ -36,7 +36,9 @@ export const ReplyPost = ({ tweetID, iconUrl }) => {
         client
             .post('v1/reply', body, { headers: { Authorization: token } })
             .then((res) => {
-                window.location.reload();
+                if (typeof window !== 'undefined') {
+                    window.location.reload();
+                }
             })
             .catch((err) => {
                 console.log("err", err)

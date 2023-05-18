@@ -18,7 +18,6 @@ const NotFound: NextPage = () => {
                 if (res.data) {
                     const images = res.data;
                     setImageUrl(images[0].url);
-                    console.log('imageUrl', images[0].url);
                 }
             } catch (err) {
                 console.log("err", err);
