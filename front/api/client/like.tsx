@@ -1,5 +1,5 @@
-import { client } from '../libs/axios'
-import { GetToken } from '../shared/localStorage'
+import { client } from '../../libs/axios'
+import { GetToken } from '../../shared/localStorage'
 
 export const AddLike = (tweetID: string) => {
     const intTweetID = parseInt(tweetID);

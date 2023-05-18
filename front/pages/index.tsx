@@ -6,7 +6,7 @@ import Sidebar from '../component/sidebar';
 import TweetListStyle from '../css/tweet_list.module.css';
 import { Tweet } from "../component/tweet";
 import { client } from '../libs/axios'
-import { UserIconGet } from "../api/icon_get"
+import { UserIconGet } from "../api/client/icon_get"
 import { ErrorMessages } from '../shared/error'
 import { GetToken } from '../shared/localStorage'
 

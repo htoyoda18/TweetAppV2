@@ -7,7 +7,7 @@ import { client } from '../../libs/axios';
 import { Tweet } from "../../component/tweet";
 import { useRouter } from 'next/router';
 import UserInfoStyle from '../../css/user_info.module.css';
-import { UserIconGet } from "../../api/icon_get";
+import { UserIconGet } from "../../api/client/icon_get";
 import { ErrorMessages } from '../../shared/error';
 import { GetToken } from '../../shared/localStorage';
 

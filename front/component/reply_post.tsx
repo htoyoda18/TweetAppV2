@@ -7,7 +7,7 @@ import { client } from '../libs/axios';
 import { ErrorMessages } from '../shared/error';
 import { useRouter } from 'next/router';
 import { GetToken, GetSelfUserID } from '../shared/localStorage';
-import { UserIconGet } from "../api/icon_get"
+import { UserIconGet } from "../api/client/icon_get"
 
 type ReplyPostProps = {
     tweetID: number;

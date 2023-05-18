@@ -9,7 +9,7 @@ import { Tweet } from "../../component/tweet"
 import { Reply } from "../../component/reply"
 import { ReplyPost } from "../../component/reply_post"
 import { useRouter } from 'next/router'
-import { UserIconGet } from "../../api/icon_get"
+import { UserIconGet } from "../../api/client/icon_get"
 import { ErrorMessages } from '../../shared/error'
 import { GetToken } from '../../shared/localStorage'
 
