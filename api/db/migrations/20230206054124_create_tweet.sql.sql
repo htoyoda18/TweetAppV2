@@ -6,7 +6,8 @@ CREATE TABLE `tweets` (
     `tweet` VARCHAR(200) NOT NULL,
     `created_at` DATETIME NOT NULL,
     `updated_at` DATETIME NOT NULL,
-    `deleted_at` DATETIME
+    `deleted_at` DATETIME,
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
 );
 
 INSERT INTO

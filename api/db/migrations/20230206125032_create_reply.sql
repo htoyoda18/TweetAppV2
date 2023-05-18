@@ -7,7 +7,9 @@ CREATE TABLE `replies` (
     `reply` VARCHAR(200) NOT NULL,
     `created_at` DATETIME NOT NULL,
     `updated_at` DATETIME NOT NULL,
-    `deleted_at` DATETIME
+    `deleted_at` DATETIME,
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),
+    FOREIGN KEY (`tweet_id`) REFERENCES `tweets`(`id`)
 );
 
 INSERT INTO 
