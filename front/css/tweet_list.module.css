@@ -1,0 +1,75 @@
+.TweetList {
+    display: flex;
+    background-color: #ABE1FA;
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.Tweet {
+    width: 80%;
+    position: relative;
+}
+
+.form {
+    margin-left: 1.5%;
+    width: 100%;
+}
+
+.Section1 {
+    display: flex;
+}
+
+.tweet {
+    font-size: 15px;
+}
+
+.Section2 {
+    display: flex;
+    margin-top: 1%;
+    margin-left: 5%;
+}
+
+.reply {
+    display: flex;
+    width: 10%;
+}
+
+.replyCount {
+    font-size: 20px;
+    margin-left: 5px;
+    margin-right: 5%;
+}
+
+.like {
+    display: flex;
+}
+
+.likeCount {
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+.content {
+    margin-left: 1%;
+    max-width: 50%;
+    flex-direction: column;
+}
+
+.userName {
+    font-weight: bold;
+}
+
+.tweetContent {
+    margin-left: 1%;
+    margin-top: 1%;
+    border-bottom: 0.5px solid #575555;
+}
+
+.tweetContent::after {
+    content: '';
+    display: block;
+    border-bottom: 0.5px solid #575555;
+    position: absolute;
+    left: 0%;
+    right: -25%;
+}

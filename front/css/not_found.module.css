@@ -1,0 +1,17 @@
+.notFound {
+    display: flex;
+    background-color: #ABE1FA;
+}
+
+.notFoundDescription {
+    padding-top: 10vh;
+    width: 80%;
+    height: 100%;
+    text-align: center;
+}
+
+.notFoundCatImage {
+    padding-top: 5vh;
+    max-width: 50vw;
+    max-height: 50vh;
+}

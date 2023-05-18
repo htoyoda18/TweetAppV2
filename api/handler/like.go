@@ -104,7 +104,13 @@ func (l like) Get(c *gin.Context) {
 		return
 	}
 
-	tweetID, err := strconv.Atoi(c.Param("id"))
+	var paramsUrl request.GetLike
+
+	if err := c.ShouldBindUri(&paramsUrl); err != nil {
+		shared.Warn(LogVal("Like", "Get", err))
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
 	if err != nil {
 		shared.Warn(LogVal("Like", "Get", err))
 		c.JSON(http.StatusBadRequest, err.Error())
@@ -113,7 +119,7 @@ func (l like) Get(c *gin.Context) {
 
 	if err := l.likeUsecase.Get(
 		userID,
-		tweetID,
+		paramsUrl.TweetID,
 	); errors.Is(err, gorm.ErrRecordNotFound) {
 		shared.Warn(LogVal("Like", "Get", err))
 		c.JSON(http.StatusOK, response.IsLikedByUser{IsLikedByUser: false})
