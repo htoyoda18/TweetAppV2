@@ -4,7 +4,7 @@ import { Icon } from "./icon"
 import CommentIcon from '@mui/icons-material/Comment';
 
 type ReplyProps = {
-	iconUrl: string;
+    iconUrl: string;
     userID: number;
     userName: string;
     tweet: string;

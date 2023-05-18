@@ -24,12 +24,10 @@ export const ReplyPost = ({ tweetID }: ReplyPostProps) => {
         const token = GetToken()
         const userID = GetSelfUserID()
         const getUserUrl: string = 'v1/user/' + userID
-        let iconFileName = ''
         client
             .get(getUserUrl, { headers: { Authorization: token } })
             .then(async (res) => {
                 if (res.data) {
-                    iconFileName = res.data.icon
                     const iconUrl = await UserIconGet(res.data.icon);
                     setIcon(iconUrl);
                 }
