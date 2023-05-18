@@ -2,10 +2,15 @@ import React, { useState } from 'react';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import { LargeEditIcon } from "./icon"
 
-export const ImageUploader = ({ iconUrl, onImageChange }) => {
+type ImageUploaderProps = {
+    iconUrl: string;
+    onImageChange: (file: File) => void;
+};
+
+export const ImageUploader = ({ iconUrl, onImageChange }: ImageUploaderProps) => {
     const [preview, setPreview] = useState(iconUrl);
 
-    const handleImageChange = (e) => {
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files[0];
         if (file) {
             setPreview(URL.createObjectURL(file));

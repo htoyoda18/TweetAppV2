@@ -20,11 +20,11 @@ const Tweet: NextPage = () => {
         }
     }, [token, useRouter]);
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const tweet = e.target.value;
         setTweet(tweet);
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const body = {
             tweet: tweet

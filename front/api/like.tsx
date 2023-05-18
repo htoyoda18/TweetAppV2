@@ -1,7 +1,7 @@
 import { client } from '../libs/axios'
 import { GetToken } from '../shared/localStorage'
 
-export const AddLike = (tweetID) => {
+export const AddLike = (tweetID: string) => {
     const intTweetID = parseInt(tweetID);
     const body = {
         tweetID: intTweetID,
@@ -22,7 +22,7 @@ export const AddLike = (tweetID) => {
         })
 }
 
-export const DeleteLike = (tweetID) => {
+export const DeleteLike = (tweetID: string) => {
     const url: string = 'v1/like/' + tweetID
     const token = GetToken();
     client
@@ -35,7 +35,7 @@ export const DeleteLike = (tweetID) => {
         })
 }
 
-export const IsLikedByUser = async (tweetID) => {
+export const IsLikedByUser = async (tweetID: string) => {
     if (tweetID === undefined) {
         return
     }

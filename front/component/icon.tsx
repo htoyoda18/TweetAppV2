@@ -1,7 +1,7 @@
 import React from 'react';
 import sharedStyle from '../css/shared.module.css';
 
-const isIcon = (icon) => {
+const isIcon = (icon: string) => {
     if (icon) {
         return icon
     }
@@ -9,7 +9,12 @@ const isIcon = (icon) => {
     return 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png'
 }
 
-export const Icon = ({ image, userID }) => {
+type IconProps = {
+	image: string;
+    userID: number
+};
+
+export const Icon = ({ image, userID }: IconProps) => {
     const iconUrl = isIcon(image)
     return (
         <a className={sharedStyle.userLink} href={"/user/" + userID}>
@@ -22,7 +27,11 @@ export const Icon = ({ image, userID }) => {
     )
 }
 
-export const LargeIcon = ({ image }) => {
+type ImageProps = {
+	image: string;
+};
+
+export const LargeIcon = ({ image }: ImageProps) => {
     const iconUrl = isIcon(image)
     return (
         <img
@@ -32,7 +41,7 @@ export const LargeIcon = ({ image }) => {
     )
 }
 
-export const LargeEditIcon = ({ image }) => {
+export const LargeEditIcon = ({ image }: ImageProps) => {
     const iconUrl = isIcon(image)
     return (
         <img
@@ -43,7 +52,7 @@ export const LargeEditIcon = ({ image }) => {
     )
 }
 
-export const GetMimeTypeFromImageData = (data) => {
+export const GetMimeTypeFromImageData = (data: File) => {
     const firstByte = data[0];
     switch (firstByte) {
         case 0xff:
@@ -62,7 +71,7 @@ export const GetMimeTypeFromImageData = (data) => {
     }
 }
 
-export const GenerateImageUrl = (image) => {
+export const GenerateImageUrl = (image: File) => {
     const mimeType = GetMimeTypeFromImageData(image);
     const blob = new Blob([image], { type: mimeType });
     const imageUrl = URL.createObjectURL(blob);

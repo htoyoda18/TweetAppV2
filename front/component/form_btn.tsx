@@ -1,7 +1,11 @@
 import React from 'react';
 import btnStyle from '../css/btn.module.css';
 
-export const Formbtn = ({ name }) => {
+type FormbtnProps = {
+	name: string;
+};
+
+export const Formbtn = ({ name }: FormbtnProps) => {
 	return (
 		<button className={btnStyle.formbtn}>{name}</button>
 	)

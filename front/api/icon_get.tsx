@@ -2,7 +2,7 @@ import { GenerateImageUrl } from "../component/icon"
 import { client } from '../libs/axios'
 import { GetToken } from '../shared/localStorage'
 
-export const UserIconGet = async (icon) => {
+export const UserIconGet = async (icon: string) => {
     const token = GetToken()
     const url: string = 'v1/icon/' + icon
     try {

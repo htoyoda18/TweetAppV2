@@ -3,7 +3,14 @@ import TweetStyle from '../css/tweet_list.module.css';
 import { Icon } from "./icon"
 import CommentIcon from '@mui/icons-material/Comment';
 
-export const Reply = ({ iconUrl, userID, userName, tweet }) => {
+type ReplyProps = {
+    iconUrl: string;
+    userID: number;
+    userName: string;
+    tweet: string;
+};
+
+export const Reply = ({ iconUrl, userID, userName, tweet }: ReplyProps) => {
 
     return (
         <div className={TweetStyle.Tweet}>

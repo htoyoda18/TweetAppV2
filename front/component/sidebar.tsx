@@ -3,6 +3,12 @@ import { SidebarData } from './sidebar_data'
 import SidebarStyle from '../css/sidebar.module.css';
 import { useRouter } from 'next/router'
 
+type sidebarData = {
+    title: string,
+    icon: JSX.Element;
+	link: string;
+};
+
 export default function sidebar() {
     let name = ""
     const router = useRouter()
@@ -11,7 +17,7 @@ export default function sidebar() {
         <div className={SidebarStyle.Sidebar}>
             <div className={SidebarStyle.title}>TweetApp</div>
             <ul className={SidebarStyle.SidebarList}>
-                {SidebarData.map((value, key) => {
+                {SidebarData.map((value: sidebarData, key) => {
                     return (
                         <li key={key}
                             id={pathname === value.link ? name = SidebarStyle.active : name = SidebarStyle.row}
