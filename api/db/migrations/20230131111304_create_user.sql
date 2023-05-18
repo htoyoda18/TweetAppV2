@@ -2,9 +2,9 @@
 -- SQL in section 'Up' is executed when this migration is applied
 CREATE TABLE `users` (
   `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `name` VARCHAR(20),
-  `email` VARCHAR(255),
-  `password` VARCHAR(100),
+  `name` VARCHAR(20) NOT NULL,
+  `email` VARCHAR(255) NOT NULL UNIQUE,
+  `password` VARCHAR(255) NOT NULL,
   `icon` VARCHAR(255),
   `introduction` VARCHAR(255),
   `created_at` DATETIME NOT NULL,
