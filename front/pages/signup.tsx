@@ -69,7 +69,7 @@ const SignUp: NextPage = () => {
 
     const validate = (values: FormValues) => {
         const errors: FomrErrors = {};
-        const regex = /^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/
+        const regex: RegExp = /^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/
         if (!values.userName) {
             errors.userNameErr = "ユーザ名を入力してください"
         }

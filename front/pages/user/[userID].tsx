@@ -32,7 +32,7 @@ const User: NextPage = () => {
 			return;
 		}
 		const UserGet = () => {
-			const url = 'v1/user/' + userID
+			const url: string = 'v1/user/' + userID
 			client
 				.get(url, { headers: { Authorization: token } })
 				.then(async (res) => {
@@ -62,7 +62,7 @@ const User: NextPage = () => {
 				})
 		}
 		const TweetList = () => {
-			const url = 'v1/tweet/' + userID
+			const url: string = 'v1/tweet/' + userID
 			client
 				.get(url, { headers: { Authorization: token } })
 				.then((res) => {

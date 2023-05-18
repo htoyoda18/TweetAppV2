@@ -50,7 +50,7 @@ const PasswordUpdate: NextPage = () => {
 
 	const passwordUpdatePost = () => {
 		const { token } = router.query
-		const url = 'v1/password_update/' + token
+		const url: string = 'v1/password_update/' + token
 		const body = {
 			password: formValues.password.trim(),
 		}

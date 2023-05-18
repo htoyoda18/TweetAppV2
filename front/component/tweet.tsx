@@ -9,7 +9,7 @@ export const Tweet = ({ iconUrl, userID, userName, tweet, replies, likes, tweetI
     const router = useRouter();
 
     const handleClick = () => {
-        const url = '/tweet_detail/' + tweetID;
+        const url: string = '/tweet_detail/' + tweetID;
         router.push(url);
     }
 

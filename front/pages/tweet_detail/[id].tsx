@@ -140,7 +140,7 @@ const TweetDetail: NextPage<Props> = ({ url }) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { id } = context.query;
-    const url = 'v1/tweet_detail/' + id;
+    const url: string = 'v1/tweet_detail/' + id;
 
     // 必要なデータをここで取得し、propsとして返します。
     return { props: { url } };

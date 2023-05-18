@@ -23,7 +23,7 @@ export const AddLike = (tweetID) => {
 }
 
 export const DeleteLike = (tweetID) => {
-    const url = 'v1/like/' + tweetID
+    const url: string = 'v1/like/' + tweetID
     const token = GetToken();
     client
         .delete(url, { headers: { Authorization: token } })
@@ -40,7 +40,7 @@ export const IsLikedByUser = async (tweetID) => {
         return
     }
     try {
-        const url = 'v1/like/' + tweetID
+        const url: string = 'v1/like/' + tweetID
         const token = GetToken();
         const res = await client.get(url, { headers: { Authorization: token } })
 
