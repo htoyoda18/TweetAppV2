@@ -4,15 +4,23 @@ import { ImageUploader } from './icon_upload';
 import UserInfoStyle from '../css/user_info.module.css';
 import Modal from "react-modal";
 import { client } from '../libs/axios';
-import { GetToken, GetUserID } from '../shared/localStorage';
+import { GetToken, GetSelfUserID } from '../shared/localStorage';
 
-export const UserInfo = ({ iconUrl, userID, userName, userIntroduction, userIconFileName }) => {
+type UserInfoProps = {
+    iconUrl: string;
+    userID: number,
+    userName: string,
+    userIntroduction: string,
+    userIconFileName: string,
+};
+
+export const UserInfo = ({ userID, userName, userIntroduction, userIconFileName, iconUrl }: UserInfoProps) => {
     return (
         <div className={UserInfoStyle.userInfo}>
             <div className={UserInfoStyle.content}>
                 <LargeIcon image={iconUrl} />
                 <EditUserInfoBtn
-                    showUserId={userID}
+                    userID={userID}
                     userName={userName}
                     userIntroduction={userIntroduction}
                     iconUrl={iconUrl}
@@ -25,9 +33,9 @@ export const UserInfo = ({ iconUrl, userID, userName, userIntroduction, userIcon
     )
 }
 
-const EditUserInfoBtn = ({ userName, userIntroduction, showUserId, iconUrl, userIconFileName }) => {
+const EditUserInfoBtn = ({ iconUrl, userID, userName, userIntroduction, userIconFileName }: UserInfoProps) => {
     const [isSelf, setIsSelf] = useState(false);
-    const selfId = GetUserID();
+    const selfId = GetSelfUserID();
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [username, setUsername] = useState('');
     const [introduction, setIntroduction] = useState('');
@@ -38,12 +46,12 @@ const EditUserInfoBtn = ({ userName, userIntroduction, showUserId, iconUrl, user
         setIconFileName(userIconFileName)
     }, [userIconFileName]);
 
-    function handleUsernameChange(event) {
+    function handleUsernameChange(event: React.ChangeEvent<HTMLInputElement>) {
         setUsername(event.target.value);
         handleSaveButtonDisabled()
     }
 
-    function handleIntroductionChange(event) {
+    function handleIntroductionChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
         setIntroduction(event.target.value);
         handleSaveButtonDisabled()
     }
@@ -56,8 +64,8 @@ const EditUserInfoBtn = ({ userName, userIntroduction, showUserId, iconUrl, user
         document.body.style.overflow = 'auto';
     }
 
-    const handleIconChange = (childIcon) => {
-        setIconFileName(childIcon)
+    const handleIconChange = (childIcon: File) => {
+        setIconFileName(childIcon.name)
         handleSaveButtonDisabled()
     }
 
@@ -81,7 +89,7 @@ const EditUserInfoBtn = ({ userName, userIntroduction, showUserId, iconUrl, user
         }
     };
 
-    const updateUser = (uploadedIconName) => {
+    const updateUser = (uploadedIconName: string) => {
         const token = GetToken();
         const body = {
             icon: uploadedIconName,
@@ -98,7 +106,7 @@ const EditUserInfoBtn = ({ userName, userIntroduction, showUserId, iconUrl, user
             });
     };
 
-    const handleClickUserInfo = async (event) => {
+    const handleClickUserInfo = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         if (username === '') {
             setIsDisabled(true)
@@ -132,12 +140,12 @@ const EditUserInfoBtn = ({ userName, userIntroduction, showUserId, iconUrl, user
     }
 
     useEffect(() => {
-        if (selfId === showUserId) {
+        if (selfId === userID) {
             setIsSelf(true);
         } else {
             setIsSelf(false);
         }
-    }, [selfId, showUserId]);
+    }, [selfId, userID]);
 
     const handleSaveButtonDisabled = () => {
         if (username !== '') {

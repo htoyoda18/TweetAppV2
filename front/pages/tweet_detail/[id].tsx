@@ -16,7 +16,7 @@ import { GetToken } from '../../shared/localStorage'
 interface User {
     id?: number,
     name?: string,
-    icon?: Blob,
+    icon?: string,
 }
 
 interface Like {
@@ -46,7 +46,7 @@ interface Props {
 const TweetDetail: NextPage<Props> = ({ url }) => {
     const [tweetDetail, setTweetDetail] = useState<TweetDetail>({ id: 0, tweet: '', replies: null, likes: null });
     const [replies, setReplies] = useState<ReplyType[]>([]);
-    const [user, setUser] = useState<User>({ id: 0, name: '' });
+    const [user, setUser] = useState<User>({ id: 0, name: '', icon: '' });
     const token = GetToken();
     const router = useRouter();
     const [icon, setIcon] = useState('');
@@ -120,7 +120,6 @@ const TweetDetail: NextPage<Props> = ({ url }) => {
                 />
                 <ReplyPost
                     tweetID={tweetDetail.id}
-                    iconUrl={icon}
                 />
                 {replies.map((value: ReplyType, key) => {
                     return (

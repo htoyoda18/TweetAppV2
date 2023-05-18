@@ -13,7 +13,7 @@ import { GetToken } from '../../shared/localStorage';
 
 interface UserRecode {
 	name?: string,
-	id?: string,
+	id?: number,
 	introduction?: string,
 	icon?: string,
 }
