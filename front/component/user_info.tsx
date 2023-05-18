@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { LargeIcon } from '../component/icon';
-import { ImageUploader } from '../component/icon_upload';
+import { LargeIcon } from './icon';
+import { ImageUploader } from './icon_upload';
 import UserInfoStyle from '../css/user_info.module.css';
 import Modal from "react-modal";
 import { client } from '../libs/axios';

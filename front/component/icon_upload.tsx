@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import { LargeIcon } from "../component/icon"
+import { LargeEditIcon } from "./icon"
 
 export const ImageUploader = ({ iconUrl, onImageChange }) => {
     const [preview, setPreview] = useState(iconUrl);
@@ -13,6 +13,10 @@ export const ImageUploader = ({ iconUrl, onImageChange }) => {
         }
     };
 
+    const getFileInput = () => {
+        return document.getElementById('fileInput').click()
+    }
+
     return (
         <div style={{ position: 'relative', display: 'inline-block' }}>
             <input
@@ -22,13 +26,11 @@ export const ImageUploader = ({ iconUrl, onImageChange }) => {
                 onInput={handleImageChange}
                 style={{ display: 'none' }}
             />
-            <LargeIcon
+            <LargeEditIcon
                 image={preview}
-                onClick={() => document.getElementById('fileInput').click()}
-                style={{ cursor: 'pointer' }}
             />
             <CameraAltIcon
-                onClick={() => document.getElementById('fileInput').click()}
+                onClick={getFileInput}
                 style={{
                     position: 'absolute',
                     top: '50%',
