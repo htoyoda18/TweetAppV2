@@ -41,6 +41,7 @@ const EditUserInfoBtn = ({ iconUrl, userID, userName, userIntroduction, userIcon
     const [username, setUsername] = useState('');
     const [introduction, setIntroduction] = useState('');
     const [IconFileName, setIconFileName] = useState('');
+    const [IconFile, setIconFile] = useState<File>();
     const [isDisabled, setIsDisabled] = useState(false);
 
     useEffect(() => {
@@ -67,12 +68,13 @@ const EditUserInfoBtn = ({ iconUrl, userID, userName, userIntroduction, userIcon
 
     const handleIconChange = (childIcon: File) => {
         setIconFileName(childIcon.name)
+        setIconFile(childIcon)
         handleSaveButtonDisabled()
     }
 
     const fileUpload = async () => {
         const formData = new FormData();
-        formData.append('file', IconFileName);
+        formData.append('file', IconFile);
         try {
             const response = await client.post('/v1/upload', formData, {
                 headers: {
