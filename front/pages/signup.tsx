@@ -27,7 +27,7 @@ interface FormValues {
 }
 
 const SignUp: NextPage = () => {
-    const [formValues, setFromValues] = useState<FormValues>({userName: "", mailAddress: "", password: "",});
+    const [formValues, setFromValues] = useState<FormValues>({ userName: "", mailAddress: "", password: "", });
     const [fomrErrors, setFromError] = useState<FomrErrors>({ mailAddressErr: '', userNameErr: '', passwordErr: '' });
     const router = useRouter();
 
@@ -94,8 +94,8 @@ const SignUp: NextPage = () => {
     return (
         <div className={sharedStyle.background}>
             <Head>
-				<title>新規登録</title>
-			</Head>
+                <title>新規登録</title>
+            </Head>
             <TweetApp />
             <div className={IndexStyle.formContainer}>
                 <form onSubmit={(e) => handleSubmit(e)}>

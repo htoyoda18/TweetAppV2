@@ -22,9 +22,9 @@ interface Props {
 }
 
 const TweetDetail: NextPage<Props> = ({ url }) => {
-    const [tweetDetail, setTweetDetail] = useState<TweetResponse>({id: 0, userID: 0, tweet: ''});
+    const [tweetDetail, setTweetDetail] = useState<TweetResponse>({ id: 0, userID: 0, tweet: '' });
     const [replies, setReplies] = useState<ReplyResponse[]>([]);
-    const [user, setUser] = useState<UserResponse>({id: 0, name : '', email: '', introduction: '', icon: ''});
+    const [user, setUser] = useState<UserResponse>({ id: 0, name: '', email: '', introduction: '', icon: '' });
     const router = useRouter();
     const [icon, setIcon] = useState('');
     const [iconUrls, setIconUrls] = useState({});
@@ -83,8 +83,8 @@ const TweetDetail: NextPage<Props> = ({ url }) => {
     return (
         <div className={TweetStyleList.TweetList}>
             <Head>
-				<title>{user.name + 'さんのツイート'}</title>
-			</Head>
+                <title>{user.name + 'さんのツイート'}</title>
+            </Head>
             <Sidebar />
             <div className={TweetDetailStyleList.tweetDetail}>
                 <Tweet

@@ -13,21 +13,21 @@ import { PasswordResetReqest } from '../api/type/user';
 import Head from 'next/head';
 
 interface FormValues {
-    mailAddress?: string;
+	mailAddress?: string;
 }
 
 const initialValues: FormValues = {
-    mailAddress: '',
+	mailAddress: '',
 }
 
 const PasswordReset: NextPage = () => {
-    const [formValues, setFromValues] = useState<FormValues>(initialValues);
+	const [formValues, setFromValues] = useState<FormValues>(initialValues);
 	const [fomrErrors, setFromError] = useState("");
 	const router = useRouter();
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = e.target;
-		setFromValues({mailAddress: value });
+		setFromValues({ mailAddress: value });
 	}
 
 	const handleSubmit = (e: React.FormEvent) => {

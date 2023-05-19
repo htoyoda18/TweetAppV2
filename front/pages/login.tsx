@@ -104,8 +104,8 @@ const Login: NextPage = () => {
     return (
         <div className={sharedStyle.background}>
             <Head>
-				<title>ログイン</title>
-			</Head>
+                <title>ログイン</title>
+            </Head>
             <TweetApp />
             <div className={IndexStyle.formContainer}>
                 <form onSubmit={handleSubmit}>

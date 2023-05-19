@@ -40,8 +40,8 @@ const Tweet: NextPage = () => {
     return (
         <div className={sharedStyle.background}>
             <Head>
-				<title>ツイートする</title>
-			</Head>
+                <title>ツイートする</title>
+            </Head>
             <div className={TweetStyle.Tweet}>
                 <Sidebar />
                 <form

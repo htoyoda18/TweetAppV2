@@ -15,7 +15,7 @@ import Head from 'next/head';
 
 const User: NextPage = () => {
 	const router = useRouter();
-	const [user, setUser] = useState<UserResponse>({id: 0, name : '', email: '', introduction: '', icon: ''});
+	const [user, setUser] = useState<UserResponse>({ id: 0, name: '', email: '', introduction: '', icon: '' });
 	const [tweets, setTweets] = useState([]);
 	const { userID } = router.query
 	const [iconUrl, setIconUrl] = useState('');
