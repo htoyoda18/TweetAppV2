@@ -9,9 +9,10 @@ import { client } from '../libs/axios'
 import { UserIconGet } from "../api/client/icon_get"
 import { ErrorMessages } from '../shared/error'
 import { GetToken } from '../shared/localStorage'
+import { TweetResponse } from '../api/type/tweet'
 
 const Home: NextPage = () => {
-	const [tweets, setTweets] = useState([]);
+	const [tweets, setTweets] = useState<TweetResponse[]>([]);
 	const [iconUrls, setIconUrls] = useState({});
 	const router = useRouter()
 	const token = GetToken()
@@ -24,7 +25,7 @@ const Home: NextPage = () => {
 
 		const TweetList = () => {
 			client
-				.get('v1/tweet', { headers: { Authorization: token } })
+				.get<TweetResponse[]>('v1/tweet', { headers: { Authorization: token } })
 				.then((res) => {
 					if (res.data) {
 						setTweets(res.data);
@@ -61,16 +62,16 @@ const Home: NextPage = () => {
 		<div className={TweetListStyle.TweetList}>
 			<Sidebar />
 			<div className={TweetListStyle.Tweet}>
-				{tweets.map((value, key) => (
+				{tweets.map((tweet, key) => (
 					<Tweet
 						key={key}
-						userID={value.user.id}
-						userName={value.user.name}
-						tweet={value.tweet}
-						tweetID={value.id}
-						replies={value.replies}
-						likes={value.likes}
-						iconUrl={iconUrls[value.user.id]}
+						userID={tweet.user.id}
+						userName={tweet.user.name}
+						tweet={tweet.tweet}
+						tweetID={tweet.id}
+						replies={tweet.replies}
+						likes={tweet.likes}
+						iconUrl={iconUrls[tweet.user.id]}
 					/>
 				))}
 			</div>

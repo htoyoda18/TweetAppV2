@@ -20,7 +20,6 @@ export const ReplyPost = ({ tweetID }: ReplyPostProps) => {
     const [icon, setIcon] = useState('');
 
     useEffect(() => {
-        console.log('実行されている？？？ useEffect')
         const token = GetToken()
         const userID = GetSelfUserID()
         const getUserUrl: string = 'v1/user/' + userID

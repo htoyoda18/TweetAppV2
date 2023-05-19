@@ -5,6 +5,7 @@ import UserInfoStyle from '../css/user_info.module.css';
 import Modal from "react-modal";
 import { client } from '../libs/axios';
 import { GetToken, GetSelfUserID } from '../shared/localStorage';
+import { UserUpdateReqest } from '../api/type/user'
 
 type UserInfoProps = {
     iconUrl: string;
@@ -73,14 +74,14 @@ const EditUserInfoBtn = ({ iconUrl, userID, userName, userIntroduction, userIcon
         const formData = new FormData();
         formData.append('file', IconFileName);
         try {
-            const response = await fetch('http://localhost:8080/v1/upload', {
-                method: 'POST',
-                body: formData
+            const response = await client.post('/v1/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
             });
-
-            if (response.ok) {
-                const data = await response.json();
-                return data.fileName; // 返されたファイル名
+        
+            if (response.status === 200) {
+                return response.data.fileName; // 返されたファイル名
             } else {
                 throw new Error('File upload failed');
             }
@@ -91,7 +92,7 @@ const EditUserInfoBtn = ({ iconUrl, userID, userName, userIntroduction, userIcon
 
     const updateUser = (uploadedIconName: string) => {
         const token = GetToken();
-        const body = {
+        const body: UserUpdateReqest = {
             icon: uploadedIconName,
             userName: username,
             introduction: introduction,

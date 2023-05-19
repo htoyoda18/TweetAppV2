@@ -10,18 +10,12 @@ import UserInfoStyle from '../../css/user_info.module.css';
 import { UserIconGet } from "../../api/client/icon_get";
 import { ErrorMessages } from '../../shared/error';
 import { GetToken } from '../../shared/localStorage';
-
-interface UserRecode {
-	name?: string,
-	id?: number,
-	introduction?: string,
-	icon?: string,
-}
+import { UserResponse } from '../../api/type/user';
 
 const User: NextPage = () => {
 	const router = useRouter();
 	const token = GetToken()
-	const [user, setUser] = useState<UserRecode>({});
+	const [user, setUser] = useState<UserResponse>({id: 0, name : '', email: '', introduction: '', icon: ''});
 	const [tweets, setTweets] = useState([]);
 	const { userID } = router.query
 	const [iconUrl, setIconUrl] = useState('');
@@ -84,16 +78,16 @@ const User: NextPage = () => {
 			<Sidebar />
 			<div className={UserInfoStyle.userTweets}>
 				<UserInfo userName={user.name} userID={user.id} userIntroduction={user.introduction} iconUrl={iconUrl} userIconFileName={user.icon} />
-				{tweets.map((value, key) => {
+				{tweets.map((tweet, key) => {
 					return (
 						<Tweet
 							key={key}
-							userID={value.user.id}
-							userName={value.user.name}
-							tweet={value.tweet}
-							tweetID={value.id}
-							replies={value.replies}
-							likes={value.likes}
+							userID={tweet.user.id}
+							userName={tweet.user.name}
+							tweet={tweet.tweet}
+							tweetID={tweet.id}
+							replies={tweet.replies}
+							likes={tweet.likes}
 							iconUrl={iconUrl}
 						/>
 					)

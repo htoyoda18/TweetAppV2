@@ -1,52 +1,29 @@
 import { useEffect } from 'react';
 import { NextPage, GetServerSideProps } from "next";
-import Sidebar from '../../component/sidebar'
+import Sidebar from '../../component/sidebar';
 import TweetStyleList from '../../css/tweet_list.module.css';
 import TweetDetailStyleList from '../../css/tweet_detail.module.css';
-import { client } from '../../libs/axios'
+import { client } from '../../libs/axios';
 import { useState } from 'react';
-import { Tweet } from "../../component/tweet"
-import { Reply } from "../../component/reply"
-import { ReplyPost } from "../../component/reply_post"
-import { useRouter } from 'next/router'
-import { UserIconGet } from "../../api/client/icon_get"
-import { ErrorMessages } from '../../shared/error'
-import { GetToken } from '../../shared/localStorage'
-
-interface User {
-    id?: number,
-    name?: string,
-    icon?: string,
-}
-
-interface Like {
-    id?: number,
-    userID?: number,
-    tweetID?: number,
-}
-
-interface ReplyType {
-    reply?: string,
-    userID?: number,
-    userName?: string,
-    user: User,
-}
-
-interface TweetDetail {
-    id?: number,
-    tweet?: string,
-    replies?: ReplyType[],
-    likes?: Like[],
-}
+import { Tweet } from "../../component/tweet";
+import { Reply } from "../../component/reply";
+import { ReplyPost } from "../../component/reply_post";
+import { useRouter } from 'next/router';
+import { UserIconGet } from "../../api/client/icon_get";
+import { ErrorMessages } from '../../shared/error';
+import { GetToken } from '../../shared/localStorage';
+import { TweetResponse } from '../../api/type/tweet';
+import { UserResponse } from '../../api/type/user';
+import { ReplyResponse } from '../../api/type/reply';
 
 interface Props {
     url: string;
 }
 
 const TweetDetail: NextPage<Props> = ({ url }) => {
-    const [tweetDetail, setTweetDetail] = useState<TweetDetail>({ id: 0, tweet: '', replies: null, likes: null });
-    const [replies, setReplies] = useState<ReplyType[]>([]);
-    const [user, setUser] = useState<User>({ id: 0, name: '', icon: '' });
+    const [tweetDetail, setTweetDetail] = useState<TweetResponse>({id: 0, userID: 0, tweet: ''});
+    const [replies, setReplies] = useState<ReplyResponse[]>([]);
+    const [user, setUser] = useState<UserResponse>({id: 0, name : '', email: '', introduction: '', icon: ''});
     const token = GetToken();
     const router = useRouter();
     const [icon, setIcon] = useState('');
@@ -59,7 +36,7 @@ const TweetDetail: NextPage<Props> = ({ url }) => {
         }
         const TweetDetailGet = () => {
             client
-                .get(url, { headers: { Authorization: token } })
+                .get<TweetResponse>(url, { headers: { Authorization: token } })
                 .then(async (res) => {
                     if (res.data !== undefined) {
                         setTweetDetail(res.data)
@@ -121,14 +98,14 @@ const TweetDetail: NextPage<Props> = ({ url }) => {
                 <ReplyPost
                     tweetID={tweetDetail.id}
                 />
-                {replies.map((value: ReplyType, key) => {
+                {replies.map((reply: ReplyResponse, key) => {
                     return (
                         <Reply
                             key={key}
-                            userID={value.userID}
-                            userName={value.user.name}
-                            tweet={value.reply}
-                            iconUrl={iconUrls[value.user.id]}
+                            userID={reply.userID}
+                            userName={reply.user.name}
+                            tweet={reply.reply}
+                            iconUrl={iconUrls[reply.user.id]}
                         />
                     )
                 })}

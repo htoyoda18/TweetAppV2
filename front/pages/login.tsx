@@ -11,6 +11,7 @@ import { Formbtn } from "../component/form_btn";
 import { ErrorMsg } from "../component/error_message";
 import { ErrorMessages } from '../shared/error';
 import { GetToken } from '../shared/localStorage'
+import { UserLoginReqest } from '../api/type/user';
 
 interface FormValues {
     mailAddress?: string;
@@ -37,14 +38,14 @@ const Login: NextPage = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch('http://localhost:8080/v1/validate_token', {
-                headers: {
-                    Authorization: token,
-                },
-            });
-            if (response.ok) {
-                router.push('/');
-            }
+            client
+                .get('v1/validate_token', { headers: { Authorization: token } })
+                .then((results) => {
+                    router.push("/");
+                })
+                .catch((err) => {
+                    console.log("err", err)
+                })
         };
 
         if (token) {
@@ -75,7 +76,7 @@ const Login: NextPage = () => {
     }
 
     const loginPost = () => {
-        const body = {
+        const body: UserLoginReqest = {
             password: formValues.password.trim(),
             email: formValues.mailAddress.trim(),
         }

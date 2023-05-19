@@ -9,6 +9,7 @@ import { client } from '../libs/axios'
 import { ErrorMsg } from "../component/error_message"
 import { ErrorMessages } from '../shared/error'
 import { useRouter } from 'next/router';
+import { PasswordResetReqest } from '../api/type/user';
 
 interface FormValues {
     mailAddress?: string;
@@ -38,7 +39,7 @@ const PasswordReset: NextPage = () => {
 	}
 
 	const PasswordReset = () => {
-		const body = {
+		const body: PasswordResetReqest = {
 			email: formValues.mailAddress,
 		}
 		client

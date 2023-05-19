@@ -7,6 +7,7 @@ import { client } from '../libs/axios'
 import { useRouter } from 'next/router'
 import { ErrorMessages } from '../shared/error'
 import { GetToken } from '../shared/localStorage'
+import { TweetReqest } from '../api/type/tweet'
 
 const Tweet: NextPage = () => {
     const [tweet, setTweet] = useState("");
@@ -26,7 +27,7 @@ const Tweet: NextPage = () => {
     }
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const body = {
+        const body: TweetReqest = {
             tweet: tweet
         }
         const token = GetToken()

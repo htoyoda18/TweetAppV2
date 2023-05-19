@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 const NotFound: NextPage = () => {
     const token = GetToken();
     const router = useRouter();    
-    const [imageUrl, setImageUrl] = useState<string>("");
+    const [imageUrl, setImageUrl] = useState("");
 
     useEffect(() => {
         const fetchCatImage = async () => {

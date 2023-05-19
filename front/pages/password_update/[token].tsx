@@ -9,6 +9,7 @@ import { client } from '../../libs/axios'
 import { ErrorMessages } from '../../shared/error'
 import { useRouter } from 'next/router';
 import sharedStyle from '../../css/shared.module.css';
+import { PasswordUpdateReqest } from '../../api/type/user';
 
 interface FormValues {
 	password?: string;
@@ -51,7 +52,7 @@ const PasswordUpdate: NextPage = () => {
 	const passwordUpdatePost = () => {
 		const { token } = router.query
 		const url: string = 'v1/password_update/' + token
-		const body = {
+		const body: PasswordUpdateReqest = {
 			password: formValues.password.trim(),
 		}
 		client
@@ -69,7 +70,7 @@ const PasswordUpdate: NextPage = () => {
 					setFormError({ resErr: "このメールアドレスは既に登録されています" })
 				} else if (err.response.data === ErrorMessages.TokenIsExpired) {
 					setFormError({ resErr: "トークンの有効期限が切れています。再度、やり直してください。" })
-				}else {
+				} else {
 					setFormError({ resErr: "予期せぬエラーです" })
 				}
 			})
