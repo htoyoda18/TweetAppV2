@@ -1,15 +1,12 @@
 import { GenerateImageUrl } from "../../component/icon"
 import { AxiosResponse } from 'axios';
-import { client } from '../../libs/axios'
-import { GetToken } from '../../shared/localStorage'
+import { privateClient } from '../../libs/axios'
 
 export const UserIconGet = async (icon: string) => {
-    const token = GetToken()
     const url: string = 'v1/icon/' + icon
     try {
-        const res: AxiosResponse<ArrayBuffer> = await client
+        const res: AxiosResponse<ArrayBuffer> = await privateClient
             .get(url, {
-                headers: { Authorization: token },
                 responseType: 'arraybuffer',
             })
         const iconUrl = GenerateImageUrl(res.data)

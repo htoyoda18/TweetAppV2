@@ -5,27 +5,21 @@ import { useRouter } from 'next/router'
 import Sidebar from '../component/sidebar';
 import TweetListStyle from '../css/tweet_list.module.css';
 import { Tweet } from "../component/tweet";
-import { client } from '../libs/axios'
+import { privateClient } from '../libs/axios'
 import { UserIconGet } from "../api/client/icon_get"
 import { ErrorMessages } from '../shared/error'
-import { GetToken } from '../shared/localStorage'
 import { TweetResponse } from '../api/type/tweet'
 
 const Home: NextPage = () => {
 	const [tweets, setTweets] = useState<TweetResponse[]>([]);
 	const [iconUrls, setIconUrls] = useState({});
 	const router = useRouter()
-	const token = GetToken()
 
 	useEffect(() => {
-		if (!token) {
-			router.push('/login');
-			return;
-		}
 
 		const TweetList = () => {
-			client
-				.get<TweetResponse[]>('v1/tweet', { headers: { Authorization: token } })
+			privateClient
+				.get<TweetResponse[]>('v1/tweet')
 				.then((res) => {
 					if (res.data) {
 						setTweets(res.data);
@@ -42,7 +36,7 @@ const Home: NextPage = () => {
 				})
 		}
 		TweetList();
-	}, [token]);
+	}, []);
 
 	useEffect(() => {
 		const fetchIcons = async () => {

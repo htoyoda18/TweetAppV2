@@ -1,6 +1,4 @@
-import { client } from '../../libs/axios';
-import { GetToken } from '../../shared/localStorage';
-import { AxiosResponse } from "axios";
+import { privateClient } from '../../libs/axios';
 import { IsLikedByUserType } from "../type/like"
 
 export const AddLike = (tweetID: string) => {
@@ -13,9 +11,8 @@ export const AddLike = (tweetID: string) => {
         return
     }
 
-    const token = GetToken();
-    client
-        .post('v1/like', body, { headers: { Authorization: token } })
+    privateClient
+        .post('v1/like', body)
         .then((res) => {
             return res
         })
@@ -26,9 +23,8 @@ export const AddLike = (tweetID: string) => {
 
 export const DeleteLike = (tweetID: string) => {
     const url: string = 'v1/like/' + tweetID
-    const token = GetToken();
-    client
-        .delete(url, { headers: { Authorization: token } })
+    privateClient
+        .delete(url)
         .then((res) => {
             return res
         })
@@ -43,9 +39,8 @@ export const IsLikedByUser = async (tweetID: string) => {
     }
     try {
         const url: string = 'v1/like/' + tweetID
-        const token = GetToken();
-        const res = await client
-            .get<IsLikedByUserType>(url, { headers: { Authorization: token } })
+        const res = await privateClient
+            .get<IsLikedByUserType>(url)
 
         if (res.data.isLikedByUser !== undefined) {
             return res.data.isLikedByUser

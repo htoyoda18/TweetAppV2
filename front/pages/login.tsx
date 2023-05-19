@@ -4,13 +4,12 @@ import { useRouter } from 'next/router';
 import LoginStyle from '../css/login.module.css';
 import IndexStyle from '../css/index.module.css';
 import sharedStyle from '../css/shared.module.css';
-import { client } from '../libs/axios';
+import { publicClient, privateClient } from '../libs/axios';
 import { TweetApp } from "../component/tweet_app";
 import { Note } from "../component/note";
 import { Formbtn } from "../component/form_btn";
 import { ErrorMsg } from "../component/error_message";
 import { ErrorMessages } from '../shared/error';
-import { GetToken } from '../shared/localStorage'
 import { UserLoginReqest } from '../api/type/user';
 
 interface FormValues {
@@ -34,12 +33,11 @@ const Login: NextPage = () => {
     const [formValues, setFormValues] = useState<FormValues>(initialValues);
     const [formErrors, setFormErrors] = useState<FormValues>(initialValues);
     const router = useRouter();
-    const token = GetToken()
 
     useEffect(() => {
-        const fetchData = async () => {
-            client
-                .get('v1/validate_token', { headers: { Authorization: token } })
+        const validateToken = async () => {
+            privateClient
+                .get('v1/validate_token')
                 .then((results) => {
                     router.push("/");
                 })
@@ -48,10 +46,8 @@ const Login: NextPage = () => {
                 })
         };
 
-        if (token) {
-            fetchData();
-        }
-    }, [router]);
+        validateToken()
+    });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -80,7 +76,7 @@ const Login: NextPage = () => {
             password: formValues.password.trim(),
             email: formValues.mailAddress.trim(),
         }
-        client
+        publicClient
             .post('v1/login', body)
             .then((res) => {
                 localStorage.setItem("token", res.data.token);
