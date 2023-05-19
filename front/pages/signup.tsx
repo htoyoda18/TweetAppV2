@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { useState } from 'react';
-import { publicClient } from '../libs/axios'
+import { publicClient } from '../libs/client/axios'
 import SignUpStyle from '../css/signup.module.css';
 import { useRouter } from 'next/router'
 import sharedStyle from '../css/shared.module.css';

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { GetToken } from '../shared/localStorage';
+import { GetToken } from '../../shared/localStorage';
 
 const baseConfig = {
     baseURL: 'http://localhost:8080',
@@ -12,11 +12,14 @@ const baseConfig = {
 
 export const publicClient = axios.create(baseConfig);
 
-export const privateClient = axios.create({
-    ...baseConfig,
-    headers: {
-        ...baseConfig.headers,
-        // 例えば以下のようにヘッダーにトークンを付与します。
-        Authorization: GetToken(),
-    },
+export const privateClient = axios.create(baseConfig);
+
+privateClient.interceptors.request.use((config) => {
+    const token = GetToken();
+    if (token) {
+        config.headers.Authorization = token;
+    }
+    return config;
+}, error => {
+    return Promise.reject(error);
 });

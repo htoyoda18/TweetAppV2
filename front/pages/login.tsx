@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import LoginStyle from '../css/login.module.css';
 import IndexStyle from '../css/index.module.css';
 import sharedStyle from '../css/shared.module.css';
-import { publicClient, privateClient } from '../libs/axios';
+import { publicClient, privateClient } from '../libs/client/axios';
 import { TweetApp } from "../component/tweet_app";
 import { Note } from "../component/note";
 import { Formbtn } from "../component/form_btn";
@@ -45,9 +45,8 @@ const Login: NextPage = () => {
                     console.log("err", err)
                 })
         };
-
         validateToken()
-    });
+    }, []);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();

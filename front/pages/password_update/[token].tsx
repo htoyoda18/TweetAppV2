@@ -5,7 +5,7 @@ import { ErrorMsg } from "../../component/error_message"
 import PasswordUpdateStyle from '../../css/password_update.module.css';
 import { Formbtn } from "../../component/form_btn"
 import IndexStyle from '../../css/index.module.css';
-import { publicClient } from '../../libs/axios'
+import { publicClient } from '../../libs/client/axios'
 import { ErrorMessages } from '../../shared/error'
 import { useRouter } from 'next/router';
 import sharedStyle from '../../css/shared.module.css';

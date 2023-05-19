@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import ReplyStyle from '../css/reply.module.css';
 import { Icon } from "./icon";
 import { useState } from 'react';
-import { privateClient } from '../libs/axios';
+import { privateClient } from '../libs/client/axios';
 import { ErrorMessages } from '../shared/error';
 import { useRouter } from 'next/router';
 import { GetSelfUserID } from '../shared/localStorage';

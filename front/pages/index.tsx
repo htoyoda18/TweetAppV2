@@ -5,18 +5,20 @@ import { useRouter } from 'next/router'
 import Sidebar from '../component/sidebar';
 import TweetListStyle from '../css/tweet_list.module.css';
 import { Tweet } from "../component/tweet";
-import { privateClient } from '../libs/axios'
+import { privateClient } from '../libs/client/axios'
 import { UserIconGet } from "../api/client/icon_get"
 import { ErrorMessages } from '../shared/error'
 import { TweetResponse } from '../api/type/tweet'
+import { useCheckToken } from '../libs/hook/check_token';
 
 const Home: NextPage = () => {
 	const [tweets, setTweets] = useState<TweetResponse[]>([]);
 	const [iconUrls, setIconUrls] = useState({});
 	const router = useRouter()
 
-	useEffect(() => {
+	useCheckToken()
 
+	useEffect(() => {
 		const TweetList = () => {
 			privateClient
 				.get<TweetResponse[]>('v1/tweet')
