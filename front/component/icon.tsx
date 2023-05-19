@@ -52,7 +52,7 @@ export const LargeEditIcon = ({ image }: ImageProps) => {
     )
 }
 
-export const GetMimeTypeFromImageData = (data: File) => {
+export const GetMimeTypeFromImageData = (data: ArrayBuffer) => {
     const firstByte = data[0];
     switch (firstByte) {
         case 0xff:
@@ -71,7 +71,7 @@ export const GetMimeTypeFromImageData = (data: File) => {
     }
 }
 
-export const GenerateImageUrl = (image: File) => {
+export const GenerateImageUrl = (image: ArrayBuffer) => {
     const mimeType = GetMimeTypeFromImageData(image);
     const blob = new Blob([image], { type: mimeType });
     const imageUrl = URL.createObjectURL(blob);

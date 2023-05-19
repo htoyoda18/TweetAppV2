@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TweetStyle from '../css/tweet_list.module.css';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { AddLike, DeleteLike, IsLikedByUser } from '../api/like';
+import { AddLike, DeleteLike, IsLikedByUser } from '../api/client/like';
 
 const likeColor = 'rgb(249, 24, 128)';
 

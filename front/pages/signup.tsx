@@ -10,6 +10,7 @@ import { Formbtn } from "../component/form_btn"
 import { ErrorMsg } from "../component/error_message"
 import IndexStyle from '../css/index.module.css';
 import { ErrorMessages } from '../shared/error'
+import { SignupReqest } from '../api/type/user'
 
 interface FomrErrors {
     mailAddressErr?: string;
@@ -44,7 +45,7 @@ const SignUp: NextPage = () => {
     }
 
     const signUpPost = () => {
-        const body = {
+        const body: SignupReqest = {
             userName: formValues.userName.trim(),
             password: formValues.password.trim(),
             email: formValues.mailAddress.trim(),
