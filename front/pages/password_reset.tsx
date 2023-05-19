@@ -5,7 +5,7 @@ import { Formbtn } from "../component/form_btn"
 import IndexStyle from '../css/index.module.css';
 import SharedStyle from '../css/shared.module.css';
 import { useState } from 'react';
-import { client } from '../libs/axios'
+import { publicClient } from '../libs/axios'
 import { ErrorMsg } from "../component/error_message"
 import { ErrorMessages } from '../shared/error'
 import { useRouter } from 'next/router';
@@ -42,7 +42,7 @@ const PasswordReset: NextPage = () => {
 		const body: PasswordResetReqest = {
 			email: formValues.mailAddress,
 		}
-		client
+		publicClient
 			.post('v1/password_reset', body)
 			.then((results) => {
 				router.push("/password_reset_send");

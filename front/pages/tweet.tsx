@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react';
 import Sidebar from '../component/sidebar'
 import TweetStyle from '../css/tweet.module.css';
 import sharedStyle from '../css/shared.module.css';
-import { client } from '../libs/axios'
+import { privateClient } from '../libs/axios'
 import { useRouter } from 'next/router'
 import { ErrorMessages } from '../shared/error'
-import { GetToken } from '../shared/localStorage'
 import { TweetReqest } from '../api/type/tweet'
+import { GetToken } from '../shared/localStorage';
 
 const Tweet: NextPage = () => {
     const [tweet, setTweet] = useState("");
@@ -30,9 +30,8 @@ const Tweet: NextPage = () => {
         const body: TweetReqest = {
             tweet: tweet
         }
-        const token = GetToken()
-        client
-            .post('v1/tweet', body, { headers: { Authorization: token } })
+        privateClient
+            .post('v1/tweet', body)
             .then((results) => {
                 router.push("/");
             })

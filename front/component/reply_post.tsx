@@ -3,10 +3,10 @@ import { useEffect } from 'react';
 import ReplyStyle from '../css/reply.module.css';
 import { Icon } from "./icon";
 import { useState } from 'react';
-import { client } from '../libs/axios';
+import { privateClient } from '../libs/axios';
 import { ErrorMessages } from '../shared/error';
 import { useRouter } from 'next/router';
-import { GetToken, GetSelfUserID } from '../shared/localStorage';
+import { GetSelfUserID } from '../shared/localStorage';
 import { UserIconGet } from "../api/client/icon_get"
 
 type ReplyPostProps = {
@@ -20,11 +20,10 @@ export const ReplyPost = ({ tweetID }: ReplyPostProps) => {
     const [icon, setIcon] = useState('');
 
     useEffect(() => {
-        const token = GetToken()
         const userID = GetSelfUserID()
         const getUserUrl: string = 'v1/user/' + userID
-        client
-            .get(getUserUrl, { headers: { Authorization: token } })
+        privateClient
+            .get(getUserUrl)
             .then(async (res) => {
                 if (res.data) {
                     const iconUrl = await UserIconGet(res.data.icon);
@@ -62,9 +61,8 @@ export const ReplyPost = ({ tweetID }: ReplyPostProps) => {
             reply: reply.trim(),
             tweetID: tweetID,
         }
-        const token = GetToken()
-        client
-            .post('v1/reply', body, { headers: { Authorization: token } })
+        privateClient
+            .post('v1/reply', body)
             .then((res) => {
                 if (typeof window !== 'undefined') {
                     window.location.reload();

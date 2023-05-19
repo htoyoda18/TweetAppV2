@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Sidebar from '../../component/sidebar';
 import { UserInfo } from '../../component/user_info';
 import TweetStyle from '../../css/tweet.module.css';
-import { client } from '../../libs/axios';
+import { privateClient } from '../../libs/axios';
 import { Tweet } from "../../component/tweet";
 import { useRouter } from 'next/router';
 import UserInfoStyle from '../../css/user_info.module.css';
@@ -27,8 +27,8 @@ const User: NextPage = () => {
 		}
 		const UserGet = () => {
 			const url: string = 'v1/user/' + userID
-			client
-				.get(url, { headers: { Authorization: token } })
+			privateClient
+				.get(url)
 				.then(async (res) => {
 					if (res.data !== undefined) {
 						setUser(res.data);
@@ -57,8 +57,8 @@ const User: NextPage = () => {
 		}
 		const TweetList = () => {
 			const url: string = 'v1/tweet/' + userID
-			client
-				.get(url, { headers: { Authorization: token } })
+			privateClient
+				.get(url)
 				.then((res) => {
 					setTweets(res.data)
 				})

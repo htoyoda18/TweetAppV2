@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { useState } from 'react';
-import { client } from '../libs/axios'
+import { publicClient } from '../libs/axios'
 import SignUpStyle from '../css/signup.module.css';
 import { useRouter } from 'next/router'
 import sharedStyle from '../css/shared.module.css';
@@ -50,7 +50,7 @@ const SignUp: NextPage = () => {
             password: formValues.password.trim(),
             email: formValues.mailAddress.trim(),
         }
-        client
+        publicClient
             .post('v1/signup', body)
             .then((results) => {
                 router.push("/login");

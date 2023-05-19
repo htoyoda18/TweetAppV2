@@ -3,7 +3,7 @@ import { NextPage, GetServerSideProps } from "next";
 import Sidebar from '../../component/sidebar';
 import TweetStyleList from '../../css/tweet_list.module.css';
 import TweetDetailStyleList from '../../css/tweet_detail.module.css';
-import { client } from '../../libs/axios';
+import { privateClient } from '../../libs/axios';
 import { useState } from 'react';
 import { Tweet } from "../../component/tweet";
 import { Reply } from "../../component/reply";
@@ -35,8 +35,8 @@ const TweetDetail: NextPage<Props> = ({ url }) => {
             return;
         }
         const TweetDetailGet = () => {
-            client
-                .get<TweetResponse>(url, { headers: { Authorization: token } })
+            privateClient
+                .get<TweetResponse>(url)
                 .then(async (res) => {
                     if (res.data !== undefined) {
                         setTweetDetail(res.data)

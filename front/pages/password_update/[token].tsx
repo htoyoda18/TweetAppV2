@@ -5,7 +5,7 @@ import { ErrorMsg } from "../../component/error_message"
 import PasswordUpdateStyle from '../../css/password_update.module.css';
 import { Formbtn } from "../../component/form_btn"
 import IndexStyle from '../../css/index.module.css';
-import { client } from '../../libs/axios'
+import { publicClient } from '../../libs/axios'
 import { ErrorMessages } from '../../shared/error'
 import { useRouter } from 'next/router';
 import sharedStyle from '../../css/shared.module.css';
@@ -55,7 +55,7 @@ const PasswordUpdate: NextPage = () => {
 		const body: PasswordUpdateReqest = {
 			password: formValues.password.trim(),
 		}
-		client
+		publicClient
 			.post(url, body)
 			.then((results) => {
 				console.log("results", results)

@@ -3,8 +3,8 @@ import { LargeIcon } from './icon';
 import { ImageUploader } from './icon_upload';
 import UserInfoStyle from '../css/user_info.module.css';
 import Modal from "react-modal";
-import { client } from '../libs/axios';
-import { GetToken, GetSelfUserID } from '../shared/localStorage';
+import { publicClient, privateClient } from '../libs/axios';
+import { GetSelfUserID } from '../shared/localStorage';
 import { UserUpdateReqest } from '../api/type/user'
 
 type UserInfoProps = {
@@ -76,7 +76,7 @@ const EditUserInfoBtn = ({ iconUrl, userID, userName, userIntroduction, userIcon
         const formData = new FormData();
         formData.append('file', IconFile);
         try {
-            const response = await client.post('/v1/upload', formData, {
+            const response = await publicClient.post('/v1/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -93,14 +93,13 @@ const EditUserInfoBtn = ({ iconUrl, userID, userName, userIntroduction, userIcon
     };
 
     const updateUser = (uploadedIconName: string) => {
-        const token = GetToken();
         const body: UserUpdateReqest = {
             icon: uploadedIconName,
             userName: username,
             introduction: introduction,
         };
-        client
-            .post('v1/user/update', body, { headers: { Authorization: token } })
+        privateClient
+            .post('v1/user/update', body)
             .then((res) => {
                 window.location.reload();
             })
