@@ -3,23 +3,17 @@ import { useEffect, useState } from 'react';
 import Sidebar from '../component/sidebar'
 import TweetStyle from '../css/tweet.module.css';
 import sharedStyle from '../css/shared.module.css';
-import { privateClient } from '../libs/axios'
+import { privateClient } from '../libs/client/axios'
 import { useRouter } from 'next/router'
 import { ErrorMessages } from '../shared/error'
 import { TweetReqest } from '../api/type/tweet'
-import { GetToken } from '../shared/localStorage';
+import { useCheckToken } from '../libs/hook/check_token';
 
 const Tweet: NextPage = () => {
     const [tweet, setTweet] = useState("");
     const router = useRouter();
-    const token = GetToken();
 
-    useEffect(() => {
-        if (!token) {
-            router.push('/login');
-            return;
-        }
-    }, [token, useRouter]);
+    useCheckToken()
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const tweet = e.target.value;

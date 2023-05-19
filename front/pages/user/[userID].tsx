@@ -3,28 +3,25 @@ import { useState, useEffect } from 'react';
 import Sidebar from '../../component/sidebar';
 import { UserInfo } from '../../component/user_info';
 import TweetStyle from '../../css/tweet.module.css';
-import { privateClient } from '../../libs/axios';
+import { privateClient } from '../../libs/client/axios';
+import { useCheckToken } from '../../libs/hook/check_token';
 import { Tweet } from "../../component/tweet";
 import { useRouter } from 'next/router';
 import UserInfoStyle from '../../css/user_info.module.css';
 import { UserIconGet } from "../../api/client/icon_get";
 import { ErrorMessages } from '../../shared/error';
-import { GetToken } from '../../shared/localStorage';
 import { UserResponse } from '../../api/type/user';
 
 const User: NextPage = () => {
 	const router = useRouter();
-	const token = GetToken()
 	const [user, setUser] = useState<UserResponse>({id: 0, name : '', email: '', introduction: '', icon: ''});
 	const [tweets, setTweets] = useState([]);
 	const { userID } = router.query
 	const [iconUrl, setIconUrl] = useState('');
 
+	useCheckToken()
+
 	useEffect(() => {
-		if (!token) {
-			router.push('/login');
-			return;
-		}
 		const UserGet = () => {
 			const url: string = 'v1/user/' + userID
 			privateClient
@@ -72,7 +69,7 @@ const User: NextPage = () => {
 
 		UserGet();
 		TweetList();
-	}, [userID, token, router]);
+	}, [userID, router]);
 	return (
 		<div className={TweetStyle.Tweet}>
 			<Sidebar />

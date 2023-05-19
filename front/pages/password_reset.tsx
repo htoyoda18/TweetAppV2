@@ -5,7 +5,7 @@ import { Formbtn } from "../component/form_btn"
 import IndexStyle from '../css/index.module.css';
 import SharedStyle from '../css/shared.module.css';
 import { useState } from 'react';
-import { publicClient } from '../libs/axios'
+import { publicClient } from '../libs/client/axios'
 import { ErrorMsg } from "../component/error_message"
 import { ErrorMessages } from '../shared/error'
 import { useRouter } from 'next/router';

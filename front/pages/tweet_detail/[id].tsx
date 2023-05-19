@@ -3,7 +3,8 @@ import { NextPage, GetServerSideProps } from "next";
 import Sidebar from '../../component/sidebar';
 import TweetStyleList from '../../css/tweet_list.module.css';
 import TweetDetailStyleList from '../../css/tweet_detail.module.css';
-import { privateClient } from '../../libs/axios';
+import { privateClient } from '../../libs/client/axios';
+import { useCheckToken } from '../../libs/hook/check_token';
 import { useState } from 'react';
 import { Tweet } from "../../component/tweet";
 import { Reply } from "../../component/reply";
@@ -11,7 +12,6 @@ import { ReplyPost } from "../../component/reply_post";
 import { useRouter } from 'next/router';
 import { UserIconGet } from "../../api/client/icon_get";
 import { ErrorMessages } from '../../shared/error';
-import { GetToken } from '../../shared/localStorage';
 import { TweetResponse } from '../../api/type/tweet';
 import { UserResponse } from '../../api/type/user';
 import { ReplyResponse } from '../../api/type/reply';
@@ -24,16 +24,13 @@ const TweetDetail: NextPage<Props> = ({ url }) => {
     const [tweetDetail, setTweetDetail] = useState<TweetResponse>({id: 0, userID: 0, tweet: ''});
     const [replies, setReplies] = useState<ReplyResponse[]>([]);
     const [user, setUser] = useState<UserResponse>({id: 0, name : '', email: '', introduction: '', icon: ''});
-    const token = GetToken();
     const router = useRouter();
     const [icon, setIcon] = useState('');
     const [iconUrls, setIconUrls] = useState({});
 
+    useCheckToken()
+
     useEffect(() => {
-        if (!token) {
-            router.push('/login');
-            return;
-        }
         const TweetDetailGet = () => {
             privateClient
                 .get<TweetResponse>(url)
@@ -66,7 +63,7 @@ const TweetDetail: NextPage<Props> = ({ url }) => {
                 })
         }
         TweetDetailGet()
-    }, [token, router]);
+    }, [router]);
 
     useEffect(() => {
         const fetchIcons = async () => {

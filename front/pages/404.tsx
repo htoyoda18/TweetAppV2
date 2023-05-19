@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import { useState, useEffect } from 'react';
 import Sidebar from '../component/sidebar';
 import NotFoundStyle from '../css/not_found.module.css';
-import { publicClient } from '../libs/axios'
+import { publicClient } from '../libs/client/axios'
 import { GetToken } from '../shared/localStorage'
 import { useRouter } from 'next/router';
 

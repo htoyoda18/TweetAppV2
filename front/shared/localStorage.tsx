@@ -3,8 +3,6 @@ export const GetToken = () => {
         const token: string = localStorage.getItem('token')
         return token
     }
-
-    return null
 }
 
 export const GetSelfUserID = () => {

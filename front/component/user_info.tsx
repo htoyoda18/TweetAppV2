@@ -3,7 +3,7 @@ import { LargeIcon } from './icon';
 import { ImageUploader } from './icon_upload';
 import UserInfoStyle from '../css/user_info.module.css';
 import Modal from "react-modal";
-import { publicClient, privateClient } from '../libs/axios';
+import { publicClient, privateClient } from '../libs/client/axios';
 import { GetSelfUserID } from '../shared/localStorage';
 import { UserUpdateReqest } from '../api/type/user'
 
