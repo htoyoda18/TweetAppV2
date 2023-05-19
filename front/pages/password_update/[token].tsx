@@ -119,7 +119,7 @@ const PasswordUpdate: NextPage = () => {
 							/>
 						</div>
 						<ErrorMsg err={formError.resErr} />
-						<Formbtn name="新規登録" />
+						<Formbtn name="パスワードリセット" />
 					</div>
 				</form>
 			</div>
