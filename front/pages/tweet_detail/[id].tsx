@@ -15,6 +15,7 @@ import { ErrorMessages } from '../../shared/error';
 import { TweetResponse } from '../../api/type/tweet';
 import { UserResponse } from '../../api/type/user';
 import { ReplyResponse } from '../../api/type/reply';
+import Head from 'next/head';
 
 interface Props {
     url: string;
@@ -81,6 +82,9 @@ const TweetDetail: NextPage<Props> = ({ url }) => {
 
     return (
         <div className={TweetStyleList.TweetList}>
+            <Head>
+				<title>{user.name + 'さんのツイート'}</title>
+			</Head>
             <Sidebar />
             <div className={TweetDetailStyleList.tweetDetail}>
                 <Tweet

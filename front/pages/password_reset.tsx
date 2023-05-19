@@ -10,6 +10,7 @@ import { ErrorMsg } from "../component/error_message"
 import { ErrorMessages } from '../shared/error'
 import { useRouter } from 'next/router';
 import { PasswordResetReqest } from '../api/type/user';
+import Head from 'next/head';
 
 interface FormValues {
     mailAddress?: string;
@@ -71,6 +72,9 @@ const PasswordReset: NextPage = () => {
 	}
 	return (
 		<div className={SharedStyle.background}>
+			<Head>
+				<title>パスワードリセット</title>
+			</Head>
 			<TweetApp />
 			<div className={IndexStyle.formContainer}>
 				<form onSubmit={(e) => handleSubmit(e)}>

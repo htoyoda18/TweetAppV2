@@ -3,10 +3,14 @@ import { TweetApp } from "../component/tweet_app"
 import IndexStyle from '../css/index.module.css';
 import SharedStyle from '../css/shared.module.css';
 import PasswordResetSendStyle from '../css/password_reset_send.module.css';
+import Head from 'next/head';
 
 const PasswordResetSend: NextPage = () => {
 	return (
 		<div className={SharedStyle.background}>
+			<Head>
+				<title>パスワードリセットのメールを送信完了</title>
+			</Head>
 			<TweetApp />
 			<div className={IndexStyle.formContainer}>
 				<form>

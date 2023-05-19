@@ -1,6 +1,6 @@
 import React from "react";
 import { NextPage } from "next";
-import  {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
 import Sidebar from '../component/sidebar';
 import TweetListStyle from '../css/tweet_list.module.css';
@@ -10,6 +10,7 @@ import { UserIconGet } from "../api/client/icon_get"
 import { ErrorMessages } from '../shared/error'
 import { TweetResponse } from '../api/type/tweet'
 import { useCheckToken } from '../libs/hook/check_token';
+import Head from 'next/head';
 
 const Home: NextPage = () => {
 	const [tweets, setTweets] = useState<TweetResponse[]>([]);
@@ -56,6 +57,9 @@ const Home: NextPage = () => {
 
 	return (
 		<div className={TweetListStyle.TweetList}>
+			<Head>
+				<title>ホーム</title>
+			</Head>
 			<Sidebar />
 			<div className={TweetListStyle.Tweet}>
 				{tweets.map((tweet, key) => (

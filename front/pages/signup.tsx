@@ -11,6 +11,7 @@ import { ErrorMsg } from "../component/error_message"
 import IndexStyle from '../css/index.module.css';
 import { ErrorMessages } from '../shared/error'
 import { SignupReqest } from '../api/type/user'
+import Head from 'next/head';
 
 interface FomrErrors {
     mailAddressErr?: string;
@@ -92,6 +93,9 @@ const SignUp: NextPage = () => {
 
     return (
         <div className={sharedStyle.background}>
+            <Head>
+				<title>新規登録</title>
+			</Head>
             <TweetApp />
             <div className={IndexStyle.formContainer}>
                 <form onSubmit={(e) => handleSubmit(e)}>

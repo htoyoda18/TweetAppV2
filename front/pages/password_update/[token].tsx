@@ -10,6 +10,7 @@ import { ErrorMessages } from '../../shared/error'
 import { useRouter } from 'next/router';
 import sharedStyle from '../../css/shared.module.css';
 import { PasswordUpdateReqest } from '../../api/type/user';
+import Head from 'next/head';
 
 interface FormValues {
 	password?: string;
@@ -94,6 +95,9 @@ const PasswordUpdate: NextPage = () => {
 
 	return (
 		<div className={sharedStyle.background}>
+			<Head>
+				<title>パスワードを更新</title>
+			</Head>
 			<TweetApp />
 			<div className={IndexStyle.formContainer}>
 				<form onSubmit={(e) => handleSubmit(e)}>
