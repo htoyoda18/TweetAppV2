@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import { ErrorMessages } from '../shared/error'
 import { TweetReqest } from '../api/type/tweet'
 import { useCheckToken } from '../libs/hook/check_token';
+import Head from 'next/head';
 
 const Tweet: NextPage = () => {
     const [tweet, setTweet] = useState("");
@@ -38,6 +39,9 @@ const Tweet: NextPage = () => {
     }
     return (
         <div className={sharedStyle.background}>
+            <Head>
+                <title>ツイートする</title>
+            </Head>
             <div className={TweetStyle.Tweet}>
                 <Sidebar />
                 <form

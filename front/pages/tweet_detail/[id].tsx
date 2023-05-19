@@ -15,15 +15,16 @@ import { ErrorMessages } from '../../shared/error';
 import { TweetResponse } from '../../api/type/tweet';
 import { UserResponse } from '../../api/type/user';
 import { ReplyResponse } from '../../api/type/reply';
+import Head from 'next/head';
 
 interface Props {
     url: string;
 }
 
 const TweetDetail: NextPage<Props> = ({ url }) => {
-    const [tweetDetail, setTweetDetail] = useState<TweetResponse>({id: 0, userID: 0, tweet: ''});
+    const [tweetDetail, setTweetDetail] = useState<TweetResponse>({ id: 0, userID: 0, tweet: '' });
     const [replies, setReplies] = useState<ReplyResponse[]>([]);
-    const [user, setUser] = useState<UserResponse>({id: 0, name : '', email: '', introduction: '', icon: ''});
+    const [user, setUser] = useState<UserResponse>({ id: 0, name: '', email: '', introduction: '', icon: '' });
     const router = useRouter();
     const [icon, setIcon] = useState('');
     const [iconUrls, setIconUrls] = useState({});
@@ -81,6 +82,9 @@ const TweetDetail: NextPage<Props> = ({ url }) => {
 
     return (
         <div className={TweetStyleList.TweetList}>
+            <Head>
+                <title>{user.name + 'さんのツイート'}</title>
+            </Head>
             <Sidebar />
             <div className={TweetDetailStyleList.tweetDetail}>
                 <Tweet

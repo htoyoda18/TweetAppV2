@@ -11,6 +11,7 @@ import { Formbtn } from "../component/form_btn";
 import { ErrorMsg } from "../component/error_message";
 import { ErrorMessages } from '../shared/error';
 import { UserLoginReqest } from '../api/type/user';
+import Head from 'next/head';
 
 interface FormValues {
     mailAddress?: string;
@@ -102,6 +103,9 @@ const Login: NextPage = () => {
 
     return (
         <div className={sharedStyle.background}>
+            <Head>
+                <title>ログイン</title>
+            </Head>
             <TweetApp />
             <div className={IndexStyle.formContainer}>
                 <form onSubmit={handleSubmit}>

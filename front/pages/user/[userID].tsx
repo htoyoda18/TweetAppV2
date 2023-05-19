@@ -11,10 +11,11 @@ import UserInfoStyle from '../../css/user_info.module.css';
 import { UserIconGet } from "../../api/client/icon_get";
 import { ErrorMessages } from '../../shared/error';
 import { UserResponse } from '../../api/type/user';
+import Head from 'next/head';
 
 const User: NextPage = () => {
 	const router = useRouter();
-	const [user, setUser] = useState<UserResponse>({id: 0, name : '', email: '', introduction: '', icon: ''});
+	const [user, setUser] = useState<UserResponse>({ id: 0, name: '', email: '', introduction: '', icon: '' });
 	const [tweets, setTweets] = useState([]);
 	const { userID } = router.query
 	const [iconUrl, setIconUrl] = useState('');
@@ -72,6 +73,9 @@ const User: NextPage = () => {
 	}, [userID, router]);
 	return (
 		<div className={TweetStyle.Tweet}>
+			<Head>
+				<title>{user.name + 'さんのプロフィール'}</title>
+			</Head>
 			<Sidebar />
 			<div className={UserInfoStyle.userTweets}>
 				<UserInfo userName={user.name} userID={user.id} userIntroduction={user.introduction} iconUrl={iconUrl} userIconFileName={user.icon} />

@@ -10,23 +10,24 @@ import { ErrorMsg } from "../component/error_message"
 import { ErrorMessages } from '../shared/error'
 import { useRouter } from 'next/router';
 import { PasswordResetReqest } from '../api/type/user';
+import Head from 'next/head';
 
 interface FormValues {
-    mailAddress?: string;
+	mailAddress?: string;
 }
 
 const initialValues: FormValues = {
-    mailAddress: '',
+	mailAddress: '',
 }
 
 const PasswordReset: NextPage = () => {
-    const [formValues, setFromValues] = useState<FormValues>(initialValues);
+	const [formValues, setFromValues] = useState<FormValues>(initialValues);
 	const [fomrErrors, setFromError] = useState("");
 	const router = useRouter();
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = e.target;
-		setFromValues({mailAddress: value });
+		setFromValues({ mailAddress: value });
 	}
 
 	const handleSubmit = (e: React.FormEvent) => {
@@ -71,6 +72,9 @@ const PasswordReset: NextPage = () => {
 	}
 	return (
 		<div className={SharedStyle.background}>
+			<Head>
+				<title>パスワードリセット</title>
+			</Head>
 			<TweetApp />
 			<div className={IndexStyle.formContainer}>
 				<form onSubmit={(e) => handleSubmit(e)}>

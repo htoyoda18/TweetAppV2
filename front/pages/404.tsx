@@ -5,10 +5,11 @@ import NotFoundStyle from '../css/not_found.module.css';
 import { publicClient } from '../libs/client/axios'
 import { GetToken } from '../shared/localStorage'
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 const NotFound: NextPage = () => {
     const token = GetToken();
-    const router = useRouter();    
+    const router = useRouter();
     const [imageUrl, setImageUrl] = useState("");
 
     useEffect(() => {
@@ -34,6 +35,9 @@ const NotFound: NextPage = () => {
 
     return (
         <div className={NotFoundStyle.notFound}>
+            <Head>
+                <title>ページが見つかりませんでした</title>
+            </Head>
             <Sidebar />
             <div className={NotFoundStyle.notFoundDescription}>
                 <h1>404 Not Found</h1>
