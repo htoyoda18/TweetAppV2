@@ -15,7 +15,7 @@ type UserInfoProps = {
     userIconFileName: string,
 };
 
-export const UserInfo = ({ userID, userName, userIntroduction, userIconFileName, iconUrl }: UserInfoProps) => {
+export const UserInfo: React.FC<UserInfoProps> = ({ userID, userName, userIntroduction, userIconFileName, iconUrl }) => {
     return (
         <div className={UserInfoStyle.userInfo}>
             <div className={UserInfoStyle.content}>

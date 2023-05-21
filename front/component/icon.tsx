@@ -14,7 +14,7 @@ type IconProps = {
     userID: number
 };
 
-export const Icon = ({ image, userID }: IconProps) => {
+export const Icon: React.FC<IconProps> = ({ image, userID }) => {
     const iconUrl = isIcon(image)
     return (
         <a className={sharedStyle.userLink} href={"/user/" + userID}>
@@ -31,7 +31,7 @@ type ImageProps = {
 	image: string;
 };
 
-export const LargeIcon = ({ image }: ImageProps) => {
+export const LargeIcon: React.FC<ImageProps> = ({ image }) => {
     const iconUrl = isIcon(image)
     return (
         <img
@@ -41,7 +41,7 @@ export const LargeIcon = ({ image }: ImageProps) => {
     )
 }
 
-export const LargeEditIcon = ({ image }: ImageProps) => {
+export const LargeEditIcon: React.FC<ImageProps>= ({ image }) => {
     const iconUrl = isIcon(image)
     return (
         <img

@@ -5,7 +5,7 @@ type FormbtnProps = {
 	name: string;
 };
 
-export const Formbtn = ({ name }: FormbtnProps) => {
+export const Formbtn: React.FC<FormbtnProps> = ({ name }) => {
 	return (
 		<button className={btnStyle.formbtn}>{name}</button>
 	)

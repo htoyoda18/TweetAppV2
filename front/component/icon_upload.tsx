@@ -7,7 +7,7 @@ type ImageUploaderProps = {
     onImageChange: (file: File) => void;
 };
 
-export const ImageUploader = ({ iconUrl, onImageChange }: ImageUploaderProps) => {
+export const ImageUploader: React.FC<ImageUploaderProps> = ({ iconUrl, onImageChange }) => {
     const [preview, setPreview] = useState(iconUrl);
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {

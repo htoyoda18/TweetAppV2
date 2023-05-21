@@ -5,7 +5,7 @@ type ErrorMsgProps = {
 	err: string;
 };
 
-export const ErrorMsg = ({ err }: ErrorMsgProps) => {
+export const ErrorMsg: React.FC<ErrorMsgProps> = ({ err }) => {
 	return (
 		<p className={ErrorMsgStyle.errorMsg}>{err}</p>
 	)

@@ -13,7 +13,7 @@ type ReplyPostProps = {
     tweetID: number;
 };
 
-export const ReplyPost = ({ tweetID }: ReplyPostProps) => {
+export const ReplyPost: React.FC<ReplyPostProps> = ({ tweetID }) => {
     const [disabled, setDisabled] = useState(true);
     const [reply, setReply] = useState("");
     const router = useRouter();

@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Sidebar from '../component/sidebar'
 import TweetStyle from '../css/tweet.module.css';
 import sharedStyle from '../css/shared.module.css';
