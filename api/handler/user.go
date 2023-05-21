@@ -68,14 +68,14 @@ func (u user) Login(c *gin.Context) {
 		return
 	}
 
-	user, err := u.userUsecase.Show(params)
+	user, err := u.userUsecase.Authenticate(params)
 	if err != nil {
 		shared.Warn(LogVal("User", "Login", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	expiration := time.Now().Add(time.Hour * 24).Unix()
+	expiration := time.Now().Add(time.Hour * shared.TokenExpirationHours).Unix()
 	jwt := shared.NewJwt(user, expiration)
 	loginResponse := response.LoginResponse{
 		Token:  jwt,

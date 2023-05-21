@@ -15,7 +15,7 @@ import (
 
 type User interface {
 	Create(params request.Signup) (*model.User, error)
-	Show(params request.Login) (*model.User, error)
+	Authenticate(params request.Login) (*model.User, error)
 	PasswordReset(mail string) error
 	UpdatePassword(password string, userID int) error
 	UpdateUser(userID int, icon string, userName string, introduction string) error
@@ -74,21 +74,21 @@ func (u user) Create(params request.Signup) (*model.User, error) {
 	return user, nil
 }
 
-func (u user) Show(params request.Login) (*model.User, error) {
-	shared.Debug(LogVal("User", "Show"))
+func (u user) Authenticate(params request.Login) (*model.User, error) {
+	shared.Debug(LogVal("User", "Authenticate"))
 
 	user, err := u.userRepository.Get(&model.User{
 		Email: params.Email,
 	}, u.db)
 	if err != nil {
-		shared.Warn(LogVal("User", "Show", err))
+		shared.Warn(LogVal("User", "Authenticate", err))
 		err := shared.UserNotFound
 		return nil, err
 	}
 	err = shared.CompareHashAndPassword(user.Password, params.Password)
 	if err != nil {
-		shared.Warn(LogVal("User", "Show", err))
-		err := shared.UserNotFound
+		shared.Warn(LogVal("User", "Authenticate", shared.FailPassword, err))
+		err := shared.FailPassword
 		return nil, err
 	}
 
