@@ -102,7 +102,7 @@ const PasswordUpdate: NextPage = () => {
 			<div className={IndexStyle.formContainer}>
 				<form onSubmit={(e) => handleSubmit(e)}>
 					<div className={PasswordUpdateStyle.uiForm}>
-						<div className={PasswordUpdateStyle.formFiled}>
+						<div className={PasswordUpdateStyle.formField}>
 							<label>パスワード</label>
 							<input
 								type="text"
@@ -112,7 +112,7 @@ const PasswordUpdate: NextPage = () => {
 								onChange={(e) => handleChange(e)}
 							/>
 						</div>
-						<div className={PasswordUpdateStyle.formFiled}>
+						<div className={PasswordUpdateStyle.formField}>
 							<label>パスワード確認用</label>
 							<input
 								type="text"

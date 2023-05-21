@@ -8,7 +8,7 @@ interface FormFieldProps {
 }
 
 export const FormField: React.FC<FormFieldProps> = ({ label, placeholder, name, onChange }) => (
-    <div className={LoginStyle.formFiled}>
+    <div className={LoginStyle.formField}>
         <label>{label}</label>
         <input
             type="text"

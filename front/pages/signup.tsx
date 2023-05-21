@@ -100,7 +100,7 @@ const SignUp: NextPage = () => {
             <div className={IndexStyle.formContainer}>
                 <form onSubmit={(e) => handleSubmit(e)}>
                     <div className={SignUpStyle.uiForm}>
-                        <div className={SignUpStyle.formFiled}>
+                        <div className={SignUpStyle.formField}>
                             <label>ユーザ名</label>
                             <input
                                 type="text"
@@ -111,7 +111,7 @@ const SignUp: NextPage = () => {
                             />
                         </div>
                         <ErrorMsg err={fomrErrors.userNameErr} />
-                        <div className={SignUpStyle.formFiled}>
+                        <div className={SignUpStyle.formField}>
                             <label>メールアドレス</label>
                             <input
                                 type="text"
@@ -122,7 +122,7 @@ const SignUp: NextPage = () => {
                             />
                         </div>
                         <ErrorMsg err={fomrErrors.mailAddressErr} />
-                        <div className={SignUpStyle.formFiled}>
+                        <div className={SignUpStyle.formField}>
                             <label>パスワード</label>
                             <input
                                 type="text"

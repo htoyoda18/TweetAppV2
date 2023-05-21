@@ -6,19 +6,19 @@
 	height: 300px;
 }
 
-.formFiled {
+.formField {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
 }
 
-.formFiled input {
+.formField input {
 	border-radius: 4px;
 	padding: 20px;
 	border: 1px solid;
 }
 
-.formFiled label {
+.formField label {
 	font-size: 15px;
 	font-weight: 450;
 	margin-bottom: 3px;

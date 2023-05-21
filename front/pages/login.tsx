@@ -110,7 +110,7 @@ const Login: NextPage = () => {
             <div className={IndexStyle.formContainer}>
                 <form onSubmit={handleSubmit}>
                     <div className={LoginStyle.uiForm}>
-                        <div className={LoginStyle.formFiled}>
+                        <div className={LoginStyle.formField}>
                             <label>メールアドレス</label>
                             <input
                                 type="text"
@@ -120,7 +120,7 @@ const Login: NextPage = () => {
                             />
                         </div>
                         <ErrorMsg err={formErrors.mailAddress} />
-                        <div className={LoginStyle.formFiled}>
+                        <div className={LoginStyle.formField}>
                             <label>パスワード</label>
                             <input
                                 type="password"

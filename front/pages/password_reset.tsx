@@ -80,7 +80,7 @@ const PasswordReset: NextPage = () => {
 				<form onSubmit={(e) => handleSubmit(e)}>
 					<div className={PasswordResetStyle.formName}>パスワードを忘れた場合</div>
 					<div className={PasswordResetStyle.formDiscription}>ご登録いただいたメールアドレスを入力してください。<br />メールアドレス宛に、パスワード変更ページのURLが記載されたメールを送信します。</div>
-					<div className={PasswordResetStyle.formFiled}>
+					<div className={PasswordResetStyle.formField}>
 						<label>メールアドレス</label>
 						<input
 							type="text"
