@@ -1,22 +1,17 @@
-package repository
+package persistence
 
 import (
 	"errors"
 
-	"github.com/htoyoda18/TweetAppV2/api/model"
+	"github.com/htoyoda18/TweetAppV2/api/domain/model"
+	"github.com/htoyoda18/TweetAppV2/api/domain/repository"
 	"github.com/htoyoda18/TweetAppV2/api/shared"
 	"gorm.io/gorm"
 )
 
-type Tweet interface {
-	Add(tweet *model.Tweet, db *gorm.DB) error
-	List(where *model.Tweet, db *gorm.DB) (tweet []*model.Tweet, err error)
-	Get(tweetID int, db *gorm.DB) (tweet *model.Tweet, err error)
-}
-
 type tweet struct{}
 
-func NewTweet() Tweet {
+func NewTweet() repository.Tweet {
 	return tweet{}
 }
 

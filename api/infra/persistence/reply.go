@@ -1,18 +1,15 @@
-package repository
+package persistence
 
 import (
-	"github.com/htoyoda18/TweetAppV2/api/model"
+	"github.com/htoyoda18/TweetAppV2/api/domain/model"
+	"github.com/htoyoda18/TweetAppV2/api/domain/repository"
 	"github.com/htoyoda18/TweetAppV2/api/shared"
 	"gorm.io/gorm"
 )
 
-type Reply interface {
-	Add(*model.Reply, *gorm.DB) error
-}
-
 type reply struct{}
 
-func NewReply() Reply {
+func NewReply() repository.Reply {
 	return reply{}
 }
 

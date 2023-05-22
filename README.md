@@ -1,22 +1,22 @@
 # TweetAppV2
 
 ## Setup
-下記の2つのコマンドを使用して、envファイルを作成してください
+1. 下記の2つのコマンドを使用して、envファイルを作成してください
 ```
 touch api/.env && echo "JWTKEY=462555db-3fd9-e8b5-b7cc-f87b3c59a2b5" >> api/.env
 ```
 ```
 touch api/db/.env && echo -e "MYSQL_DATABASE=test_database\nMYSQL_USER=test_user\nMYSQL_PASSWORD=password\nMYSQL_ROOT_PASSWORD=root_password" >> api/db/.env
 ```
-下記のコマンドを実行して、APIのセットアップをします
+2. 下記のコマンドを実行して、APIのセットアップをします
 ```
 cd api && make setup && cd ../
 ```
-下記のコマンドを実行して、node_modulesをインストールしてください
+3. 下記のコマンドを実行して、node_modulesをインストールしてください
 ```
 cd front && yarn
 ```
-下記のコマンドを実行して、Next.js アプリケーションを実行してください
+4. 下記のコマンドを実行して、Next.js アプリケーションを実行してください
 ```
 yarn next
 ```
@@ -36,6 +36,30 @@ yarn next
 - ユーザ詳細閲覧機能
 - プロフィール編集機能
     - アイコン、自己紹介、ユーザ名が変更出来る
+
+## APIのディレクトリ構成
+```
+.
+├── controller
+│   └── handler
+│       ├── request     // APIのリクエストに使われるデータを構造体で定義してます。(バリデーションがかかるようにタグを書いています)
+│       └── response    // APIのレスポンスに使われるデータを構造体で定義してます。
+├── db
+│   ├── init            // MySQLデータベースの初期化スクリプトが書かれているファイルがあります。
+│   └── migrations      // マイグレーションファイルです。使いやすいように、マイグレーション時にデータを入れるようにしてます。
+├── domain
+│   ├── model           // ドメインモデル図に当たるものです。
+│   └── repository      // リポジトリのインターフェースを定義してます。
+├── infra
+│   └── persistence     // DB操作など永続性に関わる処理を行なっています。repositoryの実装です。
+├── injector            // handler usecase domain infraのDIです。
+├── middleware          // リクエストログなどの、ミドルウェアです。
+├── router              // APIのルーティングをしています。
+├── shared              // sharedとして使いたいものが入ってます。
+├── uploads             // アップロードされたファイルを格納するようにしています。
+│   └── icon            // アイコン用のファイルを格納しています。
+└── usecase             // repositoryで定義されているインターフェースを利用して、ユースケースを満たすようにしています。
+```
 
 ## fronのディレクトリ構成
 ```
