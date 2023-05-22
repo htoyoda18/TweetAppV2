@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/htoyoda18/TweetAppV2/api/handler/request"
+	"github.com/htoyoda18/TweetAppV2/api/controller/handler/request"
 	"github.com/htoyoda18/TweetAppV2/api/model"
 	"github.com/htoyoda18/TweetAppV2/api/repository"
 	"github.com/htoyoda18/TweetAppV2/api/shared"

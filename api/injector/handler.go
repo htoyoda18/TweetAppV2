@@ -1,7 +1,7 @@
 package injector
 
 import (
-	"github.com/htoyoda18/TweetAppV2/api/handler"
+	"github.com/htoyoda18/TweetAppV2/api/controller/handler"
 	"gorm.io/gorm"
 )
 
