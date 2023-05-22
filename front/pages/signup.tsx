@@ -12,6 +12,7 @@ import IndexStyle from '../css/index.module.css';
 import { ErrorMessages } from '../shared/error'
 import { SignupReqest } from '../api/type/user'
 import Head from 'next/head';
+import { url } from '../shared/url'
 
 interface FomrErrors {
     mailAddressErr?: string;
@@ -138,7 +139,7 @@ const SignUp: NextPage = () => {
                     </div>
                 </form>
             </div>
-            <Note text="アカウントをお持ちの方は" link="ログイン" url="http://localhost:3000/login" />
+            <Note text="アカウントをお持ちの方は" link="ログイン" url={url.LoginPage} />
         </div>
     );
 };

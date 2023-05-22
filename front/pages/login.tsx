@@ -12,27 +12,23 @@ import { ErrorMsg } from "../component/error_message";
 import { ErrorMessages } from '../shared/error';
 import { UserLoginReqest } from '../api/type/user';
 import Head from 'next/head';
+import { FormField } from '../component/login_form_fileds'
+import { url } from '../shared/url'
 
 interface FormValues {
     mailAddress?: string;
     password?: string;
-    resErr?: string;
 }
 
 interface Errors {
-    mailAddress?: string;
-    password?: string;
-    resErr?: string;
-}
-
-const initialValues: FormValues = {
-    mailAddress: '',
-    password: '',
+    mailAddressErr?: string;
+    passwordErr?: string;
+    apiErr?: string;
 }
 
 const Login: NextPage = () => {
-    const [formValues, setFormValues] = useState<FormValues>(initialValues);
-    const [formErrors, setFormErrors] = useState<FormValues>(initialValues);
+    const [formValues, setFormValues] = useState<FormValues>({ mailAddress: '', password: '' });
+    const [loginErrors, setLoginErrors] = useState<Errors>({ mailAddressErr: '', passwordErr: '', apiErr: '' });
     const router = useRouter();
 
     useEffect(() => {
@@ -52,8 +48,8 @@ const Login: NextPage = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const errors = validate(formValues);
-        setFormErrors(errors);
-        if (Object.keys(formErrors).length > 0) {
+        setLoginErrors(errors);
+        if (Object.keys(errors).length !== 0) {
             return;
         }
         loginPost();
@@ -62,10 +58,10 @@ const Login: NextPage = () => {
     const validate = (values: FormValues): Errors => {
         const errors: Errors = {};
         if (!values.mailAddress) {
-            errors.mailAddress = "メールアドレスを入力してください";
+            errors.mailAddressErr = "メールアドレスを入力してください";
         }
         if (!values.password) {
-            errors.password = "パスワードを入力してください";
+            errors.passwordErr = "パスワードを入力してください";
         }
 
         return errors;
@@ -89,9 +85,11 @@ const Login: NextPage = () => {
                     return;
                 }
                 if (err.response.data === ErrorMessages.UserNotFound) {
-                    setFormErrors({ resErr: "メールアドレスまたはパスワードが違います" });
+                    setLoginErrors({ apiErr: "存在しないメールアドレスです" });
+                } else if (err.response.data === ErrorMessages.FailPassword) {
+                    setLoginErrors({ apiErr: "パスワードが違います" });
                 } else {
-                    setFormErrors({ resErr: "予期せぬエラーです" });
+                    setLoginErrors({ apiErr: "予期せぬエラーです" });
                 }
             })
     }
@@ -110,27 +108,21 @@ const Login: NextPage = () => {
             <div className={IndexStyle.formContainer}>
                 <form onSubmit={handleSubmit}>
                     <div className={LoginStyle.uiForm}>
-                        <div className={LoginStyle.formField}>
-                            <label>メールアドレス</label>
-                            <input
-                                type="text"
-                                placeholder="メールアドレス"
-                                name="mailAddress"
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <ErrorMsg err={formErrors.mailAddress} />
-                        <div className={LoginStyle.formField}>
-                            <label>パスワード</label>
-                            <input
-                                type="password"
-                                placeholder="パスワード"
-                                name="password"
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <ErrorMsg err={formErrors.password} />
-                        <ErrorMsg err={formErrors.resErr} />
+                        <FormField
+                            label='メールアドレス'
+                            placeholder='メールアドレス'
+                            name='mailAddress'
+                            onChange={handleChange}
+                        />
+                        <ErrorMsg err={loginErrors.mailAddressErr} />
+                        <FormField
+                            label='パスワード'
+                            placeholder='パスワード'
+                            name='password'
+                            onChange={handleChange}
+                        />
+                        <ErrorMsg err={loginErrors.passwordErr} />
+                        <ErrorMsg err={loginErrors.apiErr} />
                         <Formbtn name="ログイン" />
                     </div>
                 </form>
@@ -138,12 +130,12 @@ const Login: NextPage = () => {
             <Note
                 text="パスワードを忘れた場合は"
                 link="こちら"
-                url="http://localhost:3000/password_reset"
+                url={url.PasswordResetPage}
             />
             <Note
                 text="アカウントをお持ちでない場合は"
                 link="登録"
-                url="http://localhost:3000/signup"
+                url={url.SinupPage}
             />
         </div>
     );

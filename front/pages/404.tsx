@@ -6,6 +6,7 @@ import { publicClient } from '../libs/client/axios'
 import { GetToken } from '../shared/localStorage'
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { url } from '../shared/url'
 
 const NotFound: NextPage = () => {
     const token = GetToken();
@@ -15,7 +16,7 @@ const NotFound: NextPage = () => {
     useEffect(() => {
         const fetchCatImage = async () => {
             try {
-                const res = await publicClient.get('https://api.thecatapi.com/v1/images/search');
+                const res = await publicClient.get(url.RundomCat);
                 if (res.data) {
                     const images = res.data;
                     setImageUrl(images[0].url);

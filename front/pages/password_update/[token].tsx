@@ -30,7 +30,6 @@ const initialErrors: Errors = {
 	resErr: '',
 }
 
-
 const PasswordUpdate: NextPage = () => {
 	const [formValues, setFormValues] = useState<FormValues>(initialValues);
 	const [formError, setFormError] = useState<Errors>(initialErrors);
