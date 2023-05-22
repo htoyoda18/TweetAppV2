@@ -1,6 +1,9 @@
 package injector
 
-import "github.com/htoyoda18/TweetAppV2/api/repository"
+import (
+	"github.com/htoyoda18/TweetAppV2/api/domain/repository"
+	"github.com/htoyoda18/TweetAppV2/api/infra/persistence"
+)
 
 type Repository struct {
 	User  repository.User
@@ -10,10 +13,10 @@ type Repository struct {
 }
 
 func NewRepository() *Repository {
-	userRepository := repository.NewUser()
-	tweetRepository := repository.NewTweet()
-	replyRepository := repository.NewReply()
-	likeRepository := repository.NewLike()
+	userRepository := persistence.NewUser()
+	tweetRepository := persistence.NewTweet()
+	replyRepository := persistence.NewReply()
+	likeRepository := persistence.NewLike()
 
 	return &Repository{
 		User:  userRepository,

@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"github.com/htoyoda18/TweetAppV2/api/domain/model"
-	"github.com/htoyoda18/TweetAppV2/api/repository"
+	"github.com/htoyoda18/TweetAppV2/api/domain/repository"
 	"github.com/htoyoda18/TweetAppV2/api/shared"
 	"gorm.io/gorm"
 )

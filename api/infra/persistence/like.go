@@ -1,22 +1,17 @@
-package repository
+package persistence
 
 import (
 	"errors"
 
 	"github.com/htoyoda18/TweetAppV2/api/domain/model"
+	"github.com/htoyoda18/TweetAppV2/api/domain/repository"
 	"github.com/htoyoda18/TweetAppV2/api/shared"
 	"gorm.io/gorm"
 )
 
-type Like interface {
-	Get(*model.Like, *gorm.DB) (*model.Like, error)
-	Add(*model.Like, *gorm.DB) error
-	Delete(*model.Like, *gorm.DB) error
-}
-
 type like struct{}
 
-func NewLike() Like {
+func NewLike() repository.Like {
 	return like{}
 }
 
