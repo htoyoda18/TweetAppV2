@@ -6,7 +6,7 @@
 touch api/.env && echo "JWTKEY=462555db-3fd9-e8b5-b7cc-f87b3c59a2b5" >> api/.env
 ```
 ```
-touch api/db/.env &&　echo -e "MYSQL_DATABASE=test_database\nMYSQL_USER=test_user\nMYSQL_PASSWORD=password\nMYSQL_ROOT_PASSWORD=root_password" >> api/db/.env
+touch api/db/.env && echo -e "MYSQL_DATABASE=test_database\nMYSQL_USER=test_user\nMYSQL_PASSWORD=password\nMYSQL_ROOT_PASSWORD=root_password" >> api/db/.env
 ```
 下記のコマンドを実行して、APIのセットアップをします
 ```
