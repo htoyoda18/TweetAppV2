@@ -3,7 +3,7 @@ package repository
 import (
 	"errors"
 
-	"github.com/htoyoda18/TweetAppV2/api/model"
+	"github.com/htoyoda18/TweetAppV2/api/domain/model"
 	"github.com/htoyoda18/TweetAppV2/api/shared"
 	"gorm.io/gorm"
 )

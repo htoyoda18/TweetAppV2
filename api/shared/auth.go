@@ -7,7 +7,7 @@ import (
 
 	jwt "github.com/form3tech-oss/jwt-go"
 	"github.com/gin-gonic/gin"
-	"github.com/htoyoda18/TweetAppV2/api/model"
+	"github.com/htoyoda18/TweetAppV2/api/domain/model"
 )
 
 func NewJwt(user *model.User, expiration int64) string {
