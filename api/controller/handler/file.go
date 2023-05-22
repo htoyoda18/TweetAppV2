@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 
 	"github.com/gin-gonic/gin"
-	"github.com/htoyoda18/TweetAppV2/api/handler/response"
+	"github.com/htoyoda18/TweetAppV2/api/controller/handler/response"
 	"github.com/htoyoda18/TweetAppV2/api/shared"
 )
 

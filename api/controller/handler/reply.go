@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/htoyoda18/TweetAppV2/api/handler/request"
+	"github.com/htoyoda18/TweetAppV2/api/controller/handler/request"
 	"github.com/htoyoda18/TweetAppV2/api/shared"
 	"github.com/htoyoda18/TweetAppV2/api/usecase"
 )
