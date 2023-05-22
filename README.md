@@ -3,11 +3,25 @@
 ## Setup
 下記の2つのコマンドを使用して、envファイルを作成してください
 ```
-touch api/.env & echo "JWTKEY=462555db-3fd9-e8b5-b7cc-f87b3c59a2b5" >> api/.env
+touch api/.env && echo "JWTKEY=462555db-3fd9-e8b5-b7cc-f87b3c59a2b5" >> api/.env
 ```
 ```
-touch api/db/.env &　echo -e "MYSQL_DATABASE=test_database\nMYSQL_USER=test_user\nMYSQL_PASSWORD=password\nMYSQL_ROOT_PASSWORD=root_password" >> api/db/.env
+touch api/db/.env &&　echo -e "MYSQL_DATABASE=test_database\nMYSQL_USER=test_user\nMYSQL_PASSWORD=password\nMYSQL_ROOT_PASSWORD=root_password" >> api/db/.env
 ```
+下記のコマンドを実行して、APIのセットアップをします
+```
+cd api && make setup && cd ../
+```
+下記のコマンドを実行して、node_modulesをインストールしてください
+```
+cd front && yarn
+```
+下記のコマンドを実行して、Next.js アプリケーションを実行してください
+```
+yarn next
+```
+
+
 
 ## 機能一覧
 - ログイン機能
