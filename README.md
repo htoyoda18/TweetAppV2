@@ -40,17 +40,17 @@ yarn next
 ## APIのディレクトリ構成
 ```
 .
-├── controller
+├── controller          // DDDのpresentation層にあたります。入出力に関わる処理を書いてます。
 │   └── handler
 │       ├── request     // APIのリクエストに使われるデータを構造体で定義してます。(バリデーションがかかるようにタグを書いています)
 │       └── response    // APIのレスポンスに使われるデータを構造体で定義してます。
-├── db
+├── db                  // DBの諸々の設定などが記載されてます
 │   ├── init            // MySQLデータベースの初期化スクリプトが書かれているファイルがあります。
 │   └── migrations      // マイグレーションファイルです。使いやすいように、マイグレーション時にデータを入れるようにしてます。
-├── domain
+├── domain              // DDDのドメイン層に当たります
 │   ├── model           // ドメインモデル図に当たるものです。
 │   └── repository      // リポジトリのインターフェースを定義してます。
-├── infra
+├── infra               // DBのインフラ層にあたります。
 │   └── persistence     // DB操作など永続性に関わる処理を行なっています。repositoryの実装です。
 ├── injector            // handler usecase domain infraのDIです。
 ├── middleware          // リクエストログなどの、ミドルウェアです。
@@ -61,7 +61,7 @@ yarn next
 └── usecase             // repositoryで定義されているインターフェースを利用して、ユースケースを満たすようにしています。
 ```
 
-## fronのディレクトリ構成
+## frontのディレクトリ構成
 ```
 .
 ├── api
