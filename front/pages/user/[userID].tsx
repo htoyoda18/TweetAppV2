@@ -3,13 +3,13 @@ import { useState, useEffect } from 'react';
 import Sidebar from '../../component/sidebar';
 import { UserInfo } from '../../component/user_info';
 import TweetStyle from '../../css/tweet.module.css';
-import { privateClient } from '../../libs/client/axios';
+import { privateClient } from '../../api/client/axios';
 import { useCheckToken } from '../../libs/hook/check_token';
 import { Tweet } from "../../component/tweet";
 import { useRouter } from 'next/router';
 import UserInfoStyle from '../../css/user_info.module.css';
 import { UserIconGet } from "../../api/client/icon_get";
-import { ErrorMessages } from '../../shared/error';
+import { ApiErrorMessages } from '../../shared/error';
 import { UserResponse } from '../../api/type/user';
 import Head from 'next/head';
 
@@ -42,10 +42,10 @@ const User: NextPage = () => {
 						return
 					}
 					switch (err.response.data) {
-						case ErrorMessages.FailAuthToken:
+						case ApiErrorMessages.FailAuthToken:
 							router.push('/login');
 							break;
-						case ErrorMessages.RecordNotFound:
+						case ApiErrorMessages.RecordNotFound:
 							router.push('/not_found');
 							break;
 						default:
@@ -62,7 +62,7 @@ const User: NextPage = () => {
 				})
 				.catch((err) => {
 					console.log("err", err.response)
-					if (err.response.data === ErrorMessages.FailAuthToken) {
+					if (err.response.data === ApiErrorMessages.FailAuthToken) {
 						router.push('/login');
 					}
 				})

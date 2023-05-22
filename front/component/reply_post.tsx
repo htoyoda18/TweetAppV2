@@ -3,8 +3,8 @@ import { useEffect } from 'react';
 import ReplyStyle from '../css/reply.module.css';
 import { Icon } from "./icon";
 import { useState } from 'react';
-import { privateClient } from '../libs/client/axios';
-import { ErrorMessages } from '../shared/error';
+import { privateClient } from '../api/client/axios';
+import { ApiErrorMessages } from '../shared/error';
 import { useRouter } from 'next/router';
 import { GetSelfUserID } from '../shared/localStorage';
 import { UserIconGet } from "../api/client/icon_get"
@@ -35,7 +35,7 @@ export const ReplyPost: React.FC<ReplyPostProps> = ({ tweetID }) => {
                 if (!err.response || !err.response.data) {
                     return
                 }
-                if (err.response.data === ErrorMessages.FailAuthToken) {
+                if (err.response.data === ApiErrorMessages.FailAuthToken) {
                     router.push('/login');
                 }
             })
@@ -73,7 +73,7 @@ export const ReplyPost: React.FC<ReplyPostProps> = ({ tweetID }) => {
                 if (!err.response || !err.response.data) {
                     return
                 }
-                if (err.response.data === ErrorMessages.FailAuthToken) {
+                if (err.response.data === ApiErrorMessages.FailAuthToken) {
                     router.push('/login');
                 }
             })

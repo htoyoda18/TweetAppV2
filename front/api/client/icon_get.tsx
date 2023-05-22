@@ -1,6 +1,6 @@
 import { GenerateImageUrl } from "../../component/icon"
 import { AxiosResponse } from 'axios';
-import { privateClient } from '../../libs/client/axios'
+import { privateClient } from './axios'
 
 export const UserIconGet = async (icon: string) => {
     const url: string = 'v1/icon/' + icon

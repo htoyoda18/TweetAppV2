@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { useState } from 'react';
-import { publicClient } from '../libs/client/axios'
+import { publicClient } from '../api/client/axios'
 import SignUpStyle from '../css/signup.module.css';
 import { useRouter } from 'next/router'
 import sharedStyle from '../css/shared.module.css';
@@ -9,27 +9,27 @@ import { Note } from "../component/note"
 import { Formbtn } from "../component/form_btn"
 import { ErrorMsg } from "../component/error_message"
 import IndexStyle from '../css/index.module.css';
-import { ErrorMessages } from '../shared/error'
+import { ApiErrorMessages } from '../shared/error'
 import { SignupReqest } from '../api/type/user'
 import Head from 'next/head';
 import { url } from '../shared/url'
 
 interface FomrErrors {
-    mailAddressErr?: string;
+    emailErr?: string;
     userNameErr?: string;
     passwordErr?: string;
     resErr?: string;
 }
 
 interface FormValues {
-    mailAddress?: string;
+    email?: string;
     password?: string;
     userName?: string;
 }
 
 const SignUp: NextPage = () => {
-    const [formValues, setFromValues] = useState<FormValues>({ userName: "", mailAddress: "", password: "", });
-    const [fomrErrors, setFromError] = useState<FomrErrors>({ mailAddressErr: '', userNameErr: '', passwordErr: '' });
+    const [formValues, setFromValues] = useState<FormValues>({ userName: "", email: "", password: "", });
+    const [fomrErrors, setFromError] = useState<FomrErrors>({ emailErr: '', userNameErr: '', passwordErr: '' });
     const router = useRouter();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,7 +50,7 @@ const SignUp: NextPage = () => {
         const body: SignupReqest = {
             userName: formValues.userName.trim(),
             password: formValues.password.trim(),
-            email: formValues.mailAddress.trim(),
+            email: formValues.email.trim(),
         }
         publicClient
             .post('v1/signup', body)
@@ -62,7 +62,7 @@ const SignUp: NextPage = () => {
                 if (!err.response || !err.response.data) {
                     return
                 }
-                if (err.response.data === ErrorMessages.UserEmailDuplicate) {
+                if (err.response.data === ApiErrorMessages.UserEmailDuplicate) {
                     setFromError({ resErr: "このメールアドレスは既に登録されています" })
                 } else {
                     setFromError({ resErr: "予期せぬエラーです" })
@@ -76,10 +76,10 @@ const SignUp: NextPage = () => {
         if (!values.userName) {
             errors.userNameErr = "ユーザ名を入力してください"
         }
-        if (!values.mailAddress) {
-            errors.mailAddressErr = "メールをアドレスを入力してください"
-        } else if (!regex.test(values.mailAddress)) {
-            errors.mailAddressErr = "正しいメールアドレスを入力してください"
+        if (!values.email) {
+            errors.emailErr = "メールをアドレスを入力してください"
+        } else if (!regex.test(values.email)) {
+            errors.emailErr = "正しいメールアドレスを入力してください"
         }
         if (!values.password) {
             errors.passwordErr = "パスワードを入力してください"
@@ -117,12 +117,12 @@ const SignUp: NextPage = () => {
                             <input
                                 type="text"
                                 placeholder="メールアドレス"
-                                name="mailAddress"
+                                name="email"
                                 onClick={() => setFromError(validate(formValues))}
                                 onChange={(e) => handleChange(e)}
                             />
                         </div>
-                        <ErrorMsg err={fomrErrors.mailAddressErr} />
+                        <ErrorMsg err={fomrErrors.emailErr} />
                         <div className={SignUpStyle.formField}>
                             <label>パスワード</label>
                             <input

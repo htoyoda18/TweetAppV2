@@ -5,9 +5,9 @@ import { useRouter } from 'next/router'
 import Sidebar from '../component/sidebar';
 import TweetListStyle from '../css/tweet_list.module.css';
 import { Tweet } from "../component/tweet";
-import { privateClient } from '../libs/client/axios'
+import { privateClient } from '../api/client/axios'
 import { UserIconGet } from "../api/client/icon_get"
-import { ErrorMessages } from '../shared/error'
+import { ApiErrorMessages } from '../shared/error'
 import { TweetResponse } from '../api/type/tweet'
 import { useCheckToken } from '../libs/hook/check_token';
 import Head from 'next/head';
@@ -33,7 +33,7 @@ const Home: NextPage = () => {
 					if (!err.response || !err.response.data) {
 						return
 					}
-					if (err.response.data === ErrorMessages.FailAuthToken) {
+					if (err.response.data === ApiErrorMessages.FailAuthToken) {
 						router.push('/login');
 					}
 				})

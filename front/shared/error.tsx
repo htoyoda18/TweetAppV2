@@ -1,4 +1,4 @@
-export const ErrorMessages = {
+export const ApiErrorMessages = {
     UserNotFound: 'User not found',
     UserEmailDuplicate: 'User email duplicate',
     EmailNotFound: 'Email not found',
@@ -11,3 +11,7 @@ export const ErrorMessages = {
     RecordNotFound: 'record not found',
     TokenIsExpired: 'Token is expired'
 };
+
+export const FrontErrorMessages = {
+    TokenNotFound: 'Token is not found'
+}

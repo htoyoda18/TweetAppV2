@@ -3,9 +3,9 @@ import { useState } from 'react';
 import Sidebar from '../component/sidebar'
 import TweetStyle from '../css/tweet.module.css';
 import sharedStyle from '../css/shared.module.css';
-import { privateClient } from '../libs/client/axios'
+import { privateClient } from '../api/client/axios'
 import { useRouter } from 'next/router'
-import { ErrorMessages } from '../shared/error'
+import { ApiErrorMessages } from '../shared/error'
 import { TweetReqest } from '../api/type/tweet'
 import { useCheckToken } from '../libs/hook/check_token';
 import Head from 'next/head';
@@ -32,7 +32,7 @@ const Tweet: NextPage = () => {
             })
             .catch((err) => {
                 console.log("err", err)
-                if (err.response.data === ErrorMessages.FailAuthToken) {
+                if (err.response.data === ApiErrorMessages.FailAuthToken) {
                     router.push('/login');
                 }
             })

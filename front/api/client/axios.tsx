@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { GetToken } from '../../shared/localStorage';
-import { url } from '../../shared/url'
+import { url } from '../../shared/url';
 
 const baseConfig = {
     baseURL: url.LocalBaseURL,
