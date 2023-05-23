@@ -1,4 +1,5 @@
 include $(PWD)/db/Makefile
+include $(PWD)/controller/handler/Makefile
 
 .PHONY: docker-build
 docker-build:
@@ -34,3 +35,7 @@ setup:
 restart:
 	docker-compose kill || exit 1
 	$(MAKE) docker-build
+
+.PHONY: test
+test:
+	make test-handler
