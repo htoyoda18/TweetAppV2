@@ -17,6 +17,8 @@ export const ValidateToken = (): Promise<void | string> => {
                 }
                 if (err.response.data === ApiErrorMessages.FailAuthToken) {
                     return ApiErrorMessages.FailAuthToken
+                } else {
+                    return err.response.data
                 }
             })
 }

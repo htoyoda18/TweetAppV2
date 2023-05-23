@@ -35,7 +35,7 @@ const Login: NextPage = () => {
                 return
             }
             const ValidateTokenErr = await ValidateToken();
-            if (typeof ValidateTokenErr === 'string' && ValidateTokenErr === ApiErrorMessages.FailAuthToken) {
+            if (typeof ValidateTokenErr === 'string' && ValidateTokenErr !== '') {
                 return
             } else {
                 router.push("/");
