@@ -11,4 +11,4 @@ migrate-down:
 
 .PHONY: migrate-create
 migrate-create:
-	docker exec -e ATTIVITA_MODE=test api goose create $(FILE) sql
+	docker exec api goose create $(FILE) sql

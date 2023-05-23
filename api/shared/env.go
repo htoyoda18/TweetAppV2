@@ -10,7 +10,7 @@ type Env struct {
 	MysqlRootPassword string `envconfig:"MYSQL_ROOT_PASSWORD"`
 }
 
-func NewConfig() (Env, error) {
+func NewEnv() (Env, error) {
 	var env Env
 	if err := envconfig.Process("", &env); err != nil {
 		return env, err
