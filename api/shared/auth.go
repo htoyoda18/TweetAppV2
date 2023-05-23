@@ -2,7 +2,6 @@ package shared
 
 import (
 	"log"
-	"os"
 	"time"
 
 	jwt "github.com/form3tech-oss/jwt-go"
@@ -12,7 +11,6 @@ import (
 
 const (
 	TokenExpirationHours = 24
-	JwtKey               = "JWTKEY"
 )
 
 func NewJwt(user *model.User, expiration int64) string {
@@ -27,8 +25,14 @@ func NewJwt(user *model.User, expiration int64) string {
 	claims["iat"] = time.Now().Unix()
 	claims["exp"] = expiration
 
+	env, err := NewEnv()
+	if err != nil {
+		log.Println("NewJwt: NewConfig ", err)
+		return ""
+	}
+
 	// 電子署名
-	tokenString, _ := token.SignedString([]byte(os.Getenv(JwtKey)))
+	tokenString, _ := token.SignedString([]byte(env.JWTKey))
 
 	return tokenString
 }
@@ -40,7 +44,12 @@ func JwtParse(tokenString string) (int, error) {
 			err := FailToParse
 			return "", err
 		}
-		return []byte(os.Getenv(JwtKey)), nil
+		env, err := NewEnv()
+		if err != nil {
+			log.Println("JwtParse: NewConfig ", err)
+			return "", err
+		}
+		return []byte(env.JWTKey), nil
 	})
 	if err != nil {
 		log.Println("FailToParse: ", FailToParse)
