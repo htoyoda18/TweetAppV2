@@ -4,101 +4,78 @@ import { useRouter } from 'next/router';
 import LoginStyle from '../css/login.module.css';
 import IndexStyle from '../css/index.module.css';
 import sharedStyle from '../css/shared.module.css';
-import { publicClient, privateClient } from '../libs/client/axios';
 import { TweetApp } from "../component/tweet_app";
 import { Note } from "../component/note";
 import { Formbtn } from "../component/form_btn";
 import { ErrorMsg } from "../component/error_message";
-import { ErrorMessages } from '../shared/error';
+import { ApiErrorMessages } from '../shared/error';
 import { UserLoginReqest } from '../api/type/user';
 import Head from 'next/head';
-
-interface FormValues {
-    mailAddress?: string;
-    password?: string;
-    resErr?: string;
-}
+import { FormField } from '../component/login_form_fileds'
+import { url } from '../shared/url'
+import { LoginPost } from '../api/client/login'
+import { ValidateToken } from '../api/client/validate_token'
+import { GetToken } from '../shared/localStorage';
 
 interface Errors {
-    mailAddress?: string;
-    password?: string;
-    resErr?: string;
-}
-
-const initialValues: FormValues = {
-    mailAddress: '',
-    password: '',
+    emailErr?: string;
+    passwordErr?: string;
+    apiErr?: string;
 }
 
 const Login: NextPage = () => {
-    const [formValues, setFormValues] = useState<FormValues>(initialValues);
-    const [formErrors, setFormErrors] = useState<FormValues>(initialValues);
+    const [loginRequestData, setLoginRequestData] = useState<UserLoginReqest>({ email: '', password: '' });
+    const [loginErrors, setLoginErrors] = useState<Errors>({ emailErr: '', passwordErr: '', apiErr: '' });
     const router = useRouter();
 
     useEffect(() => {
         const validateToken = async () => {
-            privateClient
-                .get('v1/validate_token')
-                .then((results) => {
-                    router.push("/");
-                })
-                .catch((err) => {
-                    console.log("err", err)
-                })
+            const token = GetToken();
+            if (!token) {
+                return
+            }
+            const ValidateTokenErr = await ValidateToken();
+            if (typeof ValidateTokenErr === 'string' && ValidateTokenErr === ApiErrorMessages.FailAuthToken) {
+                return
+            } else {
+                router.push("/");
+            }
         };
         validateToken()
     }, []);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        const errors = validate(formValues);
-        setFormErrors(errors);
-        if (Object.keys(formErrors).length > 0) {
+        const errors = validate(loginRequestData);
+        setLoginErrors(errors);
+        if (Object.keys(errors).length !== 0) {
             return;
         }
-        loginPost();
+        const login = async () => {
+            const loginErr = await LoginPost(loginRequestData);
+            if (typeof loginErr === 'string' && loginErr !== '') {
+                setLoginErrors({ apiErr: loginErr })
+            } else {
+                router.push("/");
+            }
+        }
+        login()
     }
 
-    const validate = (values: FormValues): Errors => {
+    const validate = (values: UserLoginReqest): Errors => {
         const errors: Errors = {};
-        if (!values.mailAddress) {
-            errors.mailAddress = "メールアドレスを入力してください";
+        if (!values.email) {
+            errors.emailErr = "メールアドレスを入力してください";
         }
         if (!values.password) {
-            errors.password = "パスワードを入力してください";
+            errors.passwordErr = "パスワードを入力してください";
         }
-
         return errors;
-    }
-
-    const loginPost = () => {
-        const body: UserLoginReqest = {
-            password: formValues.password.trim(),
-            email: formValues.mailAddress.trim(),
-        }
-        publicClient
-            .post('v1/login', body)
-            .then((res) => {
-                localStorage.setItem("token", res.data.token);
-                localStorage.setItem("userID", res.data.userID);
-                router.push("/");
-            })
-            .catch((err) => {
-                console.log("err", err);
-                if (!err.response || !err.response.data) {
-                    return;
-                }
-                if (err.response.data === ErrorMessages.UserNotFound) {
-                    setFormErrors({ resErr: "メールアドレスまたはパスワードが違います" });
-                } else {
-                    setFormErrors({ resErr: "予期せぬエラーです" });
-                }
-            })
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setFormValues(prevValues => ({ ...prevValues, [name]: value }));
+        setLoginRequestData(prevValues => ({ ...prevValues, [name]: value }));
     }
 
     return (
@@ -110,27 +87,21 @@ const Login: NextPage = () => {
             <div className={IndexStyle.formContainer}>
                 <form onSubmit={handleSubmit}>
                     <div className={LoginStyle.uiForm}>
-                        <div className={LoginStyle.formFiled}>
-                            <label>メールアドレス</label>
-                            <input
-                                type="text"
-                                placeholder="メールアドレス"
-                                name="mailAddress"
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <ErrorMsg err={formErrors.mailAddress} />
-                        <div className={LoginStyle.formFiled}>
-                            <label>パスワード</label>
-                            <input
-                                type="password"
-                                placeholder="パスワード"
-                                name="password"
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <ErrorMsg err={formErrors.password} />
-                        <ErrorMsg err={formErrors.resErr} />
+                        <FormField
+                            label='メールアドレス'
+                            placeholder='メールアドレス'
+                            name='email'
+                            onChange={handleChange}
+                        />
+                        <ErrorMsg err={loginErrors.emailErr} />
+                        <FormField
+                            label='パスワード'
+                            placeholder='パスワード'
+                            name='password'
+                            onChange={handleChange}
+                        />
+                        <ErrorMsg err={loginErrors.passwordErr} />
+                        <ErrorMsg err={loginErrors.apiErr} />
                         <Formbtn name="ログイン" />
                     </div>
                 </form>
@@ -138,12 +109,12 @@ const Login: NextPage = () => {
             <Note
                 text="パスワードを忘れた場合は"
                 link="こちら"
-                url="http://localhost:3000/password_reset"
+                url={url.PasswordResetPage}
             />
             <Note
                 text="アカウントをお持ちでない場合は"
                 link="登録"
-                url="http://localhost:3000/signup"
+                url={url.SinupPage}
             />
         </div>
     );

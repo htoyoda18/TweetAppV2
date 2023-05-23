@@ -4,8 +4,21 @@ import { Icon } from "./icon"
 import { useRouter } from 'next/router'
 import { LikeIconAndCount } from './like_btn';
 import { ReplyIconAndCount } from './reply';
+import { TweetResponse } from '../api/type/tweet'
+import { ReplyResponse } from '../api/type/reply'
+import { LikeResponse } from '../api/type/like'
 
-export const Tweet = ({ iconUrl, userID, userName, tweet, replies, likes, tweetID }) => {
+type TweetProps = {
+    iconUrl: string;
+    userID: number,
+    userName: string,
+    tweet: TweetResponse,
+    replies: ReplyResponse[],
+    likes: LikeResponse[],
+    tweetID: string,
+};
+
+export const Tweet: React.FC<TweetProps> = ({ iconUrl, userID, userName, tweet, replies, likes, tweetID }) => {
     const router = useRouter();
 
     const handleClick = () => {

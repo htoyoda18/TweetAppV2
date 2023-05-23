@@ -1,20 +1,21 @@
 import React from 'react';
 import sharedStyle from '../css/shared.module.css';
+import { url } from '../shared/url'
 
 const isIcon = (icon: string) => {
     if (icon) {
         return icon
     }
 
-    return 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png'
+    return url.IconNotFound
 }
 
 type IconProps = {
-	image: string;
+    image: string;
     userID: number
 };
 
-export const Icon = ({ image, userID }: IconProps) => {
+export const Icon: React.FC<IconProps> = ({ image, userID }) => {
     const iconUrl = isIcon(image)
     return (
         <a className={sharedStyle.userLink} href={"/user/" + userID}>
@@ -28,10 +29,10 @@ export const Icon = ({ image, userID }: IconProps) => {
 }
 
 type ImageProps = {
-	image: string;
+    image: string;
 };
 
-export const LargeIcon = ({ image }: ImageProps) => {
+export const LargeIcon: React.FC<ImageProps> = ({ image }) => {
     const iconUrl = isIcon(image)
     return (
         <img
@@ -41,7 +42,7 @@ export const LargeIcon = ({ image }: ImageProps) => {
     )
 }
 
-export const LargeEditIcon = ({ image }: ImageProps) => {
+export const LargeEditIcon: React.FC<ImageProps> = ({ image }) => {
     const iconUrl = isIcon(image)
     return (
         <img

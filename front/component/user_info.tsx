@@ -3,7 +3,7 @@ import { LargeIcon } from './icon';
 import { ImageUploader } from './icon_upload';
 import UserInfoStyle from '../css/user_info.module.css';
 import Modal from "react-modal";
-import { publicClient, privateClient } from '../libs/client/axios';
+import { publicClient, privateClient } from '../api/client/axios';
 import { GetSelfUserID } from '../shared/localStorage';
 import { UserUpdateReqest } from '../api/type/user'
 
@@ -15,7 +15,7 @@ type UserInfoProps = {
     userIconFileName: string,
 };
 
-export const UserInfo = ({ userID, userName, userIntroduction, userIconFileName, iconUrl }: UserInfoProps) => {
+export const UserInfo: React.FC<UserInfoProps> = ({ userID, userName, userIntroduction, userIconFileName, iconUrl }) => {
     return (
         <div className={UserInfoStyle.userInfo}>
             <div className={UserInfoStyle.content}>

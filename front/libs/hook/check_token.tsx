@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { GetToken } from '../../shared/localStorage';
-import { privateClient } from '../client/axios'
-import { ErrorMessages } from '../../shared/error'
+import { privateClient } from '../../api/client/axios'
+import { ApiErrorMessages } from '../../shared/error'
+import { ValidateToken } from '../../api/client/validate_token'
 
 export const useCheckToken = () => {
     const router = useRouter();
@@ -13,21 +14,16 @@ export const useCheckToken = () => {
             router.push('/login');
             return
         }
-        privateClient
-            .get('v1/validate_token')
-            .then((res) => {
-                if (res.status === 200) {
-                    return
-                }
-            })
-            .catch((err) => {
-                console.log("err", err)
-                if (!err.response || !err.response.data) {
-                    return
-                }
-                if (err.response.data === ErrorMessages.FailAuthToken) {
-                    router.push('/login');
-                }
-            })
+
+        const validateToken = async () => {
+            const ValidateTokenErr = await ValidateToken();
+            if (typeof ValidateTokenErr === 'string' && ValidateTokenErr === ApiErrorMessages.FailAuthToken) {
+                router.push('/login');
+            } else {
+                return
+            }
+        }
+
+        validateToken()
     }, [router]);
 }

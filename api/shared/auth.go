@@ -10,8 +10,12 @@ import (
 	"github.com/htoyoda18/TweetAppV2/api/domain/model"
 )
 
-func NewJwt(user *model.User, expiration int64) string {
+const (
+	TokenExpirationHours = 24
+	JwtKey               = "JWTKEY"
+)
 
+func NewJwt(user *model.User, expiration int64) string {
 	token := jwt.New(jwt.SigningMethodHS256)
 
 	// claimsのセット
@@ -24,7 +28,7 @@ func NewJwt(user *model.User, expiration int64) string {
 	claims["exp"] = expiration
 
 	// 電子署名
-	tokenString, _ := token.SignedString([]byte(os.Getenv("JWTKEY")))
+	tokenString, _ := token.SignedString([]byte(os.Getenv(JwtKey)))
 
 	return tokenString
 }
@@ -36,7 +40,7 @@ func JwtParse(tokenString string) (int, error) {
 			err := FailToParse
 			return "", err
 		}
-		return []byte(os.Getenv("JWTKEY")), nil
+		return []byte(os.Getenv(JwtKey)), nil
 	})
 	if err != nil {
 		log.Println("FailToParse: ", FailToParse)

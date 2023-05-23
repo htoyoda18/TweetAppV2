@@ -3,7 +3,7 @@ import { NextPage, GetServerSideProps } from "next";
 import Sidebar from '../../component/sidebar';
 import TweetStyleList from '../../css/tweet_list.module.css';
 import TweetDetailStyleList from '../../css/tweet_detail.module.css';
-import { privateClient } from '../../libs/client/axios';
+import { privateClient } from '../../api/client/axios';
 import { useCheckToken } from '../../libs/hook/check_token';
 import { useState } from 'react';
 import { Tweet } from "../../component/tweet";
@@ -11,7 +11,7 @@ import { Reply } from "../../component/reply";
 import { ReplyPost } from "../../component/reply_post";
 import { useRouter } from 'next/router';
 import { UserIconGet } from "../../api/client/icon_get";
-import { ErrorMessages } from '../../shared/error';
+import { ApiErrorMessages } from '../../shared/error';
 import { TweetResponse } from '../../api/type/tweet';
 import { UserResponse } from '../../api/type/user';
 import { ReplyResponse } from '../../api/type/reply';
@@ -52,10 +52,10 @@ const TweetDetail: NextPage<Props> = ({ url }) => {
                         return
                     }
                     switch (err.response.data) {
-                        case ErrorMessages.FailAuthToken:
+                        case ApiErrorMessages.FailAuthToken:
                             router.push('/login');
                             break;
-                        case ErrorMessages.RecordNotFound:
+                        case ApiErrorMessages.RecordNotFound:
                             router.push('/not_found');
                             break;
                         default:

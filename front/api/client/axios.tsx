@@ -1,8 +1,9 @@
 import axios from 'axios'
 import { GetToken } from '../../shared/localStorage';
+import { url } from '../../shared/url';
 
 const baseConfig = {
-    baseURL: 'http://localhost:8080',
+    baseURL: url.LocalBaseURL,
     headers: {
         'Content-Type': 'application/json;charset=utf-8',
         'Access-Control-Allow-Origin': '*',

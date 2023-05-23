@@ -1,4 +1,4 @@
-import { privateClient } from '../../libs/client/axios';
+import { privateClient } from './axios';
 import { IsLikedByUserType } from "../type/like"
 
 export const AddLike = (tweetID: string) => {
