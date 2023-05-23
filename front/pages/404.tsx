@@ -2,11 +2,10 @@ import { NextPage } from "next";
 import { useState, useEffect } from 'react';
 import Sidebar from '../component/sidebar';
 import NotFoundStyle from '../css/not_found.module.css';
-import { publicClient } from '../api/client/axios'
+import { publicClient } from '../libs/client/axios'
 import { GetToken } from '../shared/localStorage'
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { url } from '../shared/url'
 
 const NotFound: NextPage = () => {
     const token = GetToken();
@@ -16,7 +15,7 @@ const NotFound: NextPage = () => {
     useEffect(() => {
         const fetchCatImage = async () => {
             try {
-                const res = await publicClient.get(url.RundomCat);
+                const res = await publicClient.get('https://api.thecatapi.com/v1/images/search');
                 if (res.data) {
                     const images = res.data;
                     setImageUrl(images[0].url);

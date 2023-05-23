@@ -7,7 +7,7 @@ type ErrorMsgProps = {
 	link: string;
 };
 
-export const Note: React.FC<ErrorMsgProps> = ({ text, url, link }) => {
+export const Note = ({ text, url, link }: ErrorMsgProps) => {
 	return (
 		<div className={NoteStyle.note}>{text} <a href={url}>{link}</a></div>
 	)

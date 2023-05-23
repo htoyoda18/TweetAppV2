@@ -5,19 +5,19 @@ import { Formbtn } from "../component/form_btn"
 import IndexStyle from '../css/index.module.css';
 import SharedStyle from '../css/shared.module.css';
 import { useState } from 'react';
-import { publicClient } from '../api/client/axios'
+import { publicClient } from '../libs/client/axios'
 import { ErrorMsg } from "../component/error_message"
-import { ApiErrorMessages } from '../shared/error'
+import { ErrorMessages } from '../shared/error'
 import { useRouter } from 'next/router';
 import { PasswordResetReqest } from '../api/type/user';
 import Head from 'next/head';
 
 interface FormValues {
-	email?: string;
+	mailAddress?: string;
 }
 
 const initialValues: FormValues = {
-	email: '',
+	mailAddress: '',
 }
 
 const PasswordReset: NextPage = () => {
@@ -27,12 +27,12 @@ const PasswordReset: NextPage = () => {
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = e.target;
-		setFromValues({ email: value });
+		setFromValues({ mailAddress: value });
 	}
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		setFromError(validate(formValues.email));
+		setFromError(validate(formValues.mailAddress));
 		if (fomrErrors !== "") {
 			return
 		}
@@ -41,7 +41,7 @@ const PasswordReset: NextPage = () => {
 
 	const PasswordReset = () => {
 		const body: PasswordResetReqest = {
-			email: formValues.email,
+			email: formValues.mailAddress,
 		}
 		publicClient
 			.post('v1/password_reset', body)
@@ -53,9 +53,9 @@ const PasswordReset: NextPage = () => {
 				if (!err.response || !err.response.data) {
 					return
 				}
-				if (err.response.data === ApiErrorMessages.EmailNotFound) {
+				if (err.response.data === ErrorMessages.EmailNotFound) {
 					setFromError("存在しないメールアドレスです")
-				} else if (err.response.data === ApiErrorMessages.ShouldBindJsonErr) {
+				} else if (err.response.data === ErrorMessages.ShouldBindJsonErr) {
 					setFromError("メールアドレスの形式が間違ってます")
 				} else {
 					setFromError("予期せぬエラーです")
@@ -80,12 +80,12 @@ const PasswordReset: NextPage = () => {
 				<form onSubmit={(e) => handleSubmit(e)}>
 					<div className={PasswordResetStyle.formName}>パスワードを忘れた場合</div>
 					<div className={PasswordResetStyle.formDiscription}>ご登録いただいたメールアドレスを入力してください。<br />メールアドレス宛に、パスワード変更ページのURLが記載されたメールを送信します。</div>
-					<div className={PasswordResetStyle.formField}>
+					<div className={PasswordResetStyle.formFiled}>
 						<label>メールアドレス</label>
 						<input
 							type="text"
 							placeholder="メールアドレス"
-							name="email"
+							name="mailAddress"
 							onChange={(e) => handleChange(e)}
 						/>
 					</div>

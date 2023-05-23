@@ -5,8 +5,8 @@ import { ErrorMsg } from "../../component/error_message"
 import PasswordUpdateStyle from '../../css/password_update.module.css';
 import { Formbtn } from "../../component/form_btn"
 import IndexStyle from '../../css/index.module.css';
-import { publicClient } from '../../api/client/axios'
-import { ApiErrorMessages } from '../../shared/error'
+import { publicClient } from '../../libs/client/axios'
+import { ErrorMessages } from '../../shared/error'
 import { useRouter } from 'next/router';
 import sharedStyle from '../../css/shared.module.css';
 import { PasswordUpdateReqest } from '../../api/type/user';
@@ -29,6 +29,7 @@ const initialValues: FormValues = {
 const initialErrors: Errors = {
 	resErr: '',
 }
+
 
 const PasswordUpdate: NextPage = () => {
 	const [formValues, setFormValues] = useState<FormValues>(initialValues);
@@ -66,9 +67,9 @@ const PasswordUpdate: NextPage = () => {
 				if (!err.response || !err.response.data) {
 					return
 				}
-				if (err.response.data === ApiErrorMessages.UserEmailDuplicate) {
+				if (err.response.data === ErrorMessages.UserEmailDuplicate) {
 					setFormError({ resErr: "このメールアドレスは既に登録されています" })
-				} else if (err.response.data === ApiErrorMessages.TokenIsExpired) {
+				} else if (err.response.data === ErrorMessages.TokenIsExpired) {
 					setFormError({ resErr: "トークンの有効期限が切れています。再度、やり直してください。" })
 				} else {
 					setFormError({ resErr: "予期せぬエラーです" })
@@ -101,7 +102,7 @@ const PasswordUpdate: NextPage = () => {
 			<div className={IndexStyle.formContainer}>
 				<form onSubmit={(e) => handleSubmit(e)}>
 					<div className={PasswordUpdateStyle.uiForm}>
-						<div className={PasswordUpdateStyle.formField}>
+						<div className={PasswordUpdateStyle.formFiled}>
 							<label>パスワード</label>
 							<input
 								type="text"
@@ -111,7 +112,7 @@ const PasswordUpdate: NextPage = () => {
 								onChange={(e) => handleChange(e)}
 							/>
 						</div>
-						<div className={PasswordUpdateStyle.formField}>
+						<div className={PasswordUpdateStyle.formFiled}>
 							<label>パスワード確認用</label>
 							<input
 								type="text"

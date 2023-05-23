@@ -10,7 +10,7 @@ type ReplyProps = {
     tweet: string;
 };
 
-export const Repl: React.FC<ReplyProps> = ({ iconUrl, userID, userName, tweet }) => {
+export const Reply = ({ iconUrl, userID, userName, tweet }: ReplyProps) => {
 
     return (
         <div className={TweetStyle.Tweet}>
