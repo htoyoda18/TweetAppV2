@@ -11,7 +11,7 @@ services:
     ports:
       - 3306:3306
     env_file:
-      - ./db/.env
+      - .env
     volumes:
       - type: volume
         source: mysql_test_volume
