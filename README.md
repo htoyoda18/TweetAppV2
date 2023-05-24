@@ -3,7 +3,7 @@
 ## Setup
 1. 下記の2つのコマンドを使用して、envファイルを作成してください
 ```
-touch api/db/.env && echo -e "JWTKEY=462555db-3fd9-e8b5-b7cc-f87b3c59a2b5\nMYSQL_DATABASE=test_database\nMYSQL_USER=test_user\nMYSQL_PASSWORD=password\nMYSQL_ROOT_PASSWORD=root_password" >> api/.env
+touch api/db/.env && echo -e touch api/db/.env && echo -e "JWTKEY=462555db-3fd9-e8b5-b7cc-f87b3c59a2b5\nMYSQL_DATABASE=database\nMYSQL_USER=user\nMYSQL_PASSWORD=password\nMYSQL_ROOT_PASSWORD=root_password" >> api/.env
 ```
 2. 下記のコマンドを実行して、APIのセットアップをします
 ```

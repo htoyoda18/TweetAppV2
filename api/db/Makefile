@@ -1,14 +1,15 @@
 ENV=development
 FILE=AddColumn
+CONTAINER=api
 
 .PHONY: migrate-up
 migrate-up:
-	docker exec api goose -env $(ENV) up
+	docker exec $(CONTAINER) goose -env $(ENV) up
 
 .PHONY: migrate-down
 migrate-down:
-	docker exec api goose -env $(ENV) down
+	docker exec $(CONTAINER) goose -env $(ENV) down
 
 .PHONY: migrate-create
 migrate-create:
-	docker exec api goose create $(FILE) sql
+	docker exec $(CONTAINER) goose create $(FILE) sql

@@ -16,7 +16,7 @@ func InitDB() (*gorm.DB, error) {
 		log.Println("InitDB: NewConfig ", err)
 		return nil, err
 	}
-	dbConnection := fmt.Sprintf("%s:%s@tcp(db:3306)/%s?parseTime=true", env.MysqlUser, env.MysqlPassword, env.MysqlDatabase)
+	dbConnection := fmt.Sprintf("%s:%s@tcp(%s:3306)/%s?parseTime=true", env.MysqlUser, env.MysqlPassword, env.MysqlHost, env.MysqlDatabase)
 
 	db, err := gorm.Open(mysql.Open(dbConnection), &gorm.Config{})
 	if err != nil {
