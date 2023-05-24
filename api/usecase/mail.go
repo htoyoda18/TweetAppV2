@@ -21,7 +21,9 @@ func SendMail(param SendMailParam) error {
 	mailer.SetHeader("Subject", param.Subject)
 	mailer.SetBody("text/plain", param.Body)
 
-	d := gomail.Dialer{Host: "smtp", Port: 1025}
+	env, _ := shared.NewEnv()
+
+	d := gomail.Dialer{Host: env.SmtpHost, Port: 1025}
 	if err := d.DialAndSend(mailer); err != nil {
 		shared.Error(LogVal("SendMail", "gomail.Diale Error", param, err))
 		return err

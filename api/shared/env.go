@@ -9,6 +9,7 @@ type Env struct {
 	MysqlPassword     string `envconfig:"MYSQL_PASSWORD"`
 	MysqlRootPassword string `envconfig:"MYSQL_ROOT_PASSWORD"`
 	MysqlHost         string `envconfig:"MYSQL_HOST"`
+	SmtpHost          string `envconfig:"SMTP_HOST"`
 }
 
 func NewEnv() (Env, error) {

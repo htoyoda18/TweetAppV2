@@ -3,4 +3,4 @@ FN=all
 
 .PHONY: test-handler
 test-handler:
-	docker exec api go test -v "./controller/handler/"
+	docker exec api_test go test -v "./controller/handler/"
