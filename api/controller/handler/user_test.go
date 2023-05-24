@@ -91,4 +91,5 @@ func TestUserCreate(t *testing.T) {
 			}
 		})
 	}
+	shared.TearDown(gormDB)
 }
