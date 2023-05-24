@@ -18,7 +18,6 @@ func InitDB() (*gorm.DB, error) {
 	}
 	dbConnection := fmt.Sprintf("%s:%s@tcp(db:3306)/%s?parseTime=true", env.MysqlUser, env.MysqlPassword, env.MysqlDatabase)
 
-	fmt.Println("接続情報", dbConnection)
 	db, err := gorm.Open(mysql.Open(dbConnection), &gorm.Config{})
 	if err != nil {
 		log.Println("InitDB: gorm.Open ", err)

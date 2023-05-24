@@ -7,7 +7,7 @@ import (
 
 func LoggerMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		shared.Setup()
+		shared.ZapSetup()
 
 		c.Next()
 	}

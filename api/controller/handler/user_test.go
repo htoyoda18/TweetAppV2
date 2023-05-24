@@ -2,7 +2,6 @@ package handler_test
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"net/http/httputil"
@@ -15,14 +14,17 @@ import (
 	"github.com/htoyoda18/TweetAppV2/api/controller/handler/request"
 	"github.com/htoyoda18/TweetAppV2/api/db"
 	"github.com/htoyoda18/TweetAppV2/api/injector"
+	"github.com/htoyoda18/TweetAppV2/api/shared"
 	"github.com/stretchr/testify/mock"
+	"gorm.io/gorm"
 )
 
 var userHandler *injector.Handler
-var gormDB, _ = db.InitDB()
+var gormDB *gorm.DB
 
 func TestMain(m *testing.M) {
-	fmt.Println("実行されている？？？")
+	gormDB, _ = db.InitDB()
+	shared.ZapSetup()
 	os.Exit(m.Run())
 }
 
@@ -44,7 +46,7 @@ func TestUserCreate(t *testing.T) {
 	}{
 		{
 			name:               "should return 200",
-			payload:            `{"name":"test","email":"test@test.com","password":"password"}`,
+			payload:            `{"userName":"testUser","email":"test@test.com","password":"password"}`,
 			expectedStatusCode: http.StatusOK,
 			mockUsecase: func() *MockUserUsecase {
 				u := &MockUserUsecase{}
