@@ -28,6 +28,7 @@ func TestMain(m *testing.M) {
 }
 
 func TestUserCreate(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name          string
 		body          request.Signup
@@ -81,6 +82,7 @@ func TestUserCreate(t *testing.T) {
 }
 
 func TestUserLogin(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name          string
 		body          request.Login
