@@ -2,7 +2,6 @@ package test
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http/httptest"
 
@@ -14,7 +13,6 @@ func UnmarshalJSONToStruct[T any](w *httptest.ResponseRecorder) (*T, error) {
 	defer res.Body.Close()
 
 	body, err := ioutil.ReadAll(res.Body)
-	fmt.Println("bodyの中身を見る", string(body))
 	if err != nil {
 		shared.Error("Error reading body", err)
 		return nil, err

@@ -82,7 +82,7 @@ func (u user) Authenticate(params request.Login) (*model.User, error) {
 	}, u.db)
 	if err != nil {
 		shared.Warn(LogVal("User", "Authenticate", err))
-		err := shared.UserNotFound
+		err := shared.EmailNotFound
 		return nil, err
 	}
 	err = shared.CompareHashAndPassword(user.Password, params.Password)

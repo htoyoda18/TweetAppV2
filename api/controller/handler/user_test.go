@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/htoyoda18/TweetAppV2/api/controller/handler/request"
+	"github.com/htoyoda18/TweetAppV2/api/controller/handler/response"
 	"github.com/htoyoda18/TweetAppV2/api/db"
 	"github.com/htoyoda18/TweetAppV2/api/domain/model"
 	"github.com/htoyoda18/TweetAppV2/api/injector"
@@ -22,6 +23,7 @@ var gormDB *gorm.DB
 func TestMain(m *testing.M) {
 	gormDB, _ = db.InitDB()
 	shared.ZapSetup()
+	userHandler = injector.NewHandler(gormDB)
 	os.Exit(m.Run())
 }
 
@@ -54,8 +56,6 @@ func TestUserCreate(t *testing.T) {
 				log.Fatal(err)
 			}
 
-			var userHandler = injector.NewHandler(gormDB)
-
 			userHandler.User.Create(c)
 
 			res := w.Result()
@@ -68,6 +68,58 @@ func TestUserCreate(t *testing.T) {
 				}
 				assert.Equal(t, "testUser", response.Name)
 				assert.Equal(t, "hoge@mail.com", response.Email)
+			} else {
+				response, err := test.ReadErrorResponse(w)
+				if err != nil {
+					log.Fatal(err)
+				}
+				assert.Equal(t, tt.responseError.Error(), response)
+			}
+		})
+	}
+	test.TearDown(gormDB)
+}
+
+func TestUserLogin(t *testing.T) {
+	tests := []struct {
+		name          string
+		body          request.Login
+		responseError error
+	}{
+		{
+			name: "成功",
+			body: request.Login{Email: "5@example.com", Password: "hogehoge"},
+		},
+		{
+			name:          "失敗: パスワードが間違っている",
+			body:          request.Login{Email: "5@example.com", Password: "hogehoge1111"},
+			responseError: shared.FailPassword,
+		},
+		{
+			name:          "失敗: 存在しないメールアドレスでログインしようとする",
+			body:          request.Login{Email: "5555@example.com", Password: "hogehoge"},
+			responseError: shared.EmailNotFound,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c, w, err := test.CreateGinContextForPost(tt.body, "login")
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			userHandler.User.Login(c)
+
+			res := w.Result()
+			defer res.Body.Close()
+
+			if res.StatusCode == http.StatusOK {
+				response, err := test.UnmarshalJSONToStruct[response.LoginResponse](w)
+				if err != nil {
+					log.Fatal(err)
+				}
+				assert.Equal(t, 5, response.UserID)
 			} else {
 				response, err := test.ReadErrorResponse(w)
 				if err != nil {

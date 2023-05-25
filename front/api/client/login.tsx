@@ -20,7 +20,7 @@ export const LoginPost = (loginData: UserLoginReqest): Promise<void | string> =>
             if (!err.response || !err.response.data) {
                 return;
             }
-            if (err.response.data === ApiErrorMessages.UserNotFound) {
+            if (err.response.data === ApiErrorMessages.EmailNotFound) {
                 return "存在しないメールアドレスです";
             } else if (err.response.data === ApiErrorMessages.FailPassword) {
                 return "パスワードが違います";
