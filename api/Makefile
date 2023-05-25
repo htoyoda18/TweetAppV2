@@ -74,3 +74,7 @@ restart-test:
 .PHONY: test
 test:
 	make test-handler
+
+.PHONY: ps
+ps:
+	docker-compose ps

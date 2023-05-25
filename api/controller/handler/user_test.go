@@ -1,21 +1,18 @@
 package handler_test
 
 import (
-	"errors"
+	"log"
 	"net/http"
-	"net/http/httptest"
-	"net/http/httputil"
 	"os"
-	"os/user"
-	"strings"
 	"testing"
 
-	"github.com/gin-gonic/gin"
 	"github.com/htoyoda18/TweetAppV2/api/controller/handler/request"
 	"github.com/htoyoda18/TweetAppV2/api/db"
+	"github.com/htoyoda18/TweetAppV2/api/domain/model"
 	"github.com/htoyoda18/TweetAppV2/api/injector"
 	"github.com/htoyoda18/TweetAppV2/api/shared"
-	"github.com/stretchr/testify/mock"
+	"github.com/htoyoda18/TweetAppV2/api/shared/test"
+	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
 )
 
@@ -28,68 +25,52 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-type MockUserUsecase struct {
-	mock.Mock
-}
-
-func (m *MockUserUsecase) Create(params request.Signup) (user.User, error) {
-	args := m.Called(params)
-	return args.Get(0).(user.User), args.Error(1)
-}
-
 func TestUserCreate(t *testing.T) {
 	tests := []struct {
-		name               string
-		payload            string
-		expectedStatusCode int
-		mockUsecase        func() *MockUserUsecase
+		name          string
+		body          request.Signup
+		responseError error
 	}{
 		{
-			name:               "should return 200",
-			payload:            `{"userName":"testUser","email":"test@test.com","password":"password"}`,
-			expectedStatusCode: http.StatusOK,
-			mockUsecase: func() *MockUserUsecase {
-				u := &MockUserUsecase{}
-				u.On("Create", mock.AnythingOfType("request.Signup")).Return(request.Signup{Username: "test", Email: "test@test.com", Password: "hogehoge"}, nil)
-				return u
-			},
+			name: "成功",
+			body: request.Signup{Username: "testUser", Password: "hogehoge", Email: "hoge@mail.com"},
 		},
 		{
-			name:               "should return 400",
-			payload:            `{"name":"test","email":"test@test.com","password":"password"}`,
-			expectedStatusCode: http.StatusBadRequest,
-			mockUsecase: func() *MockUserUsecase {
-				u := &MockUserUsecase{}
-				u.On("Create", mock.AnythingOfType("request.Signup")).Return(user.User{}, errors.New("something went wrong"))
-				return u
-			},
+			name:          "失敗 パスワードが短い",
+			body:          request.Signup{Username: "testUser", Password: "hoge", Email: "hoge@mail.com"},
+			responseError: shared.ShouldBindJsonErr,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			req, err := http.NewRequest("POST", "/signup", strings.NewReader(tt.payload))
+			c, w, err := test.CreateGinContextForPost(tt.body, "signup")
 			if err != nil {
-				t.Fatal(err)
+				log.Fatal(err)
 			}
 
-			// set up gin context
-			w := httptest.NewRecorder()
-			c, _ := gin.CreateTestContext(w)
-			c.Request = req
-
-			userHandler = injector.NewHandler(gormDB)
+			var userHandler = injector.NewHandler(gormDB)
 
 			userHandler.User.Create(c)
 
 			res := w.Result()
 			defer res.Body.Close()
 
-			if tt.expectedStatusCode != res.StatusCode {
-				body, _ := httputil.DumpResponse(res, true)
-				t.Fatalf("expected status code %d, got %d, body %s", tt.expectedStatusCode, res.StatusCode, string(body))
+			if res.StatusCode == http.StatusOK {
+				response, err := test.UnmarshalJSONToStruct[model.User](w)
+				if err != nil {
+					log.Fatal(err)
+				}
+				assert.Equal(t, "testUser", response.Name)
+				assert.Equal(t, "hoge@mail.com", response.Email)
+			} else {
+				response, err := test.ReadErrorResponse(w)
+				if err != nil {
+					log.Fatal(err)
+				}
+				assert.Equal(t, tt.responseError.Error(), response)
 			}
 		})
 	}
-	shared.TearDown(gormDB)
+	test.TearDown(gormDB)
 }
