@@ -36,9 +36,14 @@ func TestUserCreate(t *testing.T) {
 			body: request.Signup{Username: "testUser", Password: "hogehoge", Email: "hoge@mail.com"},
 		},
 		{
-			name:          "失敗 パスワードが短い",
+			name:          "失敗: パスワードが短い",
 			body:          request.Signup{Username: "testUser", Password: "hoge", Email: "hoge@mail.com"},
 			responseError: shared.ShouldBindJsonErr,
+		},
+		{
+			name:          "失敗: 同じメールアドレスを登録しようとした",
+			body:          request.Signup{Username: "testUser", Password: "hogehoge", Email: "hoge@mail.com"},
+			responseError: shared.UserEmailDuplicate,
 		},
 	}
 
