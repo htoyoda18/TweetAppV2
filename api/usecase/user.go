@@ -3,7 +3,6 @@ package usecase
 import (
 	"errors"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/htoyoda18/TweetAppV2/api/controller/handler/request"
@@ -48,7 +47,6 @@ func (u user) Create(params request.Signup) (*model.User, error) {
 	}
 
 	password, _ := shared.PasswordEncrypt(params.Password)
-	log.Println(password)
 
 	user, err := u.userRepository.Add(&model.User{
 		Name:     params.Username,
@@ -60,14 +58,14 @@ func (u user) Create(params request.Signup) (*model.User, error) {
 		return nil, err
 	}
 
-	log.Println("user.Email", user.Email)
 	err = SendMail(SendMailParam{
 		From:     user.Email,
 		Username: user.Name,
 		Body:     user.Name + "様 ご登録いただきありがとうございます",
-		Subject:  "ご登録ありがとうございます",
+		Subject:  SignUpSubject,
 	})
 	if err != nil {
+		shared.Warn(LogVal("User", "Create", err))
 		return nil, err
 	}
 
@@ -115,7 +113,7 @@ func (u user) PasswordReset(mail string) error {
 		From:     user.Email,
 		Username: user.Name,
 		Body:     user.Name + "様 こちらのURL" + url + "よりパスワードのリセットをしてください",
-		Subject:  "パスワードのリセット",
+		Subject:  PasswordRessetSubject,
 	})
 	if err != nil {
 		shared.Warn(LogVal("User", "PasswordReset", err))

@@ -13,6 +13,7 @@ import (
 	"github.com/htoyoda18/TweetAppV2/api/injector"
 	"github.com/htoyoda18/TweetAppV2/api/shared"
 	"github.com/htoyoda18/TweetAppV2/api/shared/test"
+	"github.com/htoyoda18/TweetAppV2/api/usecase"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
 )
@@ -69,8 +70,9 @@ func TestUserCreate(t *testing.T) {
 				}
 				assert.Equal(t, "testUser", response.Name)
 				assert.Equal(t, "hoge@mail.com", response.Email)
+				test.DeleteAllMail()
 			} else {
-				response, err := test.ReadErrorResponse(w)
+				response, err := test.ReadErrorResponse(res)
 				if err != nil {
 					log.Fatal(err)
 				}
@@ -123,7 +125,53 @@ func TestUserLogin(t *testing.T) {
 				}
 				assert.Equal(t, 5, response.UserID)
 			} else {
-				response, err := test.ReadErrorResponse(w)
+				response, err := test.ReadErrorResponse(res)
+				if err != nil {
+					log.Fatal(err)
+				}
+				assert.Equal(t, tt.responseError.Error(), response)
+			}
+		})
+	}
+	test.TearDown(gormDB)
+}
+
+func TestUserPasswordReset(t *testing.T) {
+	t.Parallel()
+	tests := []struct {
+		name          string
+		body          request.PasswordReset
+		responseError error
+	}{
+		{
+			name: "成功:パスワードリセットメールを送信する",
+			body: request.PasswordReset{Email: "5@example.com"},
+		},
+		{
+			name:          "失敗:存在しないメールアドレスでパスワードリセットしようとする",
+			body:          request.PasswordReset{Email: "xxxxx@example.com"},
+			responseError: shared.EmailNotFound,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c, w, err := test.CreateGinContextForPost(tt.body, "password_reset")
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			userHandler.User.PasswordReset(c)
+
+			res := w.Result()
+			defer res.Body.Close()
+
+			if res.StatusCode == http.StatusOK {
+				isMailExist, _ := test.FindMailByToAndSubject("5@example.com", usecase.PasswordRessetSubject)
+				assert.Equal(t, true, isMailExist)
+				test.DeleteAllMail()
+			} else {
+				response, err := test.ReadErrorResponse(res)
 				if err != nil {
 					log.Fatal(err)
 				}
