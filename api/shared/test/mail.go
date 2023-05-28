@@ -46,7 +46,6 @@ func FindMailByToAndSubject(to string, subject usecase.MailSubject) (bool, error
 	}
 
 	for _, item := range mailHogResponse.Items {
-		fmt.Println(item.Content.Headers["To"][0], item.Content.Headers["Subject"][0])
 		if item.Content.Headers["To"][0] != to {
 			continue
 		}
