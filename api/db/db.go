@@ -10,14 +10,18 @@ import (
 	"gorm.io/gorm"
 )
 
-func InitDB() (*gorm.DB, error) {
+func GetDatabaseConnection() (string, error) {
 	env, err := shared.NewEnv()
 	if err != nil {
 		log.Println("InitDB: NewConfig ", err)
-		return nil, err
+		return "", err
 	}
 	dbConnection := fmt.Sprintf("%s:%s@tcp(%s:3306)/%s?parseTime=true", env.MysqlUser, env.MysqlPassword, env.MysqlHost, env.MysqlDatabase)
 
+	return dbConnection, nil
+}
+
+func InitDB(dbConnection string) (*gorm.DB, error) {
 	db, err := gorm.Open(mysql.Open(dbConnection), &gorm.Config{})
 	if err != nil {
 		log.Println("InitDB: gorm.Open ", err)
