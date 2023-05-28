@@ -3,12 +3,12 @@ package handler
 import (
 	"fmt"
 	"net/http"
-	"os"
 	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 	"github.com/htoyoda18/TweetAppV2/api/controller/handler/response"
 	"github.com/htoyoda18/TweetAppV2/api/shared"
+	"github.com/htoyoda18/TweetAppV2/api/usecase"
 )
 
 // 次は、ファイルをローカルストレージに保存するAPIを作成する
@@ -17,10 +17,16 @@ type File interface {
 	IconGet(*gin.Context)
 }
 
-type file struct{}
+type file struct {
+	fileUsecase usecase.File
+}
 
-func NewFile() File {
-	return file{}
+func NewFile(
+	fileUsecase usecase.File,
+) File {
+	return file{
+		fileUsecase: fileUsecase,
+	}
 }
 
 func (u file) Upload(c *gin.Context) {
@@ -57,16 +63,10 @@ func (u file) IconGet(c *gin.Context) {
 		return
 	}
 
-	// ファイルの存在を確認
-	_, err = os.Stat(filePath)
+	err = u.fileUsecase.IconGet(filePath)
 	if err != nil {
-		if os.IsNotExist(err) {
-			shared.Warn(LogVal("File", "IconGet", shared.FailNotFound))
-			c.JSON(http.StatusBadRequest, err.Error())
-			return
-		}
-		shared.Error(LogVal("File", "IconGet", shared.FailNotOpen))
-		c.JSON(http.StatusInternalServerError, err.Error())
+		shared.Warn(LogVal("File", "IconGet", err))
+		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
