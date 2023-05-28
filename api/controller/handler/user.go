@@ -120,6 +120,7 @@ func (u user) UpdatePassword(c *gin.Context) {
 	token := c.Param("token")
 	userID, err := shared.JwtParse(token)
 	if err != nil {
+		err := shared.FailAuthToken
 		shared.Warn(LogVal("User", "UpdatePassword", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
