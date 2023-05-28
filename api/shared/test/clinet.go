@@ -3,27 +3,22 @@ package test
 import (
 	"bytes"
 	"encoding/json"
+	"io"
 	"log"
 	"net/http"
-	"net/http/httptest"
-
-	"github.com/gin-gonic/gin"
 )
 
-const testDomain = "http://localhost:8080/v1/"
+const testDomain = "http://localhost:8081/v1/"
 
-func CreateGinContextForPost(requestBody interface{}, endpoint string) (*gin.Context, *httptest.ResponseRecorder, error) {
+func APIClientForPost(requestBody interface{}, url string) (int, []byte) {
 	jsonPayload, err := json.Marshal(requestBody)
-	req, err := http.NewRequest("POST", "/signup", bytes.NewBuffer(jsonPayload))
+	resp, err := http.Post(testDomain+url, "application/json", bytes.NewBuffer(jsonPayload))
 	if err != nil {
 		log.Fatal(err)
-		return nil, nil, err
+		return 0, nil
 	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
 
-	// set up gin context
-	w := httptest.NewRecorder()
-	c, _ := gin.CreateTestContext(w)
-	c.Request = req
-
-	return c, w, nil
+	return resp.StatusCode, body
 }
