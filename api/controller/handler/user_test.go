@@ -216,3 +216,43 @@ func TestUpdateUser(t *testing.T) {
 	}
 	test.TearDown(gormDB)
 }
+
+func TestUserGet(t *testing.T) {
+	t.Parallel()
+	tests := []struct {
+		name          string
+		userID        string
+		responseError error
+		resUser       *model.User
+	}{
+		{
+			name:    "成功:ユーザ情報を取得",
+			userID:  "1",
+			resUser: &model.User{ID: 1, Name: "ウィスパー", Introduction: "ニョロロン族 / ウワノソラ族。「190年前、正義を気取った僧により悪者とされ封印された“妖怪執事”」を自称する妖怪。", Icon: "ウィスパー.png", Email: "1@example.com"},
+		},
+		{
+			name:          "失敗:存在しないユーザ情報を取得",
+			responseError: shared.ErrRecordNotFound,
+			userID:        "99",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			token := test.GenerateTestToken()
+			statusCode, result := test.APIClientForGet("user/"+tt.userID, token)
+			if statusCode == 200 {
+				user, _ := test.UnmarshalJSONToStruct[model.User](result)
+				assert.Equal(t, tt.resUser.ID, user.ID)
+				assert.Equal(t, tt.resUser.Name, user.Name)
+				assert.Equal(t, tt.resUser.Email, user.Email)
+				assert.Equal(t, tt.resUser.Introduction, user.Introduction)
+				assert.Equal(t, tt.resUser.Icon, user.Icon)
+			} else {
+				errMsg, _ := test.ReadErrorResponse(result)
+				assert.Equal(t, tt.responseError.Error(), errMsg)
+			}
+		})
+	}
+	test.TearDown(gormDB)
+}
