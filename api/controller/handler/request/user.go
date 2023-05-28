@@ -20,7 +20,7 @@ type UpdatePassword struct {
 }
 
 type UpdateUser struct {
-	Icon         string `json:"icon" binding:"required"`
+	Icon         string `json:"icon"`
 	Username     string `json:"userName" binding:"required"`
-	Introduction string `json:"introduction" binding:"required"`
+	Introduction string `json:"introduction"`
 }
