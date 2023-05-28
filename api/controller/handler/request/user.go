@@ -16,7 +16,7 @@ type PasswordReset struct {
 }
 
 type UpdatePassword struct {
-	Password string `json:"password" binding:"required"`
+	Password string `json:"password" binding:"required,min=8,max=20"`
 }
 
 type UpdateUser struct {
