@@ -23,13 +23,16 @@ type User interface {
 
 type user struct {
 	userUsecase usecase.User
+	fileUsecase usecase.File
 }
 
 func NewUser(
 	userUsecase usecase.User,
+	fileUsecase usecase.File,
 ) User {
 	return user{
 		userUsecase: userUsecase,
+		fileUsecase: fileUsecase,
 	}
 }
 
@@ -153,6 +156,16 @@ func (u user) UpdateUser(c *gin.Context) {
 		shared.Warn(LogVal("User", "UpdatePassword", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
+	}
+
+	if params.Icon != "" {
+		filePath := shared.GetFilePath(params.Icon)
+		err := u.fileUsecase.IconGet(filePath)
+		if err != nil {
+			shared.Warn(LogVal("User", "UpdatePassword", err))
+			c.JSON(http.StatusBadRequest, err.Error())
+			return
+		}
 	}
 
 	err = u.userUsecase.UpdateUser(userID, params.Icon, params.Username, params.Introduction)

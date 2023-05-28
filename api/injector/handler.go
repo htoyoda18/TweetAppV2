@@ -18,7 +18,7 @@ type Handler struct {
 func NewHandler(db *gorm.DB) *Handler {
 	usecase := NewUseCase(db)
 
-	userHandler := handler.NewUser(usecase.User)
+	userHandler := handler.NewUser(usecase.User, usecase.File)
 	pingHandler := handler.NewPing()
 	tweetHandler := handler.NewTweet(usecase.Tweet)
 	replyHandler := handler.NewReply(usecase.Reply)
