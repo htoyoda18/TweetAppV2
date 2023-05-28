@@ -21,10 +21,12 @@ func (u file) IconGet(filePath string) error {
 	_, err := os.Stat(filePath)
 	if err != nil {
 		if os.IsNotExist(err) {
-			shared.Error(LogVal("File", "IconGet", shared.FailNotFound))
+			shared.Warn(LogVal("File", "IconGet", err))
+			err := shared.FileNotFound
 			return err
 		}
-		shared.Warn(LogVal("File", "IconGet", shared.FileNotOpen))
+		shared.Error(LogVal("File", "IconGet", shared.FileNotOpen, err))
+		err := shared.FileNotOpen
 		return err
 	}
 	return nil
