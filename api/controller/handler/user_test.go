@@ -174,3 +174,45 @@ func TestUpdatePasswordr(t *testing.T) {
 	}
 	test.TearDown(gormDB)
 }
+
+func TestUpdateUser(t *testing.T) {
+	t.Parallel()
+	tests := []struct {
+		name          string
+		body          request.UpdateUser
+		responseError error
+	}{
+		{
+			name: "成功:ユーザ情報の更新",
+			body: request.UpdateUser{Icon: "ウィスパー.png", Username: "hogehoge", Introduction: "私はhogehogeです"},
+		},
+		{
+			name:          "失敗:ユーザ名が空",
+			body:          request.UpdateUser{Icon: "", Username: "", Introduction: ""},
+			responseError: shared.ShouldBindJsonErr,
+		},
+		{
+			name:          "失敗:存在しないIconを指定した場合",
+			body:          request.UpdateUser{Icon: "hoge.file", Username: "hogehoge", Introduction: ""},
+			responseError: shared.FileNotFound,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			token := test.GenerateTestToken()
+			statusCode, result := test.APIClientForPost(tt.body, "user/update", token)
+			if statusCode == 200 {
+				var user *model.User
+				gormDB.First(&user, "4")
+				assert.Equal(t, tt.body.Username, user.Name)
+				assert.Equal(t, tt.body.Introduction, user.Introduction)
+				assert.Equal(t, tt.body.Icon, user.Icon)
+			} else {
+				errMsg, _ := test.ReadErrorResponse(result)
+				assert.Equal(t, tt.responseError.Error(), errMsg)
+			}
+		})
+	}
+	test.TearDown(gormDB)
+}
