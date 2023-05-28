@@ -10,9 +10,26 @@ import (
 
 const testDomain = "http://localhost:8081/v1/"
 
-func APIClientForPost(requestBody interface{}, url string) (int, []byte) {
+func APIClientForPost(requestBody interface{}, url string, token ...string) (int, []byte) {
 	jsonPayload, err := json.Marshal(requestBody)
-	resp, err := http.Post(testDomain+url, "application/json", bytes.NewBuffer(jsonPayload))
+	if err != nil {
+		log.Fatal(err)
+		return 0, nil
+	}
+
+	req, err := http.NewRequest("POST", testDomain+url, bytes.NewBuffer(jsonPayload))
+	if err != nil {
+		log.Fatal(err)
+		return 0, nil
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+	if token != nil {
+		req.Header.Set("Authorization", token[0])
+	}
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
 	if err != nil {
 		log.Fatal(err)
 		return 0, nil
