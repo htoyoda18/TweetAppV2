@@ -3,7 +3,6 @@ package usecase
 import (
 	"errors"
 	"fmt"
-	"time"
 
 	"github.com/htoyoda18/TweetAppV2/api/controller/handler/request"
 	"github.com/htoyoda18/TweetAppV2/api/domain/model"
@@ -105,8 +104,7 @@ func (u user) PasswordReset(mail string) error {
 		return err
 	}
 
-	expiration := time.Now().Add(time.Minute * 15).Unix()
-	jwt := shared.NewJwt(user, expiration)
+	jwt := shared.NewJwt(user, shared.PassWordRessetExpiration)
 	url := fmt.Sprintf("http://localhost:3000/password_update/%s", jwt)
 
 	err = SendMail(SendMailParam{

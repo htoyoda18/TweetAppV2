@@ -3,7 +3,6 @@ package handler
 import (
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/htoyoda18/TweetAppV2/api/controller/handler/request"
 	"github.com/htoyoda18/TweetAppV2/api/controller/handler/response"
@@ -75,8 +74,7 @@ func (u user) Login(c *gin.Context) {
 		return
 	}
 
-	expiration := time.Now().Add(time.Hour * shared.TokenExpirationHours).Unix()
-	jwt := shared.NewJwt(user, expiration)
+	jwt := shared.NewJwt(user, shared.TokenExpiration)
 	loginResponse := response.LoginResponse{
 		Token:  jwt,
 		UserID: user.ID,
