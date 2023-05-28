@@ -23,7 +23,7 @@ func NewHandler(db *gorm.DB) *Handler {
 	tweetHandler := handler.NewTweet(usecase.Tweet)
 	replyHandler := handler.NewReply(usecase.Reply)
 	tokenHandler := handler.NewToken()
-	uploadHandler := handler.NewFile()
+	uploadHandler := handler.NewFile(usecase.File)
 	likeHandler := handler.NewLike(usecase.Like)
 	return &Handler{
 		User:  userHandler,
