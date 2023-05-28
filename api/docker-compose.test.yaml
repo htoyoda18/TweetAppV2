@@ -1,61 +1,61 @@
 version: '3.8'
 
 services:
-  db:
-    container_name: db
+  db_test:
+    container_name: db_test
     build:
       context: ./db
       dockerfile: Dockerfile
     tty: true
     platform: linux/x86_64
     ports:
-      - 3306:3306
+      - 3307:3306
     env_file:
-      - .env
+      - .env.test
     volumes:
       - type: volume
-        source: mysql_volume
+        source: mysql_volume_test
         target: /var/lib/db
       - type: bind
         source: ./db/init
         target: /docker-entrypoint-initdb.d
     networks:
-      - backend
+      - backend_test
 
-  smtp:
-    container_name: smtp
+  smtp_test:
+    container_name: smtp_test
     image: mailhog/mailhog
     ports:
-      - "8025:8025"
+      - "8026:8026"
     networks:
-      - backend
+      - backend_test
 
-  api:
-    container_name: api
+  api_test:
+    container_name: api_test
     command: >
-      /bin/sh -c "dockerize -wait tcp://db:3306 -timeout 90s && air -c .air.toml"
+      /bin/sh -c "dockerize -wait tcp://db_test:3306 -timeout 90s && air -c .air.toml"
     build:
       context: .
       dockerfile: Dockerfile
     tty: true
     ports:
-      - 8080:8080
+      - 8081:8081
     env_file:
-      - .env
+      - .env.test
     depends_on:
-      - db
-      - smtp
+      - db_test
+      - smtp_test
     volumes:
       - type: bind
         source: ./
         target: /api/src
     networks:
-      - backend
+      - backend_test
 
 volumes:
-  mysql_volume:
-    name: mysql_volume
+  mysql_volume_test:
+    name: mysql_volume_test
 
 networks:
-  backend:
+  backend_test:
     driver: bridge

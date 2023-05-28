@@ -1,3 +1,7 @@
 development:
   driver: mysql
-  open: test_user:password@tcp(db:3306)/test_database?parseTime=true
+  open: user:password@tcp(db:3306)/database?parseTime=true
+
+test:
+  driver: mysql
+  open: test_user:test_password@tcp(db_test:3306)/test_database?parseTime=true

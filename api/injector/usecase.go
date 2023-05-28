@@ -11,6 +11,7 @@ type UseCase struct {
 	Tweet useCase.Tweet
 	Reply usecase.Reply
 	Like  useCase.Like
+	File  useCase.File
 }
 
 func NewUseCase(db *gorm.DB) *UseCase {
@@ -20,10 +21,12 @@ func NewUseCase(db *gorm.DB) *UseCase {
 	tweetUseCase := useCase.NewTweet(repository.Tweet, db)
 	replyUseCase := usecase.NewReply(repository.Reply, db)
 	likeUsecase := usecase.NewLike(repository.Like, db)
+	fileUsecase := usecase.NewFile()
 	return &UseCase{
 		User:  userUseCase,
 		Tweet: tweetUseCase,
 		Reply: replyUseCase,
 		Like:  likeUsecase,
+		File:  fileUsecase,
 	}
 }

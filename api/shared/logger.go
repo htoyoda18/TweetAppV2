@@ -7,7 +7,7 @@ import (
 
 var zapLog *zap.Logger
 
-func Setup() {
+func ZapSetup() {
 	config := zap.Config{
 		Level:             zap.NewAtomicLevelAt(zap.DebugLevel),
 		Development:       true,

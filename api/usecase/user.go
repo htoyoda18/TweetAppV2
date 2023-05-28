@@ -3,8 +3,6 @@ package usecase
 import (
 	"errors"
 	"fmt"
-	"log"
-	"time"
 
 	"github.com/htoyoda18/TweetAppV2/api/controller/handler/request"
 	"github.com/htoyoda18/TweetAppV2/api/domain/model"
@@ -48,7 +46,6 @@ func (u user) Create(params request.Signup) (*model.User, error) {
 	}
 
 	password, _ := shared.PasswordEncrypt(params.Password)
-	log.Println(password)
 
 	user, err := u.userRepository.Add(&model.User{
 		Name:     params.Username,
@@ -60,14 +57,14 @@ func (u user) Create(params request.Signup) (*model.User, error) {
 		return nil, err
 	}
 
-	log.Println("user.Email", user.Email)
 	err = SendMail(SendMailParam{
 		From:     user.Email,
 		Username: user.Name,
 		Body:     user.Name + "様 ご登録いただきありがとうございます",
-		Subject:  "ご登録ありがとうございます",
+		Subject:  SignUpSubject,
 	})
 	if err != nil {
+		shared.Warn(LogVal("User", "Create", err))
 		return nil, err
 	}
 
@@ -82,7 +79,7 @@ func (u user) Authenticate(params request.Login) (*model.User, error) {
 	}, u.db)
 	if err != nil {
 		shared.Warn(LogVal("User", "Authenticate", err))
-		err := shared.UserNotFound
+		err := shared.EmailNotFound
 		return nil, err
 	}
 	err = shared.CompareHashAndPassword(user.Password, params.Password)
@@ -107,15 +104,14 @@ func (u user) PasswordReset(mail string) error {
 		return err
 	}
 
-	expiration := time.Now().Add(time.Minute * 15).Unix()
-	jwt := shared.NewJwt(user, expiration)
+	jwt := shared.NewJwt(user, shared.PassWordRessetExpiration)
 	url := fmt.Sprintf("http://localhost:3000/password_update/%s", jwt)
 
 	err = SendMail(SendMailParam{
 		From:     user.Email,
 		Username: user.Name,
 		Body:     user.Name + "様 こちらのURL" + url + "よりパスワードのリセットをしてください",
-		Subject:  "パスワードのリセット",
+		Subject:  PasswordRessetSubject,
 	})
 	if err != nil {
 		shared.Warn(LogVal("User", "PasswordReset", err))

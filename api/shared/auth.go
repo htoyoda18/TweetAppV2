@@ -9,8 +9,10 @@ import (
 	"github.com/htoyoda18/TweetAppV2/api/domain/model"
 )
 
-const (
-	TokenExpirationHours = 24
+var (
+	TokenExpiration          = time.Now().Add(time.Hour * 24).Unix()
+	TestTokenExpiration      = time.Now().Add(time.Minute * 1).Unix()
+	PassWordRessetExpiration = time.Now().Add(time.Minute * 15).Unix()
 )
 
 func NewJwt(user *model.User, expiration int64) string {

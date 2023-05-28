@@ -3,7 +3,6 @@ package handler
 import (
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/htoyoda18/TweetAppV2/api/controller/handler/request"
 	"github.com/htoyoda18/TweetAppV2/api/controller/handler/response"
@@ -24,13 +23,16 @@ type User interface {
 
 type user struct {
 	userUsecase usecase.User
+	fileUsecase usecase.File
 }
 
 func NewUser(
 	userUsecase usecase.User,
+	fileUsecase usecase.File,
 ) User {
 	return user{
 		userUsecase: userUsecase,
+		fileUsecase: fileUsecase,
 	}
 }
 
@@ -75,8 +77,7 @@ func (u user) Login(c *gin.Context) {
 		return
 	}
 
-	expiration := time.Now().Add(time.Hour * shared.TokenExpirationHours).Unix()
-	jwt := shared.NewJwt(user, expiration)
+	jwt := shared.NewJwt(user, shared.TokenExpiration)
 	loginResponse := response.LoginResponse{
 		Token:  jwt,
 		UserID: user.ID,
@@ -122,6 +123,7 @@ func (u user) UpdatePassword(c *gin.Context) {
 	token := c.Param("token")
 	userID, err := shared.JwtParse(token)
 	if err != nil {
+		err := shared.FailAuthToken
 		shared.Warn(LogVal("User", "UpdatePassword", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
@@ -154,6 +156,16 @@ func (u user) UpdateUser(c *gin.Context) {
 		shared.Warn(LogVal("User", "UpdatePassword", err))
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
+	}
+
+	if params.Icon != "" {
+		filePath := shared.GetFilePath(params.Icon)
+		err := u.fileUsecase.IconGet(filePath)
+		if err != nil {
+			shared.Warn(LogVal("User", "UpdatePassword", err))
+			c.JSON(http.StatusBadRequest, err.Error())
+			return
+		}
 	}
 
 	err = u.userUsecase.UpdateUser(userID, params.Icon, params.Username, params.Introduction)

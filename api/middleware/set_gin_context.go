@@ -8,7 +8,11 @@ import (
 )
 
 func ConnectDB() (*gorm.DB, *sql.DB) {
-	db, err := db.InitDB()
+	dbConnection, err := db.GetDatabaseConnection()
+	if err != nil {
+		panic(err)
+	}
+	db, err := db.InitDB(dbConnection)
 	if err != nil {
 		panic(err)
 	}
