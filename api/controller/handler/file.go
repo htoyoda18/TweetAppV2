@@ -54,7 +54,8 @@ func (u file) Upload(c *gin.Context) {
 func (u file) IconGet(c *gin.Context) {
 	shared.Debug(LogVal("File", "IconGet"))
 
-	filePath := "./uploads/icon/" + c.Param("filename")
+	filename := c.Param("filename")
+	filePath := shared.GetFilePath(filename)
 
 	_, err := shared.AuthUser(c)
 	if err != nil {
