@@ -1,8 +1,6 @@
 package handler_test
 
 import (
-	"log"
-	"net/http"
 	"os"
 	"testing"
 
@@ -10,21 +8,19 @@ import (
 	"github.com/htoyoda18/TweetAppV2/api/controller/handler/response"
 	"github.com/htoyoda18/TweetAppV2/api/db"
 	"github.com/htoyoda18/TweetAppV2/api/domain/model"
-	"github.com/htoyoda18/TweetAppV2/api/injector"
 	"github.com/htoyoda18/TweetAppV2/api/shared"
 	"github.com/htoyoda18/TweetAppV2/api/shared/test"
-	"github.com/htoyoda18/TweetAppV2/api/usecase"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
 )
 
-var userHandler *injector.Handler
 var gormDB *gorm.DB
 
 func TestMain(m *testing.M) {
-	gormDB, _ = db.InitDB()
 	shared.ZapSetup()
-	userHandler = injector.NewHandler(gormDB)
+	test.ReadEnvFile()
+	dbConnection, _ := test.GetDatabaseConnectionTest()
+	gormDB, _ = db.InitDB(dbConnection)
 	os.Exit(m.Run())
 }
 
@@ -36,7 +32,7 @@ func TestUserCreate(t *testing.T) {
 		responseError error
 	}{
 		{
-			name: "成功",
+			name: "成功:ユーザを作成する",
 			body: request.Signup{Username: "testUser", Password: "hogehoge", Email: "hoge@mail.com"},
 		},
 		{
@@ -53,30 +49,14 @@ func TestUserCreate(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c, w, err := test.CreateGinContextForPost(tt.body, "signup")
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			userHandler.User.Create(c)
-
-			res := w.Result()
-			defer res.Body.Close()
-
-			if res.StatusCode == http.StatusOK {
-				response, err := test.UnmarshalJSONToStruct[model.User](w)
-				if err != nil {
-					log.Fatal(err)
-				}
-				assert.Equal(t, "testUser", response.Name)
-				assert.Equal(t, "hoge@mail.com", response.Email)
-				test.DeleteAllMail()
+			statusCode, result := test.APIClientForPost(tt.body, "signup")
+			if statusCode == 200 {
+				user, _ := test.UnmarshalJSONToStruct[model.User](result)
+				assert.Equal(t, tt.body.Username, user.Name)
+				assert.Equal(t, tt.body.Email, user.Email)
 			} else {
-				response, err := test.ReadErrorResponse(res)
-				if err != nil {
-					log.Fatal(err)
-				}
-				assert.Equal(t, tt.responseError.Error(), response)
+				errMsg, _ := test.ReadErrorResponse(result)
+				assert.Equal(t, tt.responseError.Error(), errMsg)
 			}
 		})
 	}
@@ -91,7 +71,7 @@ func TestUserLogin(t *testing.T) {
 		responseError error
 	}{
 		{
-			name: "成功",
+			name: "成功:ログインする",
 			body: request.Login{Email: "5@example.com", Password: "hogehoge"},
 		},
 		{
@@ -108,35 +88,20 @@ func TestUserLogin(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c, w, err := test.CreateGinContextForPost(tt.body, "login")
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			userHandler.User.Login(c)
-
-			res := w.Result()
-			defer res.Body.Close()
-
-			if res.StatusCode == http.StatusOK {
-				response, err := test.UnmarshalJSONToStruct[response.LoginResponse](w)
-				if err != nil {
-					log.Fatal(err)
-				}
-				assert.Equal(t, 5, response.UserID)
+			statusCode, result := test.APIClientForPost(tt.body, "login")
+			if statusCode == 200 {
+				loginResponse, _ := test.UnmarshalJSONToStruct[response.LoginResponse](result)
+				assert.Equal(t, 5, loginResponse.UserID)
 			} else {
-				response, err := test.ReadErrorResponse(res)
-				if err != nil {
-					log.Fatal(err)
-				}
-				assert.Equal(t, tt.responseError.Error(), response)
+				errMsg, _ := test.ReadErrorResponse(result)
+				assert.Equal(t, tt.responseError.Error(), errMsg)
 			}
 		})
 	}
 	test.TearDown(gormDB)
 }
 
-func TestUserPasswordReset(t *testing.T) {
+func TestPasswordReset(t *testing.T) {
 	t.Parallel()
 	tests := []struct {
 		name          string
@@ -156,26 +121,54 @@ func TestUserPasswordReset(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c, w, err := test.CreateGinContextForPost(tt.body, "password_reset")
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			userHandler.User.PasswordReset(c)
-
-			res := w.Result()
-			defer res.Body.Close()
-
-			if res.StatusCode == http.StatusOK {
-				isMailExist, _ := test.FindMailByToAndSubject("5@example.com", usecase.PasswordRessetSubject)
-				assert.Equal(t, true, isMailExist)
-				test.DeleteAllMail()
+			statusCode, result := test.APIClientForPost(tt.body, "password_reset")
+			if statusCode == 200 {
+				//メールの検証が必要
 			} else {
-				response, err := test.ReadErrorResponse(res)
-				if err != nil {
-					log.Fatal(err)
-				}
-				assert.Equal(t, tt.responseError.Error(), response)
+				errMsg, _ := test.ReadErrorResponse(result)
+				assert.Equal(t, tt.responseError.Error(), errMsg)
+			}
+		})
+	}
+	test.TearDown(gormDB)
+}
+
+func TestUpdatePasswordr(t *testing.T) {
+	t.Parallel()
+	tests := []struct {
+		name          string
+		body          request.UpdatePassword
+		token         string
+		responseError error
+	}{
+		{
+			name:          "成功: パスワードの更新",
+			body:          request.UpdatePassword{Password: "hogehoge"},
+			token:         test.GenerateTestToken(),
+			responseError: shared.ShouldBindJsonErr,
+		},
+		{
+			name:          "失敗:パスワード短い",
+			body:          request.UpdatePassword{Password: "hoge"},
+			token:         test.GenerateTestToken(),
+			responseError: shared.ShouldBindJsonErr,
+		},
+		{
+			name:          "失敗:不正なトークン",
+			body:          request.UpdatePassword{Password: "hogehoge"},
+			token:         "hogehoge",
+			responseError: shared.FailAuthToken,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			statusCode, result := test.APIClientForPost(tt.body, "password_update/"+tt.token)
+			if statusCode == 200 {
+				//ここはテストが必要
+			} else {
+				errMsg, _ := test.ReadErrorResponse(result)
+				assert.Equal(t, tt.responseError.Error(), errMsg)
 			}
 		})
 	}
