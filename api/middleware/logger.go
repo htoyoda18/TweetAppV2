@@ -6,9 +6,9 @@ import (
 )
 
 func LoggerMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
+	return func(ctx *gin.Context) {
 		shared.ZapSetup()
 
-		c.Next()
+		ctx.Next()
 	}
 }

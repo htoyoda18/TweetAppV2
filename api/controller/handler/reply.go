@@ -10,7 +10,7 @@ import (
 )
 
 type Reply interface {
-	Add(c *gin.Context)
+	Add(*gin.Context)
 }
 
 type reply struct {
@@ -25,30 +25,30 @@ func NewReply(
 	}
 }
 
-func (r reply) Add(c *gin.Context) {
+func (r reply) Add(ctx *gin.Context) {
 	shared.Debug(LogVal("Reply", "Add"))
 
 	var params request.Reply
-	if err := c.ShouldBindJSON(&params); err != nil {
+	if err := ctx.ShouldBindJSON(&params); err != nil {
 		shared.Warn(LogVal("Reply", "Add", err))
 		err = shared.ShouldBindJsonErr
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	userID, err := shared.AuthUser(c)
+	userID, err := shared.AuthUser(ctx)
 	if err != nil {
 		shared.Warn(LogVal("Reply", "Add", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	err = r.replyUseCase.Add(userID, params)
 	if err != nil {
 		shared.Warn(LogVal("Reply", "Add", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	c.Status(http.StatusOK)
+	ctx.Status(http.StatusOK)
 }

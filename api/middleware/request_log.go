@@ -14,11 +14,11 @@ type requestLog struct {
 }
 
 func RequestDetailsLog() gin.HandlerFunc {
-	return func(c *gin.Context) {
+	return func(ctx *gin.Context) {
 		requestLogger := requestLog{
-			RequestPath: c.Request.URL.Path,
-			Method:      c.Request.Method,
-			IPAddress:   c.ClientIP(),
+			RequestPath: ctx.Request.URL.Path,
+			Method:      ctx.Request.Method,
+			IPAddress:   ctx.ClientIP(),
 		}
 		requestLogJson, err := json.Marshal(requestLogger)
 		if err != nil {
@@ -27,6 +27,6 @@ func RequestDetailsLog() gin.HandlerFunc {
 
 		shared.Info("RequestLog: ", string(requestLogJson))
 
-		c.Next()
+		ctx.Next()
 	}
 }

@@ -31,22 +31,22 @@ func NewLike(
 	}
 }
 
-func (l like) Add(c *gin.Context) {
+func (l like) Add(ctx *gin.Context) {
 	shared.Debug(LogVal("Like", "Add"))
 
 	var params request.Like
 
-	if err := c.ShouldBindJSON(&params); err != nil {
+	if err := ctx.ShouldBindJSON(&params); err != nil {
 		shared.Warn(LogVal("Like", "Add", err))
 		err = shared.ShouldBindJsonErr
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	userID, err := shared.AuthUser(c)
+	userID, err := shared.AuthUser(ctx)
 	if err != nil {
 		shared.Warn(LogVal("Like", "Add", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -55,26 +55,26 @@ func (l like) Add(c *gin.Context) {
 		userID,
 	); err != nil {
 		shared.Warn(LogVal("Like", "Add", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	c.Status(http.StatusOK)
+	ctx.Status(http.StatusOK)
 }
 
-func (l like) Delete(c *gin.Context) {
+func (l like) Delete(ctx *gin.Context) {
 	shared.Debug(LogVal("Like", "Delete"))
 
-	userID, err := shared.AuthUser(c)
+	userID, err := shared.AuthUser(ctx)
 	if err != nil {
 		shared.Warn(LogVal("Like", "Delete", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
-	tweetID, err := strconv.Atoi(c.Param("id"))
+	tweetID, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		shared.Warn(LogVal("Like", "Delete", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -83,37 +83,37 @@ func (l like) Delete(c *gin.Context) {
 		tweetID,
 	); errors.Is(err, gorm.ErrRecordNotFound) {
 		shared.Warn(LogVal("Like", "Get", err))
-		c.JSON(http.StatusOK, response.IsLikedByUser{IsLikedByUser: false})
+		ctx.JSON(http.StatusOK, response.IsLikedByUser{IsLikedByUser: false})
 		return
 	} else if err != nil {
 		shared.Warn(LogVal("Like", "Delete", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	c.Status(http.StatusOK)
+	ctx.Status(http.StatusOK)
 }
 
-func (l like) Get(c *gin.Context) {
+func (l like) Get(ctx *gin.Context) {
 	shared.Debug(LogVal("Like", "Get"))
 
-	userID, err := shared.AuthUser(c)
+	userID, err := shared.AuthUser(ctx)
 	if err != nil {
 		shared.Warn(LogVal("Like", "Get", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	var paramsUrl request.GetLike
 
-	if err := c.ShouldBindUri(&paramsUrl); err != nil {
+	if err := ctx.ShouldBindUri(&paramsUrl); err != nil {
 		shared.Warn(LogVal("Like", "Get", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 	if err != nil {
 		shared.Warn(LogVal("Like", "Get", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -122,13 +122,13 @@ func (l like) Get(c *gin.Context) {
 		paramsUrl.TweetID,
 	); errors.Is(err, gorm.ErrRecordNotFound) {
 		shared.Warn(LogVal("Like", "Get", err))
-		c.JSON(http.StatusOK, response.IsLikedByUser{IsLikedByUser: false})
+		ctx.JSON(http.StatusOK, response.IsLikedByUser{IsLikedByUser: false})
 		return
 	} else if err != nil {
 		shared.Error(LogVal("Like", "Get", err))
-		c.JSON(http.StatusInternalServerError, err.Error())
+		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, response.IsLikedByUser{IsLikedByUser: true})
+	ctx.JSON(http.StatusOK, response.IsLikedByUser{IsLikedByUser: true})
 }

@@ -67,8 +67,8 @@ func JwtParse(tokenString string) (int, error) {
 	return userID, nil
 }
 
-func AuthUser(c *gin.Context) (int, error) {
-	cookie := c.Request.Header.Get("Authorization")
+func AuthUser(ctx *gin.Context) (int, error) {
+	cookie := ctx.Request.Header.Get("Authorization")
 	userID, err := JwtParse(cookie)
 	if err != nil {
 		log.Printf(err.Error())
