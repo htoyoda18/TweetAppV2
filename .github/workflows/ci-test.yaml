@@ -14,4 +14,4 @@ jobs:
       run: cd api && make setup-test
 
     - name: Run tests
-      run: make test
+      run: cd api && make test
