@@ -25,7 +25,6 @@ func TestMain(m *testing.M) {
 }
 
 func TestUserCreate(t *testing.T) {
-	t.Parallel()
 	tests := []struct {
 		name          string
 		body          request.Signup
@@ -64,7 +63,6 @@ func TestUserCreate(t *testing.T) {
 }
 
 func TestUserLogin(t *testing.T) {
-	t.Parallel()
 	tests := []struct {
 		name          string
 		body          request.Login
@@ -102,7 +100,6 @@ func TestUserLogin(t *testing.T) {
 }
 
 func TestPasswordReset(t *testing.T) {
-	t.Parallel()
 	tests := []struct {
 		name          string
 		body          request.PasswordReset
@@ -134,7 +131,6 @@ func TestPasswordReset(t *testing.T) {
 }
 
 func TestUpdatePasswordr(t *testing.T) {
-	t.Parallel()
 	tests := []struct {
 		name          string
 		body          request.UpdatePassword
@@ -176,7 +172,6 @@ func TestUpdatePasswordr(t *testing.T) {
 }
 
 func TestUpdateUser(t *testing.T) {
-	t.Parallel()
 	tests := []struct {
 		name          string
 		body          request.UpdateUser
@@ -218,7 +213,6 @@ func TestUpdateUser(t *testing.T) {
 }
 
 func TestUserGet(t *testing.T) {
-	t.Parallel()
 	tests := []struct {
 		name          string
 		userID        string
