@@ -15,8 +15,8 @@ func NewPing() Ping {
 	return ping{}
 }
 
-func (p ping) Ping(c *gin.Context) {
+func (p ping) Ping(ctx *gin.Context) {
 	shared.Debug(LogVal("Ping", "Ping"))
 
-	c.Status(200)
+	ctx.Status(200)
 }

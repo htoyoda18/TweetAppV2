@@ -29,47 +29,47 @@ func NewFile(
 	}
 }
 
-func (u file) Upload(c *gin.Context) {
+func (u file) Upload(ctx *gin.Context) {
 	shared.Debug(LogVal("File", "Upload"))
 
-	file, err := c.FormFile("file")
+	file, err := ctx.FormFile("file")
 	if err != nil {
 		shared.Warn(LogVal("File", "Upload", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	// ファイルの保存
 	fileName := filepath.Base(file.Filename)
 	path := fmt.Sprintf("./uploads/icon/%s", fileName)
-	if err := c.SaveUploadedFile(file, path); err != nil {
+	if err := ctx.SaveUploadedFile(file, path); err != nil {
 		shared.Warn(LogVal("File", "Upload", err))
-		c.JSON(http.StatusInternalServerError, err.Error())
+		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, response.File{Name: fileName})
+	ctx.JSON(http.StatusOK, response.File{Name: fileName})
 }
 
-func (u file) IconGet(c *gin.Context) {
+func (u file) IconGet(ctx *gin.Context) {
 	shared.Debug(LogVal("File", "IconGet"))
 
-	filename := c.Param("filename")
+	filename := ctx.Param("filename")
 	filePath := shared.GetFilePath(filename)
 
-	_, err := shared.AuthUser(c)
+	_, err := shared.AuthUser(ctx)
 	if err != nil {
 		shared.Warn(LogVal("File", "IconGet", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	err = u.fileUsecase.IconGet(filePath)
 	if err != nil {
 		shared.Warn(LogVal("File", "IconGet", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	c.File(filePath)
+	ctx.File(filePath)
 }

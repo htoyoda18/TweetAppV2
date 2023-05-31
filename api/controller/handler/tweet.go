@@ -30,96 +30,96 @@ func NewTweet(
 	}
 }
 
-func (t tweet) Create(c *gin.Context) {
+func (t tweet) Create(ctx *gin.Context) {
 	shared.Debug(LogVal("Tweet", "Create"))
 
 	var params request.Tweet
-	if err := c.ShouldBindJSON(&params); err != nil {
+	if err := ctx.ShouldBindJSON(&params); err != nil {
 		shared.Warn(LogVal("Tweet", "Create", err))
 		err = shared.ShouldBindJsonErr
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	userID, err := shared.AuthUser(c)
+	userID, err := shared.AuthUser(ctx)
 	if err != nil {
 		shared.Warn(LogVal("Tweet", "Create", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	err = t.tweetUseCase.Create(userID, params.Tweet)
 	if err != nil {
 		shared.Warn(LogVal("Tweet", "Create", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	c.Status(http.StatusOK)
+	ctx.Status(http.StatusOK)
 }
 
-func (t tweet) List(c *gin.Context) {
+func (t tweet) List(ctx *gin.Context) {
 	shared.Debug(LogVal("Tweet", "List"))
 
-	_, err := shared.AuthUser(c)
+	_, err := shared.AuthUser(ctx)
 	if err != nil {
 		shared.Warn(LogVal("Tweet", "List", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	tweets, err := t.tweetUseCase.List(nil)
 	if err != nil {
 		shared.Warn(LogVal("Tweet", "List", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, tweets)
+	ctx.JSON(http.StatusOK, tweets)
 }
 
 // userIDに紐づくツイートを取得する
-func (t tweet) ListUser(c *gin.Context) {
+func (t tweet) ListUser(ctx *gin.Context) {
 	shared.Debug(LogVal("Tweet", "ListUser"))
 
-	_, err := shared.AuthUser(c)
+	_, err := shared.AuthUser(ctx)
 	if err != nil {
 		shared.Warn(LogVal("Tweet", "List", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
-	userID, _ := strconv.Atoi(c.Param("userID"))
+	userID, _ := strconv.Atoi(ctx.Param("userID"))
 
 	tweets, err := t.tweetUseCase.List(&model.Tweet{
 		UserID: userID,
 	})
 	if err != nil {
 		shared.Warn(LogVal("Tweet", "List", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, tweets)
+	ctx.JSON(http.StatusOK, tweets)
 }
 
-func (t tweet) Get(c *gin.Context) {
+func (t tweet) Get(ctx *gin.Context) {
 	shared.Debug(LogVal("Tweet", "Get"))
 
-	_, err := shared.AuthUser(c)
+	_, err := shared.AuthUser(ctx)
 	if err != nil {
 		shared.Warn(LogVal("Tweet", "Get", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	tweetID, _ := strconv.Atoi(c.Param("id"))
+	tweetID, _ := strconv.Atoi(ctx.Param("id"))
 
 	tweet, err := t.tweetUseCase.Get(tweetID)
 	if err != nil {
 		shared.Warn(LogVal("Tweet", "Get", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, tweet)
+	ctx.JSON(http.StatusOK, tweet)
 }

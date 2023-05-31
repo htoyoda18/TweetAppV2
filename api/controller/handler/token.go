@@ -17,15 +17,15 @@ func NewToken() Token {
 	return token{}
 }
 
-func (t token) ValidateToken(c *gin.Context) {
+func (t token) ValidateToken(ctx *gin.Context) {
 	shared.Debug(LogVal("Token", "ValidateToken"))
 
-	_, err := shared.AuthUser(c)
+	_, err := shared.AuthUser(ctx)
 	if err != nil {
 		shared.Warn(LogVal("Token", "ValidateToken", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	c.Status(200)
+	ctx.Status(200)
 }

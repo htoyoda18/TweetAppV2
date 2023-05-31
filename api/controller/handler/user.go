@@ -36,44 +36,44 @@ func NewUser(
 	}
 }
 
-func (u user) Create(c *gin.Context) {
+func (u user) Create(ctx *gin.Context) {
 	shared.Debug(LogVal("User", "Create"))
 
 	var params request.Signup
 
-	if err := c.ShouldBindJSON(&params); err != nil {
+	if err := ctx.ShouldBindJSON(&params); err != nil {
 		shared.Warn(LogVal("User", "Create", err))
 		err = shared.ShouldBindJsonErr
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	user, err := u.userUsecase.Create(params)
 	if err != nil {
 		shared.Warn(LogVal("User", "Create", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, user)
+	ctx.JSON(http.StatusOK, user)
 }
 
-func (u user) Login(c *gin.Context) {
+func (u user) Login(ctx *gin.Context) {
 	shared.Debug(LogVal("User", "Login"))
 
 	var params request.Login
 
-	if err := c.ShouldBindJSON(&params); err != nil {
+	if err := ctx.ShouldBindJSON(&params); err != nil {
 		shared.Warn(LogVal("User", "Login", err))
 		err = shared.ShouldBindJsonErr
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	user, err := u.userUsecase.Authenticate(params)
 	if err != nil {
 		shared.Warn(LogVal("User", "Login", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -83,78 +83,78 @@ func (u user) Login(c *gin.Context) {
 		UserID: user.ID,
 	}
 
-	c.JSON(http.StatusOK, loginResponse)
+	ctx.JSON(http.StatusOK, loginResponse)
 }
 
-func (u user) PasswordReset(c *gin.Context) {
+func (u user) PasswordReset(ctx *gin.Context) {
 	shared.Debug(LogVal("User", "PasswordReset"))
 
 	var params request.PasswordReset
 
-	if err := c.ShouldBindJSON(&params); err != nil {
+	if err := ctx.ShouldBindJSON(&params); err != nil {
 		shared.Warn(LogVal("User", "PasswordReset", err))
 		err = shared.ShouldBindJsonErr
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	err := u.userUsecase.PasswordReset(params.Email)
 	if err != nil {
 		shared.Warn(LogVal("User", "PasswordReset", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	c.Status(http.StatusOK)
+	ctx.Status(http.StatusOK)
 }
 
-func (u user) UpdatePassword(c *gin.Context) {
+func (u user) UpdatePassword(ctx *gin.Context) {
 	shared.Debug(LogVal("User", "UpdatePassword"))
 
 	var params request.UpdatePassword
 
-	if err := c.ShouldBindJSON(&params); err != nil {
+	if err := ctx.ShouldBindJSON(&params); err != nil {
 		shared.Warn(LogVal("User", "UpdatePassword", err))
 		err = shared.ShouldBindJsonErr
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	token := c.Param("token")
+	token := ctx.Param("token")
 	userID, err := shared.JwtParse(token)
 	if err != nil {
 		err := shared.FailAuthToken
 		shared.Warn(LogVal("User", "UpdatePassword", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	err = u.userUsecase.UpdatePassword(params.Password, userID)
 	if err != nil {
 		shared.Warn(LogVal("User", "UpdatePassword", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	c.Status(http.StatusOK)
+	ctx.Status(http.StatusOK)
 }
 
-func (u user) UpdateUser(c *gin.Context) {
+func (u user) UpdateUser(ctx *gin.Context) {
 	shared.Debug(LogVal("User", "UpdateUser"))
 
 	var params request.UpdateUser
 
-	if err := c.ShouldBindJSON(&params); err != nil {
+	if err := ctx.ShouldBindJSON(&params); err != nil {
 		shared.Warn(LogVal("User", "UpdatePassword", err))
 		err = shared.ShouldBindJsonErr
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	userID, err := shared.AuthUser(c)
+	userID, err := shared.AuthUser(ctx)
 	if err != nil {
 		shared.Warn(LogVal("User", "UpdatePassword", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -163,7 +163,7 @@ func (u user) UpdateUser(c *gin.Context) {
 		err := u.fileUsecase.IconGet(filePath)
 		if err != nil {
 			shared.Warn(LogVal("User", "UpdatePassword", err))
-			c.JSON(http.StatusBadRequest, err.Error())
+			ctx.JSON(http.StatusBadRequest, err.Error())
 			return
 		}
 	}
@@ -171,30 +171,30 @@ func (u user) UpdateUser(c *gin.Context) {
 	err = u.userUsecase.UpdateUser(userID, params.Icon, params.Username, params.Introduction)
 	if err != nil {
 		shared.Warn(LogVal("User", "UpdatePassword", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	c.Status(http.StatusOK)
+	ctx.Status(http.StatusOK)
 }
 
-func (u user) Get(c *gin.Context) {
+func (u user) Get(ctx *gin.Context) {
 	shared.Debug(LogVal("User", "Get"))
 
-	_, err := shared.AuthUser(c)
+	_, err := shared.AuthUser(ctx)
 	if err != nil {
 		shared.Warn(LogVal("Get", "UpdatePassword", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
-	userID, _ := strconv.Atoi(c.Param("id"))
+	userID, _ := strconv.Atoi(ctx.Param("id"))
 
 	user, err := u.userUsecase.Get(userID)
 	if err != nil {
 		shared.Warn(LogVal("Get", "UpdatePassword", err))
-		c.JSON(http.StatusBadRequest, err.Error())
+		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, user)
+	ctx.JSON(http.StatusOK, user)
 }

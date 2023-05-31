@@ -16,17 +16,17 @@ type responseLog struct {
 }
 
 func ResponseLogInfo() gin.HandlerFunc {
-	return func(c *gin.Context) {
+	return func(ctx *gin.Context) {
 		startTime := time.Now()
 
-		c.Next()
+		ctx.Next()
 
 		duration := time.Since(startTime)
 		responseLog := responseLog{
-			StatusCode:      c.Writer.Status(),
+			StatusCode:      ctx.Writer.Status(),
 			RequestDuration: duration,
-			URL:             c.Request.URL.Path,
-			Method:          c.Request.Method,
+			URL:             ctx.Request.URL.Path,
+			Method:          ctx.Request.Method,
 		}
 
 		responseLogJson, err := json.Marshal(responseLog)
