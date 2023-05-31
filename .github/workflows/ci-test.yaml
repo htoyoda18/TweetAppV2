@@ -1,0 +1,17 @@
+name: API Test
+
+on: pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: setup
+      run: cd api && make setup-test
+
+    - name: Run tests
+      run: make test
