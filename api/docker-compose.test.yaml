@@ -26,7 +26,7 @@ services:
     container_name: smtp_test
     image: mailhog/mailhog
     ports:
-      - "8026:8026"
+      - "8026:8025"
     networks:
       - backend_test
 
