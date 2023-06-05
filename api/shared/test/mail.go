@@ -60,10 +60,10 @@ func FindMailByToAndSubject(to string, subject usecase.MailSubject) (bool, error
 	return false, nil
 }
 
+var testMailhogUrl = fmt.Sprintf("http://localhost:8026/api/v2/messages")
+
 func GetAllMail() (*MailHogResponse, error) {
-	env, _ := shared.NewEnv()
-	domain := fmt.Sprintf("http://%s:%s", env.SmtpHost, "8025/api/v2/messages")
-	resp, err := http.Get(domain)
+	resp, err := http.Get(testMailhogUrl)
 	if err != nil {
 		shared.Error("failed to get mailhog", err)
 		return nil, err
