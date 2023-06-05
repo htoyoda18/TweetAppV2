@@ -10,6 +10,7 @@ import (
 	"github.com/htoyoda18/TweetAppV2/api/domain/model"
 	"github.com/htoyoda18/TweetAppV2/api/shared"
 	"github.com/htoyoda18/TweetAppV2/api/shared/test"
+	"github.com/htoyoda18/TweetAppV2/api/usecase"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
 )
@@ -51,6 +52,8 @@ func TestUserCreate(t *testing.T) {
 			statusCode, result := test.APIClientForPost(tt.body, "signup")
 			if statusCode == 200 {
 				user, _ := test.UnmarshalJSONToStruct[model.User](result)
+				emailExists, _ := test.FindMailByToAndSubject(user.Email, usecase.SignUpSubject)
+				assert.Equal(t, true, emailExists)
 				assert.Equal(t, tt.body.Username, user.Name)
 				assert.Equal(t, tt.body.Email, user.Email)
 			} else {
@@ -120,7 +123,8 @@ func TestPasswordReset(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			statusCode, result := test.APIClientForPost(tt.body, "password_reset")
 			if statusCode == 200 {
-				//メールの検証が必要
+				emailExists, _ := test.FindMailByToAndSubject(tt.body.Email, usecase.PasswordRessetSubject)
+				assert.Equal(t, true, emailExists)
 			} else {
 				errMsg, _ := test.ReadErrorResponse(result)
 				assert.Equal(t, tt.responseError.Error(), errMsg)
