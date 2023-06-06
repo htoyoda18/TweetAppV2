@@ -18,7 +18,7 @@ type IconProps = {
 export const Icon: React.FC<IconProps> = ({ image, userID }) => {
     const iconUrl = isIcon(image)
     return (
-        <a className={sharedStyle.userLink} href={"/user/" + userID}>
+        <a className={sharedStyle.userLink} href={`/user/${userID}`}>
             <img
                 className={sharedStyle.icon}
                 src={iconUrl}

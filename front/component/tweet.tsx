@@ -22,7 +22,7 @@ export const Tweet: React.FC<TweetProps> = ({ iconUrl, userID, userName, tweet, 
     const router = useRouter();
 
     const handleClick = () => {
-        const url: string = '/tweet_detail/' + tweetID;
+        const url: string = `/tweet_detail/${tweetID}`;
         router.push(url);
     }
 

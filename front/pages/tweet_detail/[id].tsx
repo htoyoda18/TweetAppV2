@@ -83,7 +83,7 @@ const TweetDetail: NextPage<Props> = ({ url }) => {
     return (
         <div className={TweetStyleList.TweetList}>
             <Head>
-                <title>{user.name + 'さんのツイート'}</title>
+                <title>{`${user.name}さんのツイート`}</title>
             </Head>
             <Sidebar />
             <div className={TweetDetailStyleList.tweetDetail}>
@@ -117,7 +117,7 @@ const TweetDetail: NextPage<Props> = ({ url }) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { id } = context.query;
-    const url: string = 'v1/tweet_detail/' + id;
+    const url: string = `v1/tweet_detail/${id}`;
 
     // 必要なデータをここで取得し、propsとして返します。
     return { props: { url } };

@@ -17,14 +17,14 @@ const User: NextPage = () => {
 	const router = useRouter();
 	const [user, setUser] = useState<UserResponse>({ id: 0, name: '', email: '', introduction: '', icon: '' });
 	const [tweets, setTweets] = useState([]);
-	const userID  = router.query.userID
+	const userID = router.query.userID
 	const [iconUrl, setIconUrl] = useState('');
 
 	useCheckToken()
 
 	useEffect(() => {
 		const UserGet = () => {
-			const url: string = 'v1/user/' + userID
+			const url = `v1/user/${userID}`
 			privateClient
 				.get(url)
 				.then(async (res) => {
@@ -54,7 +54,7 @@ const User: NextPage = () => {
 				})
 		}
 		const TweetList = () => {
-			const url: string = 'v1/tweet/' + userID
+			const url: string = `v1/tweet/${userID}`
 			privateClient
 				.get(url)
 				.then((res) => {
@@ -74,7 +74,7 @@ const User: NextPage = () => {
 	return (
 		<div className={TweetStyle.Tweet}>
 			<Head>
-				<title>{user.name + 'さんのプロフィール'}</title>
+				<title>{`${user.name}さんのプロフィール`}</title>
 			</Head>
 			<Sidebar />
 			<div className={UserInfoStyle.userTweets}>

@@ -7,7 +7,7 @@ export const GetToken = () => {
 
 export const GetSelfUserID = () => {
     if (typeof window !== 'undefined') {
-        const userID: number =parseInt(localStorage.getItem('userID'), 10);
+        const userID: number = parseInt(localStorage.getItem('userID'), 10);
         return userID
     }
 
