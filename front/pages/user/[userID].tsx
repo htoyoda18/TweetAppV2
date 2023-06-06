@@ -17,7 +17,7 @@ const User: NextPage = () => {
 	const router = useRouter();
 	const [user, setUser] = useState<UserResponse>({ id: 0, name: '', email: '', introduction: '', icon: '' });
 	const [tweets, setTweets] = useState([]);
-	const { userID } = router.query
+	const userID  = router.query.userID
 	const [iconUrl, setIconUrl] = useState('');
 
 	useCheckToken()
