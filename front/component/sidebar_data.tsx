@@ -7,7 +7,8 @@ import { GetSelfUserID } from '../shared/localStorage'
 let profileURL: string
 
 if (typeof window !== 'undefined') {
-    profileURL = "/user/" + GetSelfUserID()
+	const userID = GetSelfUserID()
+    profileURL = `/user/${userID}`
 }
 
 export const SidebarData = [

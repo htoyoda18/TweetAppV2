@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import { privateClient } from './axios'
 
 export const UserIconGet = async (icon: string) => {
-    const url: string = 'v1/icon/' + icon
+    const url = `v1/icon/${icon}`
     try {
         const res: AxiosResponse<ArrayBuffer> = await privateClient
             .get(url, {

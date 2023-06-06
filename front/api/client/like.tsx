@@ -22,7 +22,7 @@ export const AddLike = (tweetID: string) => {
 }
 
 export const DeleteLike = (tweetID: string) => {
-    const url: string = 'v1/like/' + tweetID
+    const url = `v1/like/${tweetID}`
     privateClient
         .delete(url)
         .then((res) => {
@@ -38,7 +38,7 @@ export const IsLikedByUser = async (tweetID: string) => {
         return
     }
     try {
-        const url: string = 'v1/like/' + tweetID
+        const url: string = `v1/like/${tweetID}`
         const res = await privateClient
             .get<IsLikedByUserType>(url)
 
