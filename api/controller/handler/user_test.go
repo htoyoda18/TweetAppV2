@@ -186,7 +186,6 @@ func TestUpdateUser(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			token := test.GenerateTestToken()
 			statusCode, result := test.APIClientForPost(tt.body, "user/update", token)
 			if statusCode == 200 {
 				var user *model.User
