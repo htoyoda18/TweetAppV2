@@ -15,7 +15,7 @@ import (
 
 type Like interface {
 	Add(*gin.Context)
-	Get(*gin.Context)
+	GetIsLikedByUser(*gin.Context)
 	Delete(*gin.Context)
 }
 
@@ -94,7 +94,8 @@ func (l like) Delete(ctx *gin.Context) {
 	ctx.Status(http.StatusOK)
 }
 
-func (l like) Get(ctx *gin.Context) {
+// Note: レコードが存在しない場合に、親のレコードがそもそも存在しないということを考慮していない
+func (l like) GetIsLikedByUser(ctx *gin.Context) {
 	shared.Debug(LogVal("Like", "Get"))
 
 	userID, err := shared.AuthUser(ctx)
@@ -117,7 +118,7 @@ func (l like) Get(ctx *gin.Context) {
 		return
 	}
 
-	if err := l.likeUsecase.Get(
+	if err := l.likeUsecase.GetIsLikedByUser(
 		userID,
 		paramsUrl.TweetID,
 	); errors.Is(err, gorm.ErrRecordNotFound) {
