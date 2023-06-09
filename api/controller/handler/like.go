@@ -81,11 +81,7 @@ func (l like) Delete(ctx *gin.Context) {
 	if err := l.likeUsecase.Delete(
 		userID,
 		tweetID,
-	); errors.Is(err, gorm.ErrRecordNotFound) {
-		shared.Warn(LogVal("Like", "Get", err))
-		ctx.JSON(http.StatusOK, response.IsLikedByUser{IsLikedByUser: false})
-		return
-	} else if err != nil {
+	); err != nil {
 		shared.Warn(LogVal("Like", "Delete", err))
 		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
