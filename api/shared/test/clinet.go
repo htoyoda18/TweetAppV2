@@ -67,3 +67,31 @@ func APIClientForGet(url string, token ...string) (int, []byte) {
 
 	return resp.StatusCode, body
 }
+
+func APIClientForDelete(url string, token ...string) (int, []byte) {
+	req, err := http.NewRequest("DELETE", testDomain+url, nil)
+	if err != nil {
+		log.Fatal(err)
+		return 0, nil
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+	if token != nil {
+		req.Header.Set("Authorization", token[0])
+	}
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+		return 0, nil
+	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+		return 0, nil
+	}
+
+	return resp.StatusCode, body
+}
