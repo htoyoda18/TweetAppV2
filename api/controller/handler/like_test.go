@@ -10,6 +10,7 @@ import (
 	"github.com/htoyoda18/TweetAppV2/api/shared"
 	"github.com/htoyoda18/TweetAppV2/api/shared/test"
 	"github.com/stretchr/testify/assert"
+	"gorm.io/gorm"
 )
 
 func TestAdd(t *testing.T) {
@@ -75,6 +76,40 @@ func TestGetIsLikedByUser(t *testing.T) {
 			if statusCode == 200 {
 				response, _ := test.UnmarshalJSONToStruct[response.IsLikedByUser](result)
 				assert.Equal(t, tt.response.IsLikedByUser, response.IsLikedByUser)
+				assert.Equal(t, tt.responseError, nil)
+			} else {
+				errMsg, _ := test.ReadErrorResponse(result)
+				assert.Equal(t, tt.responseError.Error(), errMsg)
+			}
+		})
+	}
+	test.TearDown(gormDB)
+}
+
+func TestDelete(t *testing.T) {
+	tests := []struct {
+		name          string
+		tweetID       string
+		responseError error
+	}{
+		{
+			name:          "成功:いいねを取り消す",
+			tweetID:       "1",
+			responseError: nil,
+		},
+		{
+			name:          "失敗:いいねをしていないツイートのいいねを取り消す",
+			tweetID:       "7",
+			responseError: gorm.ErrRecordNotFound,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			domain := fmt.Sprintf("like/%s", tt.tweetID)
+			statusCode, result := test.APIClientForDelete(domain, token)
+
+			if statusCode == 200 {
 				assert.Equal(t, tt.responseError, nil)
 			} else {
 				errMsg, _ := test.ReadErrorResponse(result)
