@@ -44,8 +44,11 @@ func (l like) Add(like *model.Like, db *gorm.DB) error {
 func (l like) Delete(like *model.Like, db *gorm.DB) error {
 	shared.Debug(LogVal("Like", "Delete"))
 
-	if err := db.Debug().Unscoped().Delete(like).Error; err != nil {
+	if err := db.Debug().Unscoped().Delete(like).Error; errors.Is(err, gorm.ErrRecordNotFound) {
 		shared.Warn(LogVal("Like", "Delete", err))
+		return err
+	} else if err != nil {
+		shared.Error(LogVal("Like", "Delete", err))
 		return err
 	}
 

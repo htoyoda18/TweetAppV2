@@ -11,7 +11,7 @@ import (
 type Like interface {
 	Add(params request.Like, userID int) error
 	Delete(userID int, tweetID int) error
-	Get(userID int, tweetID int) error
+	GetIsLikedByUser(userID int, tweetID int) error
 }
 
 type like struct {
@@ -72,7 +72,7 @@ func (l like) Delete(userID int, tweetID int) error {
 	return nil
 }
 
-func (l like) Get(userID int, tweetID int) error {
+func (l like) GetIsLikedByUser(userID int, tweetID int) error {
 	shared.Debug(LogVal("Like", "Get"))
 
 	_, err := l.likeRepository.Get(&model.Like{

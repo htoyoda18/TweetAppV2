@@ -1,29 +1,16 @@
 package handler_test
 
 import (
-	"os"
 	"testing"
 
 	"github.com/htoyoda18/TweetAppV2/api/controller/handler/request"
 	"github.com/htoyoda18/TweetAppV2/api/controller/handler/response"
-	"github.com/htoyoda18/TweetAppV2/api/db"
 	"github.com/htoyoda18/TweetAppV2/api/domain/model"
 	"github.com/htoyoda18/TweetAppV2/api/shared"
 	"github.com/htoyoda18/TweetAppV2/api/shared/test"
 	"github.com/htoyoda18/TweetAppV2/api/usecase"
 	"github.com/stretchr/testify/assert"
-	"gorm.io/gorm"
 )
-
-var gormDB *gorm.DB
-
-func TestMain(m *testing.M) {
-	shared.ZapSetup()
-	test.ReadEnvFile()
-	dbConnection, _ := test.GetDatabaseConnectionTest()
-	gormDB, _ = db.InitDB(dbConnection)
-	os.Exit(m.Run())
-}
 
 func TestUserCreate(t *testing.T) {
 	tests := []struct {
@@ -199,7 +186,6 @@ func TestUpdateUser(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			token := test.GenerateTestToken()
 			statusCode, result := test.APIClientForPost(tt.body, "user/update", token)
 			if statusCode == 200 {
 				var user *model.User
