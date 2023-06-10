@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TweetStyle from '../css/tweet_list.module.css';
-import { Icon } from "./icon"
+import { Icon } from "./icon";
 import CommentIcon from '@mui/icons-material/Comment';
 
 type ReplyProps = {
@@ -10,7 +10,7 @@ type ReplyProps = {
     tweet: string;
 };
 
-export const Repl: React.FC<ReplyProps> = ({ iconUrl, userID, userName, tweet }) => {
+export const Reply: React.FC<ReplyProps> = ({ iconUrl, userID, userName, tweet }) => {
 
     return (
         <div className={TweetStyle.Tweet}>
