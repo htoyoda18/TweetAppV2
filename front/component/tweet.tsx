@@ -12,16 +12,16 @@ type TweetProps = {
     iconUrl: string;
     userID: number,
     userName: string,
-    tweet: TweetResponse,
+    tweet: string,
     replies: ReplyResponse[],
     likes: LikeResponse[],
-    tweetID: string,
+    tweetID: number,
 };
 
 export const Tweet: React.FC<TweetProps> = ({ iconUrl, userID, userName, tweet, replies, likes, tweetID }) => {
     const router = useRouter();
 
-    const handleClick = () => {
+    const handleClick = (): void => {
         const url: string = `/tweet_detail/${tweetID}`;
         router.push(url);
     }

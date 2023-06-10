@@ -53,7 +53,7 @@ const User: NextPage = () => {
 					}
 				})
 		}
-		const TweetList = () => {
+		const TweetList = (): void => {
 			const url: string = `v1/tweet/${userID}`
 			privateClient
 				.get(url)

@@ -73,7 +73,7 @@ const Login: NextPage = () => {
         return errors;
     }
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = e.target;
         setLoginRequestData(prevValues => ({ ...prevValues, [name]: value }));
     }

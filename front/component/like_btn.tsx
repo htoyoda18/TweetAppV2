@@ -32,7 +32,7 @@ export const LikeIconAndCount = ({ likes, tweetID }) => {
         isLikedByUser()
     }, [tweetID]);
 
-    const handleLikeClick = () => {
+    const handleLikeClick = (): void => {
         if (isLikePush) {
             DeleteLike(tweetID)
             setLikeCount(likeCount - 1)
@@ -46,7 +46,7 @@ export const LikeIconAndCount = ({ likes, tweetID }) => {
         setIsLikePush(!isLikePush)
     }
 
-    const handleMouseEnter = () => {
+    const handleMouseEnter = (): void => {
         if (isLikePush) {
             setLikeStyle({
                 color: likeColor,
@@ -61,7 +61,7 @@ export const LikeIconAndCount = ({ likes, tweetID }) => {
         }
     }
 
-    const handleMouseLeave = () => {
+    const handleMouseLeave = (): void => {
         setLikeStyle({
             color: isLikePush ? likeColor : 'black',
         });

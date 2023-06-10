@@ -35,7 +35,7 @@ const PasswordUpdate: NextPage = () => {
 	const [formError, setFormError] = useState<Errors>(initialErrors);
 	const router = useRouter();
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
 		const { name, value } = e.target;
 		setFormValues({ ...formValues, [name]: value });
 	}
