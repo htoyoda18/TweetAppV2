@@ -40,3 +40,29 @@ func TestTweetCreate(t *testing.T) {
 	}
 	test.TearDown(gormDB)
 }
+
+func TestTweetList(t *testing.T) {
+	tests := []struct {
+		name          string
+		responseError error
+	}{
+		{
+			name:          "成功:ツイートを取得する",
+			responseError: nil,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			statusCode, result := test.APIClientForGet("tweet", token)
+			if statusCode == 200 {
+				assert.Equal(t, tt.responseError, nil)
+				assert.Equal(t, result != nil, true)
+			} else {
+				errMsg, _ := test.ReadErrorResponse(result)
+				assert.Equal(t, tt.responseError.Error(), errMsg)
+			}
+		})
+	}
+	test.TearDown(gormDB)
+}
