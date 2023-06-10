@@ -32,7 +32,7 @@ const SignUp: NextPage = () => {
     const [fomrErrors, setFromError] = useState<FomrErrors>({ emailErr: '', userNameErr: '', passwordErr: '' });
     const router = useRouter();
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = e.target;
         setFromValues({ ...formValues, [name]: value });
     }

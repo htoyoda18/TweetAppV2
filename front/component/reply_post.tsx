@@ -41,7 +41,7 @@ export const ReplyPost: React.FC<ReplyPostProps> = ({ tweetID }) => {
             })
     }, []);
 
-    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
         const { value } = e.target;
         setReply(value);
         setDisabled(!value || value.length === 0);

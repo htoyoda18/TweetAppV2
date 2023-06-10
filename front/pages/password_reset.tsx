@@ -25,7 +25,7 @@ const PasswordReset: NextPage = () => {
 	const [fomrErrors, setFromError] = useState("");
 	const router = useRouter();
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
 		const { value } = e.target;
 		setFromValues({ email: value });
 	}

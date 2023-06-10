@@ -16,11 +16,11 @@ const Tweet: NextPage = () => {
 
     useCheckToken()
 
-    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
         const tweet = e.target.value;
         setTweet(tweet);
     }
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         const body: TweetReqest = {
             tweet: tweet

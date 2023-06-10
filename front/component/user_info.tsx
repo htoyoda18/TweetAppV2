@@ -48,25 +48,25 @@ const EditUserInfoBtn = ({ iconUrl, userID, userName, userIntroduction, userIcon
         setIconFileName(userIconFileName)
     }, [userIconFileName]);
 
-    function handleUsernameChange(event: React.ChangeEvent<HTMLInputElement>) {
+    function handleUsernameChange(event: React.ChangeEvent<HTMLInputElement>): void {
         setUsername(event.target.value);
         handleSaveButtonDisabled()
     }
 
-    function handleIntroductionChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
+    function handleIntroductionChange(event: React.ChangeEvent<HTMLTextAreaElement>): void {
         setIntroduction(event.target.value);
         handleSaveButtonDisabled()
     }
 
-    function disableScroll() {
+    function disableScroll(): void {
         document.body.style.overflow = 'hidden';
     }
 
-    function enableScroll() {
+    function enableScroll(): void {
         document.body.style.overflow = 'auto';
     }
 
-    const handleIconChange = (childIcon: File) => {
+    const handleIconChange = (childIcon: File): void => {
         setIconFileName(childIcon.name)
         setIconFile(childIcon)
         handleSaveButtonDisabled()
@@ -81,7 +81,7 @@ const EditUserInfoBtn = ({ iconUrl, userID, userName, userIntroduction, userIcon
                     'Content-Type': 'multipart/form-data',
                 },
             });
-        
+
             if (response.status === 200) {
                 return response.data.fileName; // 返されたファイル名
             } else {
@@ -92,7 +92,7 @@ const EditUserInfoBtn = ({ iconUrl, userID, userName, userIntroduction, userIcon
         }
     };
 
-    const updateUser = (uploadedIconName: string) => {
+    const updateUser = (uploadedIconName: string): void => {
         const body: UserUpdateReqest = {
             icon: uploadedIconName,
             userName: username,
@@ -136,7 +136,7 @@ const EditUserInfoBtn = ({ iconUrl, userID, userName, userIntroduction, userIcon
         }
     };
 
-    const handleClickUserInfoEdit = () => {
+    const handleClickUserInfoEdit = (): void => {
         setUsername(userName)
         setIntroduction(userIntroduction)
     }
@@ -149,7 +149,7 @@ const EditUserInfoBtn = ({ iconUrl, userID, userName, userIntroduction, userIcon
         }
     }, [selfId, userID]);
 
-    const handleSaveButtonDisabled = () => {
+    const handleSaveButtonDisabled = (): void => {
         if (username !== '') {
             setIsDisabled(false)
         } else {

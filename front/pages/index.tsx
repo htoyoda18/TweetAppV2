@@ -20,7 +20,7 @@ const Home: NextPage = () => {
 	useCheckToken()
 
 	useEffect(() => {
-		const TweetList = () => {
+		const TweetList = (): void => {
 			privateClient
 				.get<TweetResponse[]>('v1/tweet')
 				.then((res) => {
