@@ -105,3 +105,37 @@ func TestTweetListUser(t *testing.T) {
 	}
 	test.TearDown(gormDB)
 }
+
+func TestTweetGet(t *testing.T) {
+	tests := []struct {
+		name          string
+		responseError error
+		tweetID       int
+	}{
+		{
+			name:          "成功:ツイートを取得する",
+			responseError: nil,
+			tweetID:       4,
+		},
+		{
+			name:          "失敗:存在しないツイートを取得する",
+			responseError: gorm.ErrRecordNotFound,
+			tweetID:       99,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			statusCode, result := test.APIClientForGet("tweet_detail/"+strconv.Itoa(tt.tweetID), token)
+			if statusCode == 200 {
+				tweet, _ := test.UnmarshalJSONToStruct[model.Tweet](result)
+				assert.Equal(t, tt.tweetID, tweet.ID)
+				assert.Equal(t, tt.responseError, nil)
+			} else {
+				errMsg, _ := test.ReadErrorResponse(result)
+				assert.Equal(t, tt.responseError.Error(), errMsg)
+			}
+		})
+	}
+	test.TearDown(gormDB)
+}
