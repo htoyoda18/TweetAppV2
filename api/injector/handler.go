@@ -20,7 +20,7 @@ func NewHandler(db *gorm.DB) *Handler {
 
 	userHandler := handler.NewUser(usecase.User, usecase.File)
 	pingHandler := handler.NewPing()
-	tweetHandler := handler.NewTweet(usecase.Tweet)
+	tweetHandler := handler.NewTweet(usecase.Tweet, usecase.User)
 	replyHandler := handler.NewReply(usecase.Reply)
 	tokenHandler := handler.NewToken()
 	uploadHandler := handler.NewFile(usecase.File)

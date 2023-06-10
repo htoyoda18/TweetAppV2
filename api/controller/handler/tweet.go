@@ -20,13 +20,16 @@ type Tweet interface {
 
 type tweet struct {
 	tweetUseCase usecase.Tweet
+	userUseCase  usecase.User
 }
 
 func NewTweet(
 	tweetUseCase usecase.Tweet,
+	userUseCase usecase.User,
 ) Tweet {
 	return tweet{
 		tweetUseCase: tweetUseCase,
+		userUseCase:  userUseCase,
 	}
 }
 
@@ -84,17 +87,23 @@ func (t tweet) ListUser(ctx *gin.Context) {
 
 	_, err := shared.AuthUser(ctx)
 	if err != nil {
-		shared.Warn(LogVal("Tweet", "List", err))
+		shared.Warn(LogVal("Tweet", "ListUser", err))
 		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 	userID, _ := strconv.Atoi(ctx.Param("userID"))
 
+	if _, err := t.userUseCase.Get(userID); err != nil {
+		shared.Warn(LogVal("Tweet", "ListUser", err))
+		ctx.JSON(http.StatusNotFound, err.Error())
+		return
+	}
+
 	tweets, err := t.tweetUseCase.List(&model.Tweet{
 		UserID: userID,
 	})
 	if err != nil {
-		shared.Warn(LogVal("Tweet", "List", err))
+		shared.Warn(LogVal("Tweet", "ListUser", err))
 		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
