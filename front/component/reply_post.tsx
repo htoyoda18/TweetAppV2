@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
-import ReplyStyle from '../css/reply.module.css';
+import ReplyStyle from '../styles/reply.module.css';
 import { Icon } from "./icon";
 import { useState } from 'react';
 import { privateClient } from '../api/client/axios';

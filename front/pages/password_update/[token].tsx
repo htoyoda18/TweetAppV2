@@ -2,13 +2,13 @@ import { NextPage } from "next";
 import { TweetApp } from "../../component/tweet_app"
 import { useState } from 'react';
 import { ErrorMsg } from "../../component/error_message"
-import PasswordUpdateStyle from '../../css/password_update.module.css';
+import PasswordUpdateStyle from '../../styles/password_update.module.css';
 import { Formbtn } from "../../component/form_btn"
-import IndexStyle from '../../css/index.module.css';
+import IndexStyle from '../../styles/index.module.css';
 import { publicClient } from '../../api/client/axios'
 import { ApiErrorMessages } from '../../shared/error'
 import { useRouter } from 'next/router';
-import sharedStyle from '../../css/shared.module.css';
+import sharedStyle from '../../styles/shared.module.css';
 import { PasswordUpdateReqest } from '../../api/type/user';
 import Head from 'next/head';
 

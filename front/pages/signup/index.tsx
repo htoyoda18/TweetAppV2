@@ -1,14 +1,14 @@
 import { NextPage } from "next";
 import { useState } from 'react';
 import { publicClient } from '../../api/client/axios'
-import SignUpStyle from '../../css/signup.module.css';
+import SignUpStyle from '../../styles/signup.module.css';
 import { useRouter } from 'next/router'
-import sharedStyle from '../../css/shared.module.css';
+import sharedStyle from '../../styles/shared.module.css';
 import { TweetApp } from "../../component/tweet_app"
 import { Note } from "../../component/note"
 import { Formbtn } from "../../component/form_btn"
 import { ErrorMsg } from "../../component/error_message"
-import IndexStyle from '../../css/index.module.css';
+import IndexStyle from '../../styles/index.module.css';
 import { ApiErrorMessages } from '../../shared/error'
 import { SignupReqest } from '../../api/type/user'
 import Head from 'next/head';

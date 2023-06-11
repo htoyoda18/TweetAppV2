@@ -1,5 +1,5 @@
 import React from 'react';
-import sharedStyle from '../css/shared.module.css';
+import sharedStyle from '../styles/shared.module.css';
 import { url } from '../shared/url'
 
 const isIcon = (icon: string) => {

@@ -1,8 +1,8 @@
 import { NextPage } from "next";
 import { useState } from 'react';
 import Sidebar from '../../component/sidebar'
-import TweetStyle from '../../css/tweet.module.css';
-import sharedStyle from '../../css/shared.module.css';
+import TweetStyle from '../../styles/tweet.module.css';
+import sharedStyle from '../../styles/shared.module.css';
 import { privateClient } from '../../api/client/axios'
 import { useRouter } from 'next/router'
 import { ApiErrorMessages } from '../../shared/error'

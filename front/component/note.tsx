@@ -1,5 +1,5 @@
 import React from 'react';
-import NoteStyle from '../css/note.module.css';
+import NoteStyle from '../styles/note.module.css';
 
 type ErrorMsgProps = {
 	text: string;

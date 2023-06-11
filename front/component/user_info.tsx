@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { LargeIcon } from './icon';
 import { ImageUploader } from './icon_upload';
-import UserInfoStyle from '../css/user_info.module.css';
+import UserInfoStyle from '../styles/user_info.module.css';
 import Modal from "react-modal";
 import { publicClient, privateClient } from '../api/client/axios';
 import { GetSelfUserID } from '../shared/localStorage';

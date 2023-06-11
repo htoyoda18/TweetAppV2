@@ -1,9 +1,9 @@
 import { NextPage } from "next";
 import { TweetApp } from "../../component/tweet_app"
-import PasswordResetStyle from '../../css/password_reset.module.css';
+import PasswordResetStyle from '../../styles/password_reset.module.css';
 import { Formbtn } from "../../component/form_btn"
-import IndexStyle from '../../css/index.module.css';
-import SharedStyle from '../../css/shared.module.css';
+import IndexStyle from '../../styles/index.module.css';
+import SharedStyle from '../../styles/shared.module.css';
 import { useState } from 'react';
 import { publicClient } from '../../api/client/axios'
 import { ErrorMsg } from "../../component/error_message"
