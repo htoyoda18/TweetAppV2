@@ -1,21 +1,21 @@
 import { useState, useEffect } from 'react';
 import { NextPage } from "next";
 import { useRouter } from 'next/router';
-import LoginStyle from '../css/login.module.css';
-import IndexStyle from '../css/index.module.css';
-import sharedStyle from '../css/shared.module.css';
-import { TweetApp } from "../component/tweet_app";
-import { Note } from "../component/note";
-import { Formbtn } from "../component/form_btn";
-import { ErrorMsg } from "../component/error_message";
-import { ApiErrorMessages } from '../shared/error';
-import { UserLoginReqest } from '../api/type/user';
+import LoginStyle from '../../css/login.module.css';
+import IndexStyle from '../../css/index.module.css';
+import sharedStyle from '../../css/shared.module.css';
+import { TweetApp } from "../../component/tweet_app";
+import { Note } from "../../component/note";
+import { Formbtn } from "../../component/form_btn";
+import { ErrorMsg } from "../../component/error_message";
+import { ApiErrorMessages } from '../../shared/error';
+import { UserLoginReqest } from '../../api/type/user';
 import Head from 'next/head';
-import { FormField } from '../component/login_form_fileds'
-import { url } from '../shared/url'
-import { LoginPost } from '../api/client/login'
-import { ValidateToken } from '../api/client/validate_token'
-import { GetToken } from '../shared/localStorage';
+import { FormField } from '../../component/login_form_fileds'
+import { url } from '../../shared/url'
+import { LoginPost } from '../../api/client/login'
+import { ValidateToken } from '../../api/client/validate_token'
+import { GetToken } from '../../shared/localStorage';
 
 interface Errors {
     emailErr?: string;

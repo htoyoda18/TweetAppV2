@@ -1,12 +1,12 @@
 import { NextPage } from "next";
 import { useState, useEffect } from 'react';
-import Sidebar from '../component/sidebar';
-import NotFoundStyle from '../css/not_found.module.css';
-import { publicClient } from '../api/client/axios'
-import { GetToken } from '../shared/localStorage'
+import Sidebar from '../../component/sidebar';
+import NotFoundStyle from '../../css/not_found.module.css';
+import { publicClient } from '../../api/client/axios'
+import { GetToken } from '../../shared/localStorage'
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { url } from '../shared/url'
+import { url } from '../../shared/url'
 
 const NotFound: NextPage = () => {
     const token = GetToken();
