@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { NextPage } from "next";
 import { useRouter } from 'next/router';
-import LoginStyle from '../css/login.module.css';
-import IndexStyle from '../css/index.module.css';
-import sharedStyle from '../css/shared.module.css';
+import LoginStyle from '../../css/login.module.css';
+import IndexStyle from '../../css/index.module.css';
+import sharedStyle from '../../css/shared.module.css';
 import { TweetApp } from "../../component/tweet_app";
 import { Note } from "../../component/note";
 import { Formbtn } from "../../component/form_btn";
