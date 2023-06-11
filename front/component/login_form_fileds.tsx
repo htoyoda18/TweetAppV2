@@ -1,4 +1,4 @@
-import LoginStyle from '../css/login.module.css';
+import LoginStyle from '../styles/login.module.css';
 
 interface FormFieldProps {
     label: string;

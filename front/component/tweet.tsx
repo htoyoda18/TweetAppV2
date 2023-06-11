@@ -1,5 +1,5 @@
 import React from 'react';
-import TweetStyle from '../css/tweet_list.module.css';
+import TweetStyle from '../styles/tweet_list.module.css';
 import { Icon } from "./icon"
 import { useRouter } from 'next/router'
 import { LikeIconAndCount } from './like_btn';

@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { NextPage, GetServerSideProps } from "next";
 import Sidebar from '../../component/sidebar';
-import TweetStyleList from '../../css/tweet_list.module.css';
-import TweetDetailStyleList from '../../css/tweet_detail.module.css';
+import TweetStyleList from '../../styles/tweet_list.module.css';
+import TweetDetailStyleList from '../../styles/tweet_detail.module.css';
 import { privateClient } from '../../api/client/axios';
 import { useCheckToken } from '../../libs/hook/check_token';
 import { useState } from 'react';

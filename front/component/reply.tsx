@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import TweetStyle from '../css/tweet_list.module.css';
+import TweetStyle from '../styles/tweet_list.module.css';
 import { Icon } from "./icon";
 import CommentIcon from '@mui/icons-material/Comment';
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { SidebarData } from './sidebar_data'
-import SidebarStyle from '../css/sidebar.module.css';
+import SidebarStyle from '../styles/sidebar.module.css';
 import { useRouter } from 'next/router'
 
 type sidebarData = {

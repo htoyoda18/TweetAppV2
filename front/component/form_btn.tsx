@@ -1,5 +1,5 @@
 import React from 'react';
-import btnStyle from '../css/btn.module.css';
+import btnStyle from '../styles/btn.module.css';
 
 type FormbtnProps = {
 	name: string;

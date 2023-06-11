@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
 import Sidebar from '../component/sidebar';
-import TweetListStyle from '../css/tweet_list.module.css';
+import TweetListStyle from '../styles/tweet_list.module.css';
 import { Tweet } from "../component/tweet";
 import { privateClient } from '../api/client/axios'
 import { UserIconGet } from "../api/client/icon_get"

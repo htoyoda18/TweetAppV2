@@ -1,5 +1,5 @@
 import React from 'react';
-import TweetAppStyle from '../css/tweet_app.module.css';
+import TweetAppStyle from '../styles/tweet_app.module.css';
 
 export const TweetApp: React.FC = () => {
 	return (

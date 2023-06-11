@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import TweetStyle from '../css/tweet_list.module.css';
+import TweetStyle from '../styles/tweet_list.module.css';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { AddLike, DeleteLike, IsLikedByUser } from '../api/client/like';
