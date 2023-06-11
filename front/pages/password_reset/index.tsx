@@ -1,15 +1,15 @@
 import { NextPage } from "next";
-import { TweetApp } from "../component/tweet_app"
+import { TweetApp } from "../../component/tweet_app"
 import PasswordResetStyle from '../css/password_reset.module.css';
-import { Formbtn } from "../component/form_btn"
+import { Formbtn } from "../../component/form_btn"
 import IndexStyle from '../css/index.module.css';
 import SharedStyle from '../css/shared.module.css';
 import { useState } from 'react';
-import { publicClient } from '../api/client/axios'
-import { ErrorMsg } from "../component/error_message"
-import { ApiErrorMessages } from '../shared/error'
+import { publicClient } from '../../api/client/axios'
+import { ErrorMsg } from "../../component/error_message"
+import { ApiErrorMessages } from '../../shared/error'
 import { useRouter } from 'next/router';
-import { PasswordResetReqest } from '../api/type/user';
+import { PasswordResetReqest } from '../../api/type/user';
 import Head from 'next/head';
 
 interface FormValues {
