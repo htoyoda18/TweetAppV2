@@ -48,6 +48,13 @@ func (u user) Create(ctx *gin.Context) {
 		return
 	}
 
+	if params.Email == params.Password {
+		err := shared.InvalidPassword
+		shared.Warn(LogVal("User", "Create", err))
+		ctx.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
 	user, err := u.userUsecase.Create(params)
 	if err != nil {
 		shared.Warn(LogVal("User", "Create", err))

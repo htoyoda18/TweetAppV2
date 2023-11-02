@@ -7,6 +7,7 @@ var (
 	UserEmailDuplicate = errors.New("User email duplicate")
 	EmailNotFound      = errors.New("Email not found")
 	ShouldBindJsonErr  = errors.New("Should bind JSON error")
+	InvalidPassword    = errors.New("Invalid password")
 	DuplicateLike      = errors.New("Fail Duplicate Like")
 	FailAuthToken      = errors.New("Fail auth token")
 	FailPassword       = errors.New("Fail password")
